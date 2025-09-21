@@ -1,0 +1,26 @@
+1.-
+
+inicio
+    escribir "introduce un número:"
+    leer x
+
+    si x % 2 = 0 entonces
+        escribir "el número es par"
+    si no
+        escribir "el número es impar"
+fin
+
+
+2.-
+
+inicio
+    escribir "introduce un número:"
+    leer x
+
+    para i en (1 hasta 10) hacer
+        x * i
+        escribir "x * i =  resultado"
+fin
+
+
+3.-
