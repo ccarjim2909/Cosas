@@ -19,7 +19,7 @@ inicio
 
     para i en (1 hasta 10) hacer
         x * i
-        escribir "x * i =  resultado"
+        escribir x, " * ", i, " = " resultado"
 fin
 
 
@@ -41,3 +41,32 @@ inicio
     si no
         escribir "el número no es primo"
 fin
+
+
+
+4.-
+
+inicio
+    escribir "introduce tu nombre:"
+    leer x
+    escribir "hola, ", x
+fin
+
+
+5.-
+
+inicio
+    escribir "introduce el número de horas trabajadas:"
+    leer x
+
+    escribir "introduce el coste por hora:"
+    leer n
+
+    total = x * n
+
+    escribir "el importe total es: ", total
+fin
+
+
+6.-
+
