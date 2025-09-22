@@ -24,3 +24,20 @@ fin
 
 
 3.-
+
+inicio
+    escribir "introduce un número:"
+    leer x
+
+    es_primo = True
+
+    si no
+        para i en (2 hasta x - 1) hacer
+            si x % i = 0 entonces
+                es_primo <- False
+
+    si es_primo = True entonces
+        escribir "el número es primo"
+    si no
+        escribir "el número no es primo"
+fin
