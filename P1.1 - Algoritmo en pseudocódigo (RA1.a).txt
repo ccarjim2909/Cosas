@@ -35,6 +35,7 @@ inicio
         para i en (2 hasta x - 1) hacer
             si x % i = 0 entonces
                 es_primo <- False
+                para el bucle
 
     si es_primo = True entonces
         escribir "el número es primo"
@@ -69,4 +70,5 @@ fin
 
 
 6.-
+
 
