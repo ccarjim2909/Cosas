@@ -1,51 +1,70 @@
-binario1 = input("Ingresa el primer numero binario que quieras sumar: ")
-
-while not set(binario1) <= {"1","0"} or not len(binario1) == 8:
-    binario1 = input("Lo que has escrito no es un numero binario o no tiene 8 bits, vuelve a intentarlo: ")
-
-binario1 = int(binario1)
 
 
-binario2 = input("Ingresa el segundo numero binario que quieras sumar: ")
+def lee_los_binarios():
+    binario1 = input("Ingresa el primer numero binario que quieras sumar: ")
 
-while not set(binario2) <= {"1","0"} or not len(binario2) == 8:
-    binario2 = input("Lo que has escrito no es un numero binario o no tiene 8 bits, vuelve a intentarlo: ")
+    while not set(binario1) <= {"1", "0"} or not len(binario1) == 8:
+        binario1 = input("Lo que has escrito no es un numero binario o no tiene 8 bits, vuelve a intentarlo: ")
 
-binario2 = int(binario2)
+    binario2 = input("Ingresa el segundo numero binario que quieras sumar: ")
 
-
-
-lista1 = [binario1]
-
-lista2 = [binario2]
-
-acarreo = [000000000]
+    while not set(binario2) <= {"1", "0"} or not len(binario2) == 8:
+        binario2 = input("Lo que has escrito no es un numero binario o no tiene 8 bits, vuelve a intentarlo: ")
 
 
-resultado_invertido = []
+    binario1 = list(binario1)
 
-for i in len(lista1-1, 0, -1):
-    if i[lista1] == 0 and i[lista2] == 0:
-        if i[lista1] == 0 and i[lista2] == 0 and i[acarreo] == 0:
-            resultado_invertido.append(0)
-        else:
-            resultado_invertido.append(1)
-    elif i[lista1] == 0 and i[lista2] == 1 or i[lista1] == 1 and i[lista2] == 0:
-        if i[lista1] == 1 and i[lista2] == 0 and i[acarreo] == 0 or i[lista1] == 0 and i[lista2] == 1 and i[acarreo] == 0:
-            resultado_invertido.append(1)
-        else:
-            resultado_invertido.append(0)
-            #acarreo = acarreo[i-1] + 1 + acarreo[i]
-    else:
-        if i[lista1] == 1 and i[lista2] == 1:
-            if i[lista1] == 1 and i[lista2] == 1 and i[acarreo] == 0:
-                resultado_invertido.append(0)
-                #acarreo = acarreo[i - 1] + 1 + acarreo[i]
+    binario2 = list(binario2)
+
+    return binario1, binario2
+
+def suma_binarios(binario1, binario2):
+    acarreo = list("000000000")
+
+    resultado_invertido = []
+
+    for i in range(len(binario1) - 1, -1, -1):
+        if binario1[i] == '0' and binario2[i] == '0':
+            if acarreo[i+1] == '0':
+                resultado_invertido.append('0')
             else:
-                resultado_invertido.append(1)
+                resultado_invertido.append('1')
+        elif binario1[i] == '0' and binario2[i] == '1' or binario1[i] == '1' and binario2[i] == '0':
+            if acarreo[i+1] == '0':
+                resultado_invertido.append('1')
+            else:
+                resultado_invertido.append('0')
+                acarreo[i] = "1"
+        else:
+            if acarreo[i+1] == '0':
+                resultado_invertido.append('0')
+                acarreo[i] = "1"
+            else:
+                resultado_invertido.append("1")
+    if acarreo[0] == '1':
+        resultado_invertido.append('1')
 
-resultado = resultado_invertido[::-1]
+    resultado = resultado_invertido[::-1]
+    return resultado
 
-print(resultado)
 
 
+
+def main():
+
+    # Lee los operandos
+    binario1, binario2 = lee_los_binarios()
+
+    print("El primer numero binario es: ", binario1)
+    print("El segundo numero binario es: ", binario2)
+
+    # Realiza las operaciones
+    resultado = suma_binarios(binario1, binario2)
+
+    # Devuelve un resultado
+    print("El resultado la suma de estos dos numeros es: ", resultado)
+
+
+
+if __name__ == '__main__':
+    main()
