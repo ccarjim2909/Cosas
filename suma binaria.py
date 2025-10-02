@@ -19,7 +19,7 @@ lista1 = []
 
 lista2 = [binario2]
 
-acarreo = [0,0,0,0,0,0,0,0,0]
+acarreo = [000000000]
 
 
 resultado_invertido = []
@@ -35,12 +35,12 @@ for i in len(lista1-1, 0, -1):
             resultado_invertido.append(1)
         else:
             resultado_invertido.append(0)
-            acarreo = acarreo[i-1] + 1 + acarreo[i]
+            #acarreo = acarreo[i-1] + 1 + acarreo[i]
     else:
         if i[lista1] == 1 and i[lista2] == 1:
             if i[lista1] == 1 and i[lista2] == 1 and i[acarreo] == 0:
                 resultado_invertido.append(0)
-                acarreo = acarreo[i - 1] + 1 + acarreo[i]
+                #acarreo = acarreo[i - 1] + 1 + acarreo[i]
             else:
                 resultado_invertido.append(1)
 
