@@ -15,7 +15,7 @@ binario2 = int(binario2)
 
 
 
-lista1 = []
+lista1 = [binario1]
 
 lista2 = [binario2]
 
@@ -47,4 +47,5 @@ for i in len(lista1-1, 0, -1):
 resultado = resultado_invertido[::-1]
 
 print(resultado)
+
 
