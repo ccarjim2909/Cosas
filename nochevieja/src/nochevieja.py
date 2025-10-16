@@ -54,7 +54,7 @@ def procesar_linea(linea: str) -> str:
     horas = int(numero1)
     minutos = int(numero2)
 
-    if not (0 <= horas <= 23 and 0 <= minutos <= 59):
+    if horas not in range(24) or minutos not in range(60):
         return "ERROR"
 
     minutos_transcurridos = horas * 60 + minutos
@@ -78,4 +78,5 @@ def main(argv: List[str]) -> None:
     for linea in leer_casos(ruta):
         resultado = procesar_linea(linea)   # <- llamada a la función de los alumnos
         print(resultado)                     # <- impresión del resultado
+
 
