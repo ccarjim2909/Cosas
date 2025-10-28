@@ -1,8 +1,8 @@
 # Punto 2.6: Generación de ejecutables con diferentes IDEs a partir del mismo código fuente
 
 ## IDEs utilizados
-- *IDE 1:* PyCharm Professional (versión más reciente)  
-- *IDE 2:* Thonny (versión más reciente)
+- *IDE 1:* PyCharm Professional
+- *IDE 2:* Thonny
 
 ## Descripción de la tarea
 Escribir un programa en Python que cuente de 10 a 0 y luego imprima "¡Despegue!" y ejecutarlo en los IDEs seleccionados.
