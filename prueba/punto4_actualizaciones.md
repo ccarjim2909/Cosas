@@ -17,6 +17,7 @@ Configurar las actualizaciones automáticas o manuales para asegurar que los IDE
 
 ## Evidencias
 ![Captura 1](../capturas/9.png)  
+
 ![Captura 2](../capturas/10.png)
 
 ## Observaciones
