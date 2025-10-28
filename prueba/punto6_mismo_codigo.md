@@ -18,6 +18,7 @@ Escribir un programa en Python que cuente de 10 a 0 y luego imprima "¡Despegue!
 
 ## Evidencias
 ![Captura 1](../capturas/12.png)  
+
 ![Captura 2](../capturas/13.png)
 
 ## Observaciones
