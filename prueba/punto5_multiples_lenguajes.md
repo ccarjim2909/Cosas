@@ -17,7 +17,7 @@ Escribir un programa que cuente de 10 a 0 y luego imprima "¡Despegue!" en dos l
 - **Java:** se compila primero a bytecode `.class` (compilado), requiere más pasos pero ofrece mejor rendimiento.
 
 ## Evidencias
-![Captura 1](img/11.png)
+![Captura 1](../capturas/11.png)
 
 ## Observaciones
 Los lenguajes interpretados permiten iterar más rápido, mientras que los compilados ofrecen mejor rendimiento pero requieren pasos adicionales.
