@@ -18,8 +18,11 @@ Personalizar el entorno de cada IDE (tema, atajos de teclado) y automatizar tare
 
 ## Evidencias
 ![Captura 1](../capturas/5.png)  
+
 ![Captura 2](../capturas/6.png)  
+
 ![Captura 3](../capturas/7.png)  
+
 ![Captura 4](../capturas/8.png)
 
 ## Observaciones
