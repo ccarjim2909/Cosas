@@ -1,6 +1,8 @@
 # Punto 2.5: Generación de ejecutables a partir de código fuente en distintos lenguajes en un mismo IDE
 
-## IDEs utilizados
+## IDEs utilizados  
+> ⚠️ PyCharm y Thonny son IDEs enfocados en **Python**, por lo que no permiten ejecutar varios lenguajes directamente.  
+> Se usaron **Visual Studio Code** e **IntelliJ IDEA** como referencia.
 - *IDE 1:* Visual Studio Code 
 - *IDE 2:* IntelliJ IDEA
 
