@@ -1,8 +1,8 @@
 # Punto 2.1: Instalación de entornos de desarrollo
 
 ## IDEs utilizados
-- *IDE 1:* PyCharm Professional (versión más reciente)  
-- *IDE 2:* Thonny (versión más reciente)
+- *IDE 1:* PyCharm Professional
+- *IDE 2:* Thonny
 
 ## Descripción de la tarea
 Instalar dos IDEs, uno propietario y otro libre, en el equipo, capturando pantallas del proceso de instalación para comparar.
