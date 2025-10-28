@@ -1,8 +1,8 @@
 # Punto 2.4: Configuración del sistema de actualización del entorno de desarrollo
 
 ## IDEs utilizados
-- *IDE 1:* PyCharm Professional (versión más reciente)  
-- *IDE 2:* Thonny (versión más reciente)
+- *IDE 1:* PyCharm Professional
+- *IDE 2:* Thonny
 
 ## Descripción de la tarea
 Configurar las actualizaciones automáticas o manuales para asegurar que los IDEs estén al día con las últimas versiones y mejoras.
