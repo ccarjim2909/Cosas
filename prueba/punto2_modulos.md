@@ -1,8 +1,8 @@
 # Punto 2.2: Gestión de módulos y extensiones
 
 ## IDEs utilizados
-- *IDE 1:* PyCharm Professional (versión más reciente)  
-- *IDE 2:* Thonny (versión más reciente)
+- *IDE 1:* PyCharm Professional
+- *IDE 2:* Thonny
 
 ## Descripción de la tarea
 Agregar extensiones o módulos que amplíen la funcionalidad de cada IDE, por ejemplo, un plugin para Python en PyCharm o un paquete como `pygame` en Thonny.
