@@ -1,8 +1,8 @@
 # Punto 2.3: Personalización y automatización del entorno
 
 ## IDEs utilizados
-- *IDE 1:* PyCharm Professional (versión más reciente)  
-- *IDE 2:* Thonny (versión más reciente)
+- *IDE 1:* PyCharm Professional
+- *IDE 2:* Thonny
 
 ## Descripción de la tarea
 Personalizar el entorno de cada IDE (tema, atajos de teclado) y automatizar tareas como la ejecución de pruebas o compilación de código.
