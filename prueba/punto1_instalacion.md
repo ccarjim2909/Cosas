@@ -17,8 +17,8 @@ Instalar dos IDEs, uno propietario y otro libre, en el equipo, capturando pantal
 - **Thonny:** rapidez, simplicidad y facilidad para principiantes.
 
 ## Evidencias
-![Captura 1](capturas/1.png)  
-![Captura 2](capturas/2.png)
+![Captura 1](../capturas/1.png)  
+![Captura 2](../capturas/2.png)
 
 ## Observaciones
 PyCharm ofrece más control y profesionalismo, mientras que Thonny es ideal para principiantes o tareas rápidas.
