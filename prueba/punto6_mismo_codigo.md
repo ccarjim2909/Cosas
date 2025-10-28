@@ -17,8 +17,8 @@ Escribir un programa en Python que cuente de 10 a 0 y luego imprima "¡Despegue!
 - **Thonny:** excelente para aprender y crear scripts simples.
 
 ## Evidencias
-![Captura 1](img/12.png)  
-![Captura 2](img/13.png)
+![Captura 1](../capturas/12.png)  
+![Captura 2](../capturas/13.png)
 
 ## Observaciones
 PyCharm es ideal para proyectos complejos y profesionales, mientras que Thonny es excelente para aprendizaje y tareas sencillas.
