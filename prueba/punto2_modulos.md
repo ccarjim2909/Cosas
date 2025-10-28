@@ -18,6 +18,7 @@ Agregar extensiones o módulos que amplíen la funcionalidad de cada IDE, por ej
 
 ## Evidencias
 ![Captura 1](../capturas/3.png)  
+
 ![Captura 2](../capturas/4.png)
 
 ## Observaciones
