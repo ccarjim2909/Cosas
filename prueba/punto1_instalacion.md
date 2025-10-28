@@ -18,6 +18,7 @@ Instalar dos IDEs, uno propietario y otro libre, en el equipo, capturando pantal
 
 ## Evidencias
 ![Captura 1](../capturas/1.png)  
+
 ![Captura 2](../capturas/2.png)
 
 ## Observaciones
