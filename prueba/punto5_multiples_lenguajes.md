@@ -1,8 +1,8 @@
 # Punto 2.5: Generación de ejecutables a partir de código fuente en distintos lenguajes en un mismo IDE
 
 ## IDEs utilizados
-- *IDE 1:* Visual Studio Code (versión más reciente)  
-- *IDE 2:* IntelliJ IDEA (versión más reciente)
+- *IDE 1:* Visual Studio Code 
+- *IDE 2:* IntelliJ IDEA
 
 ## Descripción de la tarea
 Escribir un programa que cuente de 10 a 0 y luego imprima "¡Despegue!" en dos lenguajes diferentes (Python y Java) usando un mismo IDE y generar los ejecutables.
