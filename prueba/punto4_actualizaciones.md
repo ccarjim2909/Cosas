@@ -16,8 +16,8 @@ Configurar las actualizaciones automáticas o manuales para asegurar que los IDE
 - Mantener los IDEs actualizados asegura compatibilidad con nuevas versiones de Python, corrige errores y mejora la seguridad.
 
 ## Evidencias
-![Captura 1](img/9.png)  
-![Captura 2](img/10.png)
+![Captura 1](../capturas/9.png)  
+![Captura 2](../capturas/10.png)
 
 ## Observaciones
 La actualización regular previene problemas de compatibilidad y mejora la experiencia de desarrollo.
