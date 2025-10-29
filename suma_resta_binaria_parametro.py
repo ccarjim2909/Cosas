@@ -42,8 +42,8 @@ def lee_los_binarios():
                 return binario1, operando, binario2
 
     else:
-        print("El programa no se puede ejecutar como lo has escrito. /n"
-              "Intenta escribirlo de esta manera: python suma_resta_binaria_parametro.py binario1 operando binario2 /n"
+        print("El programa no se puede ejecutar como lo has escrito. \n"
+              "Intenta escribirlo de esta manera: python suma_resta_binaria_parametro.py binario1 operando binario2. \n"
               "O si quieres hacer las dos operaciones no uses el operando: python suma_resta_binaria_parametro.py binario1 binario2")
 
 
@@ -63,11 +63,11 @@ def suma_binarios(binario1, binario2):
                 resultado_suma_invertido.append('1')
             else:
                 resultado_suma_invertido.append('0')
-                acarreo[i] = "1"
+                acarreo[i] = '1'
         else:
             if acarreo[i+1] == '0':
                 resultado_suma_invertido.append('0')
-                acarreo[i] = "1"
+                acarreo[i] = '1'
             else:
                 resultado_suma_invertido.append("1")
     if acarreo[0] == '1':
@@ -75,7 +75,6 @@ def suma_binarios(binario1, binario2):
 
     resultado_suma = resultado_suma_invertido[::-1]
     return resultado_suma
-
 
 
 def resta_binarios(binario1, binario2):
@@ -86,25 +85,25 @@ def resta_binarios(binario1, binario2):
 
     for i in range(len(binario1) - 1, -1, -1):
         if binario1[i] == '0' and binario2[i] == '0':
-            if quitar[i + 1] == '0':
+            if quitar[i+1] == '0':
                 resultado_resta_invertido.append('0')
             else:
                 resultado_resta_invertido.append('1')
                 quitar[i] = '1'
         elif binario1[i] == '1' and binario2[i] == '0':
-            if quitar[i + 1] == '0':
+            if quitar[i+1] == '0':
                 resultado_resta_invertido.append('1')
             else:
                 resultado_resta_invertido.append('0')
         elif binario1[i] == '0' and binario2[i] == '1':
-            if quitar[i + 1] == '0':
+            if quitar[i+1] == '0':
                 resultado_resta_invertido.append('1')
                 quitar[i] = '1'
             else:
                 resultado_resta_invertido.append('0')
                 quitar[i] = '1'
         else:
-            if quitar[i + 1] == '0':
+            if quitar[i+1] == '0':
                 resultado_resta_invertido.append('0')
             else:
                 resultado_resta_invertido.append('1')
