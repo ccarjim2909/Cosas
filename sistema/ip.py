@@ -1,5 +1,5 @@
 def pedir_ip():
-    ip = input("Introduce una direccion IP: ")
+    ip = sys.argv[1]
     return ip
 
 
@@ -49,3 +49,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
