@@ -23,7 +23,7 @@ def clase_ip(ip: str) -> str:
     partes = ip.split(".")
     primer_octeto = int(partes[0])
 
-    if primer_octeto >= 0 and primer_octeto <= 126:
+    if primer_octeto >= 0 and primer_octeto <= 127:
         return "Clase A"
     elif primer_octeto >= 128 and primer_octeto <= 191:
         return "Clase B"
@@ -49,4 +49,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
