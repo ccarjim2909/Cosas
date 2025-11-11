@@ -19,7 +19,7 @@ def validar_ip(ip: str) -> bool:
         if not parte.isdigit():
             return False
         numero = int(parte)
-        if numero <= 0 or numero >= 255:
+        if numero < 0 or numero > 255:
             return False
 
     return True

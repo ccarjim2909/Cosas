@@ -1,3 +1,6 @@
+import sys
+from sys import argv
+
 def pedir_ip():
     ip = sys.argv[1]
     return ip
@@ -49,5 +52,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 

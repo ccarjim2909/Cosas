@@ -19,7 +19,7 @@ def validar_ip(ip: str) -> bool:
         if not parte.isdigit():
             return False
         numero = int(parte)
-        if numero <= 0 or numero >= 255:
+        if numero < 0 or numero > 255:
             return False
 
     return True
@@ -110,6 +110,7 @@ def main():
             print("La MAC es:", mac)
         else:
             print("La IP no esta en tu red.")
+            print("Mac no encontrada.")
     else:
         print("La IP no es valida.")
 
