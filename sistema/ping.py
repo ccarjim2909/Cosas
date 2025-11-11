@@ -1,10 +1,8 @@
 import sys
-from sys import argv
-
 import os
-from os import system
-
 import platform
+import threading
+import time
 
 def pedir_ip():
     ip = sys.argv[1]
@@ -21,7 +19,7 @@ def validar_ip(ip: str) -> bool:
         if not parte.isdigit():
             return False
         numero = int(parte)
-        if numero < 0 or numero > 255:
+        if numero <= 0 or numero >= 255:
             return False
 
     return True
@@ -48,28 +46,33 @@ def comprobar_sistema() -> str:
     return sistema
 
 
+
+procesando = True
+
+def animacion():
+    while procesando:
+        for puntos in ["   ", ".  ", ".. ", "..."]:
+            print(f"\rVerificando IP{puntos}", end="")
+            time.sleep(0.5)
+    print("\rProceso finalizado.")
+
+
 def comprobar_ordenador(ip: str, sistema: str) -> bool:
+    global procesando
+
+    hilo = threading.Thread(target=animacion)
+    hilo.start()
+
     if sistema == "Windows":
-        print("Espere un poco mientras se verifica si la ip esta en tu red...")
-        ping = os.system("ping " + ip + " > null")
-        if ping == 0:
-            return True
-        else:
-            return False
-    elif sistema == "Linux":
-        print("Espere un poco mientras se verifica si la ip esta en tu red...")
-        ping = os.system("ping " + ip + " > null")
-        if ping == 0:
-            return True
-        else:
-            return False
-    elif sistema == "Darwin":
-        print("Espere un poco mientras se verifica si la ip esta en tu red...")
-        ping = os.system("ping " + ip + " > null")
-        if ping == 0:
-            return True
-        else:
-            return False
+        ping = os.system("ping " + ip + " > NUL")
+    else:
+        ping = os.system("ping " + ip + " > /dev/null")
+
+
+    procesando = False
+    hilo.join()
+
+    return ping == 0
 
 
 def main():
@@ -80,6 +83,7 @@ def main():
         clase = clase_ip(ip)
         print("La IP es valida.")
         print("Pertenece a la clase:", clase)
+
 
         ping = comprobar_ordenador(ip, sistema)
         if ping:
