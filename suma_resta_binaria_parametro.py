@@ -28,8 +28,6 @@ def lee_los_binarios():
 
         if not set(binario1) <= {"1", "0"} or not len(binario1) == 8:
             print("El primer numero que has escrito no es un numero binario o no tiene 8 bits, vuelve a intentarlo.")
-        elif operando == "+" or operando == "-":
-            print("Operando no válido. Usa únicamente '+' o '-'.")
         else:
             binario2 = sys.argv[3]
 
@@ -142,4 +140,5 @@ def main():
             print("Operando no valido. Usa '+' o '-'.")
 
 if __name__ == '__main__':
+
     main()
