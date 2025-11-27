@@ -5,11 +5,11 @@ import time
 
 def formatear_tiempo(segundos):
     if segundos < 60:
-        return round(segundos,2),"segundos"
+        return str(round(segundos,2)) + " segundos"
     else:
         minutos = int(segundos // 60)
-        segundos = segundos % 60
-        return minutos, "minutos", round(segundos,2), "segundos"
+        segs = round(segundos % 60, 2)
+        return str(minutos) + " minutos y " + str(segs) + " segundos"
 
 
 def crack_zip(ruta_zip, caracteres, longitud):
@@ -48,9 +48,11 @@ def main():
     ruta_zip = r"C:\Users\UsuarioM\Desktop\Sistema informatico\contraseña zip\diccionario.zip"
     salida = r"C:\Users\UsuarioM\Desktop\Sistema informatico\contraseña zip\salida"
 
-    letras_mayus = list("ABCDEFGHIJKLMNÑOPQRSTUVWXYZ")
-    letras_minus = list("abcdefghijklmnñopqrstuvwxyz")
-    numeros = list("0123456789")
+    letras_mayus = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S",
+                    "T", "U", "V", "W", "X", "Y", "Z"]
+    letras_minus = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s",
+                    "t", "u", "v", "w", "x", "y", "z"]
+    numeros = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
     caracteres = letras_mayus + letras_minus + numeros
 
@@ -62,10 +64,9 @@ def main():
 
     abrir_archivo(ruta_zip, salida, contraseña)
 
-    #esto devuelve una tupla mirar para que suelte todo sin tupla
     tiempo = fin - inicio
-    print("Tiempo:", formatear_tiempo(tiempo))
 
+    print("Tiempo:", formatear_tiempo(tiempo))
 
 if __name__ == "__main__":
     main()
