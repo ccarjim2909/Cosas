@@ -5,26 +5,26 @@ import time
 
 def formatear_tiempo(segundos):
     if segundos < 60:
-        return f"{segundos:.2f} segundos"
+        return round(segundos,2),"segundos"
     else:
         minutos = int(segundos // 60)
-        segs = segundos % 60
-        return f"{minutos} min {segs:.2f} s"
+        segundos = segundos % 60
+        return minutos, "minutos", round(segundos,2), "segundos"
 
 
 def crack_zip(ruta_zip, caracteres, longitud):
     with pyzipper.ZipFile(ruta_zip) as zip:
-        nombre_archivo = zip.namelist()[0]
+        archivo = zip.namelist()[0]
 
-        for combo in itertools.product(caracteres, repeat=longitud):
-            pwd = "".join(combo)
+        for combinacion in itertools.product(caracteres, repeat=longitud):
+            contraseña = "".join(combinacion)
 
             try:
-                with zip.open(nombre_archivo, pwd=pwd.encode()) as f:
+                with zip.open(archivo, pwd=contraseña.encode()) as f:
                     f.read(1)
 
-                print("\nContraseña encontrada:", pwd)
-                return pwd
+                print("\nContraseña encontrada:", contraseña)
+                return contraseña
 
             except:
                 continue
@@ -62,7 +62,7 @@ def main():
 
     abrir_archivo(ruta_zip, salida, contraseña)
 
-
+    #esto devuelve una tupla mirar para que suelte todo sin tupla
     tiempo = fin - inicio
     print("Tiempo:", formatear_tiempo(tiempo))
 
