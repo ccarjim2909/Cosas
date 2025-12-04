@@ -1,6 +1,0 @@
-examen
-
-lo que se suupone que tenemos que hacer es la parte de la interpretacion solo, 
-aunque va a ser necesario la parte de tokenizar los elementos para poder utilizar las instrucciones digamos, 
-vamos a trabajar teniedno en cuenta que todo lo escrito va a estar bien. 
-hacer mas o menos meter cada instruccion en diccionarios sueltos, todo va a ir en un bucle while hasta que pongas FIN

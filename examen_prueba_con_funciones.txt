@@ -1,0 +1,121 @@
+import sys
+
+reserva = ["MOVE", "ADD", "DISPLAY", "STOP", "move", "add", "display", "stop"]
+
+def procesar_move(comando, memoria):
+    if len(comando) == 4 and comando[1].isdigit() and comando[2] == "TO":
+        if comando[3].endswith("."):
+            comando[3] = comando[3][:-1]
+
+            if comando[3] in reserva:
+                print(f"{comando[3]} es una palabra reservada del sistema y estas solo se pueden usar para ejecutar los comandos.\n")
+
+            elif len(comando[3]) > 5:
+                print(f"{comando[3]} solo puede tener una longitud maxima de 5 caracteres.\n")
+
+            elif not comando[3].isalpha() or comando[3].isupper():
+                print(f"{comando[3]} contiene caracteres inválidos, solo puede tener letras minusculas (a-z) y no puede guardarse como nombre de una variable.\n")
+
+            else:
+                if len(comando[1]) > 5:
+                    comando[1] = int(comando[1]) % 100000
+
+                memoria[comando[3]] = int(comando[1])
+
+        else:
+            print("El comando no ha terminado con un punto\n")
+    else:
+        print("Comando MOVE mal formado.\n")
+
+
+def procesar_display(comando, memoria):
+    display = []
+    if len(comando) > 1:
+        if comando[-1].endswith("."):
+            comando[-1] = comando[-1][:-1]
+        for variable in comando[1:]:
+            if variable in memoria:
+                display.append(str(memoria[variable]))
+            else:
+                display.append("0")  # si no existe, mostrar 0
+        print(",".join(display))
+
+
+def procesar_add(comando, memoria):
+    total = 0
+    variable = 1
+    if comando[-1].endswith("."):
+        comando[-1] = comando[-1][:-1]
+
+    if "GIVING" in comando:
+        # Suma de variables hasta "TO" y luego hasta "GIVING"
+        while comando[variable] != "TO":
+            origen = comando[variable]
+            total += int(memoria.get(origen, 0))
+            variable += 1
+
+        variable += 1  # saltar "TO"
+
+        while comando[variable] != "GIVING":
+            origen = comando[variable]
+            total += int(memoria.get(origen, 0))
+            variable += 1
+
+        variable += 1  # saltar "GIVING"
+        destino = comando[variable]
+        memoria[destino] = total % 100000 if total > 99999 else total
+
+    else:
+        while comando[variable] != "TO":
+            origen = comando[variable]
+            total += int(memoria.get(origen, 0))
+            variable += 1
+
+        variable += 1
+        destino = comando[variable]
+        suma = memoria.get(destino, 0) + total
+        memoria[destino] = suma % 100000 if suma > 99999 else suma
+
+
+def ejecutar_programa(lineas_comandos, memoria):
+    try:
+        ejecucion = next(lineas_comandos)
+    except StopIteration:
+        return
+
+    comando = ejecucion.split()
+
+    while comando and comando[0] != "STOP.":
+        if comando[0] == "MOVE":
+            procesar_move(comando, memoria)
+        elif comando[0] == "DISPLAY":
+            procesar_display(comando, memoria)
+        elif comando[0] == "ADD":
+            procesar_add(comando, memoria)
+        else:
+            print(f"Comando desconocido: {comando[0]}")
+
+        try:
+            ejecucion = next(lineas_comandos)
+            comando = ejecucion.split()
+        except StopIteration:
+            break
+
+    print("-----------\n")
+
+
+def main():
+    archivo = sys.argv[1]
+    with open(archivo, "r") as f:
+        lineas = [l.strip() for l in f.readlines() if l.strip()]
+
+    programas = int(lineas[0])
+    lineas_comandos = iter(lineas[1:])
+    memoria = {}  # Memoria global compartida entre programas
+
+    for _ in range(programas):
+        ejecutar_programa(lineas_comandos, memoria)
+
+
+if __name__ == "__main__":
+    main()
