@@ -23,3 +23,39 @@ Escribir un programa en Python que cuente de 10 a 0 y luego imprima "¡Despegue!
 
 ## Observaciones
 PyCharm es ideal para proyectos complejos y profesionales, mientras que Thonny es excelente para aprendizaje y tareas sencillas.
+
+
+
+
+class Empleado(
+    val numEmpleado: String,
+    val nombre: String
+)
+
+class Medico(
+    numEmpleado: String
+    nombre: String
+    val especialidad: String
+) : Empleado(numEmpleado, nombre) {
+    fun solicitaAnalisis()
+}
+
+class Enfermero(
+    numEmpleado: String,
+    nombre: String
+) : Empleado(numEmpleado, nombre) {
+    fun realizaAnalisis()
+}
+
+class Analisis(
+    val numReferencia: String
+    val tipoAnalisis: String
+    val fechaRealizacion: Date
+    val resultados: String
+)
+
+class Paciente(
+    val nHistoriaClinica: String
+    val nombre: String
+    val direccion: String
+)
