@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+actor "Socio" as sc
+actor "Bibliotecario" as bb
+rectangle Biblioteca {
+  usecase "Identificarse" as UC1
+  usecase "Solicitar prestamo" as UC2
+  usecase "Devolver libro" as UC3
+  usecase "Consultar catalogo" as UC4
+  
+  usecase "Registrar libro" as UC5
+  usecase "Gestionar socio" as UC6
+  usecase "Permitir inscripcion" as UC7
+  usecase "Actualizar datos" as UC8
+  
+}
+sc -- UC1
+sc -- UC2
+sc -- UC3
+sc -- UC4
+bb -- UC5
+bb -- UC6
+UC7 .> UC6 : extend
+UC8 .> UC6 : extend
+@enduml
