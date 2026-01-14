@@ -2,60 +2,61 @@ import socket
 import time
 import uuid
 
-PORT = 4000
-NAME = input("Nombre: ")
-MY_ID = str(uuid.uuid4())
+puerto = 4000
+nombre = "Jugador1"
+mi_id = str(uuid.uuid4())
 
-state = "WAITING"
-opponent = None
+estado = "ESPERANDO"
+oponente = None
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-sock.bind(("", PORT))
+sock.bind(("", puerto))
 sock.settimeout(1)
 
-print("Mi ID:", MY_ID)
+print("Mi ID:", mi_id)
 
 while True:
-    if state == "WAITING":
-        # Enviar DISCOVER
-        msg = f"DISCOVER;{MY_ID};{NAME}"
-        sock.sendto(msg.encode(), ("255.255.255.255", PORT))
+    if estado == "ESPERANDO":
+        # Enviar DESCUBRIR
+        msg = f"DESCUBRIR;{mi_id};{nombre}"
+        sock.sendto(msg.encode(), ("255.255.255.255", puerto))
 
     try:
         data, addr = sock.recvfrom(1024)
         msg = data.decode()
         ip, _ = addr
 
-        parts = msg.split(";")
+        partes = msg.split(";")
 
-        if parts[0] == "DISCOVER" and state == "WAITING":
-            other_id, other_name = parts[1], parts[2]
+        if partes[0] == "DESCUBRIR" and estado == "ESPERANDO":
+            otro_id, otro_nombre = partes[1], partes[2]
 
-            if other_id == MY_ID:
+            if otro_id == mi_id:
                 continue
 
-            # Regla: solo acepta el ID menor
-            if MY_ID < other_id:
-                print(f"Aceptando a {other_name}")
-                reply = f"ACCEPT;{MY_ID};{NAME}"
+            #  solo acepta el ID menor para que no acepten los dos a la vez
+            if mi_id < otro_id:
+                print(f"Aceptando a {otro_nombre}")
+                reply = f"ACEPTADO;{mi_id};{nombre}"
                 sock.sendto(reply.encode(), addr)
-                opponent = (other_name, ip)
-                state = "PLAYING"
+                oponente = (otro_nombre, ip)
+                estado = "JUGANDO"
 
-        elif parts[0] == "ACCEPT" and state == "WAITING":
-            other_id, other_name = parts[1], parts[2]
+        elif partes[0] == "ACEPTADO" and estado == "ESPERANDO":
+            otro_id, otro_nombre = partes[1], partes[2]
 
-            print(f"{other_name} me ha aceptado")
-            opponent = (other_name, ip)
-            state = "PLAYING"
+            print(f"{otro_nombre} me ha aceptado")
+            oponente = (otro_nombre, ip)
+            estado = "JUGANDO"
 
     except socket.timeout:
         pass
 
-    if state == "PLAYING":
-        print("🎮 Emparejado con", opponent)
+    if estado == "JUGANDO":
+        print("Emparejado con", oponente)
         break
 
     time.sleep(2)
+
