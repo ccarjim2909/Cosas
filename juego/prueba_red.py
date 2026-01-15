@@ -4,19 +4,20 @@ import time
 import uuid
 
 
-def broadcast():
+def obtener_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    ip_info = s.getsockname()[0]
-    s.close()
+    try:
+        s.connect(("8.8.8.8", 80))
+        mi_ip = s.getsockname()[0]
+    finally:
+        s.close()
+    return mi_ip
 
-    hostname = socket.gethostname()
-    ip_info = socket.getaddrinfo(hostname, None, socket.AF_INET)
-    ip = ip_info[0][4][0]
-
+def broadcast():
+    ip = obtener_ip()
     red = ipaddress.IPv4Network(ip + "/24", strict=False)
-
     return str(red.broadcast_address)
+
 
 puerto = 4000
 nombre = "Cris"
@@ -33,8 +34,10 @@ sock.settimeout(1)
 
 print("Mi ID:", mi_id)
 
+mi_ip = obtener_ip()
 broadcast = broadcast()
-
+print(mi_ip)
+print(broadcast)
 
 while True:
     if estado == "ESPERANDO":
