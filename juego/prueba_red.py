@@ -1,9 +1,25 @@
+import ipaddress
 import socket
 import time
 import uuid
 
+
+def broadcast():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip_info = s.getsockname()[0]
+    s.close()
+
+    hostname = socket.gethostname()
+    ip_info = socket.getaddrinfo(hostname, None, socket.AF_INET)
+    ip = ip_info[0][4][0]
+
+    red = ipaddress.IPv4Network(ip + "/24", strict=False)
+
+    return str(red.broadcast_address)
+
 puerto = 4000
-nombre = "Jugador1"
+nombre = "Cris"
 mi_id = str(uuid.uuid4())
 
 estado = "ESPERANDO"
@@ -17,11 +33,14 @@ sock.settimeout(1)
 
 print("Mi ID:", mi_id)
 
+broadcast = broadcast()
+
+
 while True:
     if estado == "ESPERANDO":
         # Enviar DESCUBRIR
         msg = f"DESCUBRIR;{mi_id};{nombre}"
-        sock.sendto(msg.encode(), ("255.255.255.255", puerto))
+        sock.sendto(msg.encode(), (broadcast, puerto))
 
     try:
         data, addr = sock.recvfrom(1024)
@@ -59,4 +78,3 @@ while True:
         break
 
     time.sleep(2)
-
