@@ -13,71 +13,69 @@ def obtener_ip():
         s.close()
     return mi_ip
 
-def broadcast():
+def calcular_broadcast():
     ip = obtener_ip()
     red = ipaddress.IPv4Network(ip + "/24", strict=False)
     return str(red.broadcast_address)
 
 
-puerto = 4000
-nombre = "Cris"
-mi_id = str(uuid.uuid4())
 
-estado = "ESPERANDO"
-oponente = None
+def buscar_oponente():
+    puerto = 4000
+    nombre = "Cris"
+    mi_id = str(uuid.uuid4())
+    mi_ip = obtener_ip()
+    dir_broadcast = calcular_broadcast()
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-sock.bind(("", puerto))
-sock.settimeout(1)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind(("", puerto))
+    sock.settimeout(1.0)
 
-print("Mi ID:", mi_id)
+    estado = "ESPERANDO"
+    oponente = None
 
-mi_ip = obtener_ip()
-broadcast = broadcast()
-print(mi_ip)
-print(broadcast)
+    print(f"Buscando en red... Mi IP: {mi_ip}")
 
-while True:
-    if estado == "ESPERANDO":
-        # Enviar DESCUBRIR
+
+    while estado == "ESPERANDO":
         msg = f"DESCUBRIR;{mi_id};{nombre}"
-        sock.sendto(msg.encode(), (broadcast, puerto))
+        sock.sendto(msg.encode(), (dir_broadcast, puerto))
 
-    try:
-        data, addr = sock.recvfrom(1024)
-        msg = data.decode()
-        ip, _ = addr
+        try:
+            data, addr = sock.recvfrom(1024)
+            msg = data.decode()
+            ip, _ = addr
+            partes = msg.split(";")
 
-        partes = msg.split(";")
+            if partes[0] == "DESCUBRIR":
+                otro_id, otro_nombre = partes[1], partes[2]
 
-        if partes[0] == "DESCUBRIR" and estado == "ESPERANDO":
-            otro_id, otro_nombre = partes[1], partes[2]
+                if otro_id != mi_id and mi_id < otro_id:
+                    print(f"Aceptando a {otro_nombre}...")
+                    reply = f"ACEPTADO;{mi_id};{nombre}"
+                    sock.sendto(reply.encode(), addr)
+                    oponente = (otro_nombre, ip)
+                    estado = "JUGANDO"
 
-            if otro_id == mi_id:
-                continue
-
-            #  solo acepta el ID menor para que no acepten los dos a la vez
-            if mi_id < otro_id:
-                print(f"Aceptando a {otro_nombre}")
-                reply = f"ACEPTADO;{mi_id};{nombre}"
-                sock.sendto(reply.encode(), addr)
+            elif partes[0] == "ACEPTADO":
+                _, otro_id, otro_nombre = partes
+                print(f"{otro_nombre} me ha aceptado")
                 oponente = (otro_nombre, ip)
                 estado = "JUGANDO"
 
-        elif partes[0] == "ACEPTADO" and estado == "ESPERANDO":
-            otro_id, otro_nombre = partes[1], partes[2]
+        except socket.timeout:
+            pass
 
-            print(f"{otro_nombre} me ha aceptado")
-            oponente = (otro_nombre, ip)
-            estado = "JUGANDO"
+        if estado == "ESPERANDO":
+            time.sleep(1)
 
-    except socket.timeout:
-        pass
+    sock.close()
+    return oponente
 
-    if estado == "JUGANDO":
-        print("Emparejado con", oponente)
-        break
 
-    time.sleep(2)
+
+def main():
+    rival = buscar_oponente()
+    print(f"¡Conexión establecida con: {rival}!")
