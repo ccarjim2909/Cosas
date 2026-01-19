@@ -76,9 +76,90 @@ def buscar_oponente():
 
 
 
+def servidor():
+    ip = obtener_ip()
+
+    HOST = ip
+    PORT = 4000
+
+    mi_turno = True
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind((HOST, PORT))
+        s.listen(1)
+        print("Esperando jugador...")
+
+        conn, addr = s.accept()
+        print("Conectado:", addr)
+
+        with conn:
+            while True:
+                if mi_turno:
+                    disparo = input("Tu disparo (ej A,1): ")
+                    mensaje = f"disparo,{disparo}"
+                    conn.sendall((mensaje + "\n").encode())
+
+                    respuesta = conn.recv(1024).decode().strip()
+                    tipo, resultado = respuesta.split(",")
+                    print("Resultado:", resultado)
+
+                    mi_turno = False
+                else:
+                    data = conn.recv(1024).decode().strip()
+                    tipo, x, y = data.split(",")
+
+                    print(f"Disparo recibido: {x},{y}")
+
+                    # lógica del tablero
+                    resultado = "agua"
+                    conn.sendall(f"respuesta,{resultado}\n".encode())
+
+                    mi_turno = True
+                    
+                    
+def cliente(rival):
+    
+    ip_rival = rival[1]
+
+    HOST = ip_rival
+    PORT = 4000
+
+    mi_turno = False
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((HOST, PORT))
+        print("Conectado al servidor")
+
+        while True:
+            if mi_turno:
+                disparo = input("Tu disparo (ej A,1): ")
+                s.sendall(f"disparo,{disparo}\n".encode())
+
+                respuesta = s.recv(1024).decode().strip()
+                _, resultado = respuesta.split(",")
+                print("Resultado:", resultado)
+
+                mi_turno = False
+            else:
+                data = s.recv(1024).decode().strip()
+                _, x, y = data.split(",")
+
+                print(f"Disparo recibido: {x},{y}")
+
+                resultado = "agua"
+                s.sendall(f"respuesta,{resultado}\n".encode())
+
+                mi_turno = True
+
+
 def main():
     rival = buscar_oponente()
     print(f"Conexión establecida con: {rival}")
+    
+    servidor()
+    cliente(rival)
+    
+    
 
 
 
