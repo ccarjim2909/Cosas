@@ -78,4 +78,9 @@ def buscar_oponente():
 
 def main():
     rival = buscar_oponente()
-    print(f"¡Conexión establecida con: {rival}!")
+    print(f"Conexión establecida con: {rival}")
+
+
+
+if __name__ == "__main__":
+    main()
