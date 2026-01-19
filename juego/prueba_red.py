@@ -115,10 +115,10 @@ def servidor():
                     conn.sendall(f"respuesta,{resultado}\n".encode())
 
                     mi_turno = True
-                    
-                    
+
+
 def cliente(rival):
-    
+
     ip_rival = rival[1]
 
     HOST = ip_rival
@@ -155,11 +155,15 @@ def cliente(rival):
 def main():
     rival = buscar_oponente()
     print(f"Conexión establecida con: {rival}")
-    
+
+    print("\n")
+
+
+    #TODO mirar esto para que sea aleatorio
     servidor()
-    cliente(rival)
-    
-    
+    # cliente(rival)
+
+
 
 
 
