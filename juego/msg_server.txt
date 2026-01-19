@@ -1,0 +1,38 @@
+import socket
+
+HOST = "ip_host"
+PORT = 4000
+
+mi_turno = True
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen(1)
+    print("Esperando jugador...")
+
+    conn, addr = s.accept()
+    print("Conectado:", addr)
+
+    with conn:
+        while True:
+            if mi_turno:
+                disparo = input("Tu disparo (ej A,1): ")
+                mensaje = f"disparo,{disparo}"
+                conn.sendall((mensaje + "\n").encode())
+
+                respuesta = conn.recv(1024).decode().strip()
+                tipo, resultado = respuesta.split(",")
+                print("Resultado:", resultado)
+
+                mi_turno = False
+            else:
+                data = conn.recv(1024).decode().strip()
+                tipo, x, y = data.split(",")
+
+                print(f"Disparo recibido: {x},{y}")
+
+                # lógica del tablero
+                resultado = "agua"
+                conn.sendall(f"respuesta,{resultado}\n".encode())
+
+                mi_turno = True
