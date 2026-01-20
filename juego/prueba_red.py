@@ -79,13 +79,15 @@ def buscar_oponente():
 def servidor():
     ip = obtener_ip()
 
-    HOST = ip
-    PORT = 4000
+    host = ip
+    puerto = 4000
 
+    #aqui hay que añadir una forma de que no empieze uno siempre, o no dado k el host es aleatorio de momento
     mi_turno = True
+    partida_activa = True
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((HOST, PORT))
+        s.bind((host, puerto))
         s.listen(1)
         print("Esperando jugador...")
 
@@ -93,28 +95,33 @@ def servidor():
         print("Conectado:", addr)
 
         with conn:
-            while True:
+            while partida_activa:
                 if mi_turno:
                     disparo = input("Tu disparo (ej A,1): ")
                     mensaje = f"disparo,{disparo}"
                     conn.sendall((mensaje + "\n").encode())
 
                     respuesta = conn.recv(1024).decode().strip()
-                    tipo, resultado = respuesta.split(",")
+                    accion, resultado = respuesta.split(",")
+                    # esto hay que mirarlo para mirar la accion
                     print("Resultado:", resultado)
 
                     mi_turno = False
                 else:
                     data = conn.recv(1024).decode().strip()
-                    tipo, x, y = data.split(",")
+                    accion, letra, numero = data.split(",")
 
-                    print(f"Disparo recibido: {x},{y}")
+                    print(f"Disparo recibido: {letra},{numero}")
 
-                    # lógica del tablero
+                    # lógica del jeugo
                     resultado = "agua"
                     conn.sendall(f"respuesta,{resultado}\n".encode())
 
                     mi_turno = True
+
+
+
+
 
 
 def cliente(rival):
@@ -136,16 +143,18 @@ def cliente(rival):
                 s.sendall(f"disparo,{disparo}\n".encode())
 
                 respuesta = s.recv(1024).decode().strip()
-                _, resultado = respuesta.split(",")
+                accion, resultado = respuesta.split(",")
+                #esto hay que mirarlo para mirar la accion
                 print("Resultado:", resultado)
 
                 mi_turno = False
             else:
-                data = s.recv(1024).decode().strip()
-                _, x, y = data.split(",")
+                datos_mensaje = s.recv(1024).decode().strip()
+                accion, letra, numero = datos_mensaje.split(",")
 
-                print(f"Disparo recibido: {x},{y}")
+                print(f"Disparo recibido: {letra},{numero}")
 
+                #logica del juego
                 resultado = "agua"
                 s.sendall(f"respuesta,{resultado}\n".encode())
 
