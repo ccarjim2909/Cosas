@@ -3,9 +3,10 @@ import socket
 import time
 import uuid
 
+#esto es para prueba
 import random
-
 tocado_agua = ("tocado", "agua")
+#---
 
 def obtener_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
