@@ -3,6 +3,9 @@ import socket
 import time
 import uuid
 
+import random
+
+tocado_agua = ("tocado", "agua")
 
 def obtener_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -52,7 +55,8 @@ def buscar_oponente(nombre: str, puerto: int = 4000):
                     print(f"ACEPTADO: {otro_nombre}")
 
                     sock.sendto(f"ACEPTADO;{mi_id};{nombre}".encode(), addr)
-                    oponente = (otro_nombre, ip)
+                    oponente = otro_nombre
+                    ip_oponente = ip
                     estado = "JUGANDO"
                     soy_host = True
 
@@ -106,7 +110,10 @@ def servidor(puerto: int = 4000):
                     # esto hay que mirarlo para mirar la accion
                     print("Resultado:", resultado)
 
-                    mi_turno = False
+                    if resultado == "tocado":
+                        mi_turno = True
+                    else:
+                        mi_turno = False
                 else:
                     data = conn.recv(1024).decode().strip()
                     accion, letra, numero = data.split(",")
@@ -114,10 +121,13 @@ def servidor(puerto: int = 4000):
                     print(f"Disparo recibido: {letra},{numero}")
 
                     # lógica del jeugo
-                    resultado = "agua"
+                    resultado = random.choice(tocado_agua)
                     conn.sendall(f"respuesta,{resultado}\n".encode())
 
-                    mi_turno = True
+                    if resultado == "tocado":
+                        mi_turno = False
+                    else:
+                        mi_turno = True
 
 
 def cliente(rival: tuple[str, int], puerto: int = 4000):
@@ -138,18 +148,24 @@ def cliente(rival: tuple[str, int], puerto: int = 4000):
                 #TODO: Esto hay que mirarlo para mirar la accion
                 print("Resultado:", resultado)
 
-                mi_turno = False
+                if resultado == "tocado":
+                    mi_turno = True
+                else:
+                    mi_turno = False
             else:
                 datos_mensaje = s.recv(1024).decode().strip()
                 accion, letra, numero = datos_mensaje.split(",")
 
                 print(f"Disparo recibido: {letra},{numero}")
 
-                resultado = "agua"
+                resultado = random.choice(tocado_agua)
                 # Mirar
                 s.sendall(f"respuesta,{resultado}\n".encode())
 
-                mi_turno = True
+                if resultado == "tocado":
+                    mi_turno = False
+                else:
+                    mi_turno = True
 
         # TODO: [GONZALO] No faltaria romper el bucle en funcion de una variable?
 
