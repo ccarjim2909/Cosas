@@ -1,0 +1,33 @@
+class Pistola (val nombre : String, var balas : Int ) {
+    fun disparar(modoDisparo: (balasDisponibles: Int) -> Int) {
+        if (balas == 0) {
+            println("$nombre: No hay balas")
+            return
+        }
+        var balasDisparadas = -1
+        
+        val balasQuePuedoDisparar = modoDisparo(balas)
+        
+        balasDisparadas = balasQuePuedoDisparar.coerceIn(0, balas)
+        
+        balas-=balasDisparadas
+        println("$nombre: Disparadas: $balasDisparadas Quedan: $balas")
+    }
+}
+
+fun main(){
+    
+    val pistola = Pistola(nombre = "PistolaColombiana", balas = 50)
+    val modoTiroUnico: (Int) -> Int = { 1 }
+    fun modoRafaga(): (balas: Int)-> Int {
+        return 3
+    }
+    
+    val vaciarCargador: (Int) -> Int = { balasDisponibles -> balasDisponibles }
+    
+    pistola.disparar { 0 }
+    pistola.disparar (modoTiroUnico)
+    pistola.disparar (modoRafaga())
+    pistola.disparar { it - 1 }
+    pistola.disparar (vaciarCargador)
+}
