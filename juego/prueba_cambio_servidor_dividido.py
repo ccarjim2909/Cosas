@@ -110,7 +110,7 @@ def servidor(conn, mi_turno):
 
 
 
-    with conn:
+    # with conn:
         if mi_turno:
             disparo = input("Tu disparo (ej A,1): ")
             mensaje = f"disparo,{disparo}"
@@ -154,7 +154,7 @@ def servidor(conn, mi_turno):
 
 def cliente(s, mi_turno: bool):
 
-    with s:
+    # with s:
         if mi_turno:
             disparo = input("Tu disparo (ej A,1): ")
             s.sendall(f"disparo,{disparo}\n".encode())
@@ -216,9 +216,9 @@ def main():
         conexion = abrir_socket_servidor_para_jugar(puerto)
         mi_turno = True
         while partida_activa:
-            turno, mensaje = servidor(conexion, mi_turno)
+            mi_turno, mensaje = servidor(conexion, mi_turno)
 
-            print(turno, mensaje)
+            print(mi_turno, mensaje)
 
     else:
         print(f"[HOST]: {nombre_rival} {ip_rival}")
@@ -227,9 +227,9 @@ def main():
         socket_aceptado = socket_cliente_para_jugar((nombre_rival, ip_rival), puerto)
         mi_turno = False
         while partida_activa:
-            turno,  mensaje = cliente(socket_aceptado, mi_turno)
+            mi_turno,  mensaje = cliente(socket_aceptado, mi_turno)
 
-            print (turno, mensaje)
+            print (mi_turno, mensaje)
 
 
     # TODO: [GONZALO]
