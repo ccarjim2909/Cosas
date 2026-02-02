@@ -185,3 +185,4 @@ def marcar_zona_muerta(tablero_jugador2: list[list[str]],posiciones_barco_actual
             if 0 <= nueva_fila < TAMAÑO_TABLERO and 0 <= nueva_columna < TAMAÑO_TABLERO:
                 if tablero_jugador2[nueva_fila][nueva_columna] == AGUA:
                     tablero_jugador2[nueva_fila][nueva_columna] = FALLO
+#
