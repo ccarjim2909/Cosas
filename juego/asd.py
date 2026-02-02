@@ -119,7 +119,7 @@ def comprobar_hundimiento(tablero_jugador1 : list[list[str]], id_barco : str) ->
     return True
 
 def recibir_disparo(tablero_jugador1: list[list[str]], coord: str) -> str:
-    fila = int(coord[1])
+    fila = int(coord[1]) - 1
     columna = desparsear_letra(coord[0])
 
     if tablero_jugador1[fila][columna] == AGUA:
@@ -134,53 +134,45 @@ def recibir_disparo(tablero_jugador1: list[list[str]], coord: str) -> str:
         return "HUNDIDO"
     return "TOCADO"
 
-def paridad(tablero_jugador2 : list[list[str]], mensaje : str):
-    for i in range(len(tablero_jugador2)):
-        for j in range(0,len(tablero_jugador2[i])):
+def paridad(tablero_jugador2 : list[list[str]]):
+    for i in range(TAMAÑO_TABLERO):
+        for j in range(TAMAÑO_TABLERO):
             preferente = (i + j) % 2 == 0
             if preferente and tablero_jugador2[i][j] == AGUA:
-                disparo = parsear_letra(j) + str(i) # Coordenada a mandar (y,x)
-                match mensaje:
-                    case "AGUA":
-                        tablero_jugador2[i][j] = "O"
-                    case "YA DISPARADO":
-                        pass
-                    case "TOCADO":
-                        tablero_jugador2[i][j] = "X"
-                        target(tablero_jugador2,i,j,mensaje)
+                disparo = parsear_letra(j) + str(i + 1) # Coordenada a mandar (y,x)
+    return disparo
 
 
 
-def target(tablero_jugador2 : list[list[str]],fila_inicial : int,col_inicial : int, mensaje : str):
+def target(tablero_jugador2 : list[list[str]],fila_inicial : int,col_inicial : int):
     """
     Estrategia de 'target':
     - Empieza desde una casilla tocada (fila_inicial, col_inicial)
     - Va añadiendo a posiciones_barco_actual todas las 'X' que consiga de este barco
     - Cuando reciba 'HUNDIDO', llama a marcar_zona_muerta
     """
-    #
-    # hundido = False
-    # posiciones_barco_actual = [(fila_inicial, col_inicial)]
-    # while not hundido:
-    #     fila_disparo, col_disparo = # TODO: LÓGICA DE LA ESTRATEGIA TARGET
-    #
-    #     disparo = parsear_letra(col_disparo) + str(fila_disparo)
-    #
-    #     match mensaje:
-    #         case "AGUA":
-    #             tablero_jugador2[fila_disparo][col_disparo] = FALLO
-    #         case "YA DISPARADO":
-    #             pass
-    #         case "TOCADO":
-    #             tablero_jugador2[fila_disparo][col_disparo] = TOCADO
-    #             posiciones_barco_actual.append((fila_disparo, col_disparo))
-    #         case "HUNDIDO":
-    #             tablero_jugador2[fila_disparo][col_disparo] = TOCADO
-    #             posiciones_barco_actual.append((fila_disparo, col_disparo))
-    #             marcar_zona_muerta(tablero_jugador2, posiciones_barco_actual)
-    #             hundido = True
-    return
+    """
+    hundido = False
+    posiciones_barco_actual = [(fila_inicial, col_inicial)]
+    while not hundido:
+        fila_disparo, col_disparo = # TODO: LÓGICA DE LA ESTRATEGIA TARGET
 
+        disparo = parsear_letra(col_disparo) + str(fila_disparo + 1)
+
+        match mensaje:
+            case "AGUA":
+                tablero_jugador2[fila_disparo][col_disparo] = FALLO
+            case "YA DISPARADO":
+                pass
+            case "TOCADO":
+                tablero_jugador2[fila_disparo][col_disparo] = TOCADO
+                posiciones_barco_actual.append((fila_disparo, col_disparo))
+            case "HUNDIDO":
+                tablero_jugador2[fila_disparo][col_disparo] = TOCADO
+                posiciones_barco_actual.append((fila_disparo, col_disparo))
+                marcar_zona_muerta(tablero_jugador2, posiciones_barco_actual)
+                hundido = True
+    """
 def marcar_zona_muerta(tablero_jugador2: list[list[str]],posiciones_barco_actual: list[tuple[int, int]]):
     """
     Marca como 'O' todas las casillas de agua (~) adyacentes
