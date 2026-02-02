@@ -356,6 +356,6 @@ def main():
                 socket_aceptado.close()
                 print("Ganamos")
 
-
+#
 if __name__ == "__main__":
     main()
