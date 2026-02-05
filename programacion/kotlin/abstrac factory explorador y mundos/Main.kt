@@ -34,7 +34,7 @@ abstract class MundoFactory {
 }
 
 abstract class ExploradorFactory {
-    abstract fun rol(): Rol
+    abstract fun crearRol(): Rol
 }
 
 // 3) Productos concretos para el MUNDO MEDIEVAL:
@@ -77,7 +77,7 @@ class EquipoDeBuzo : Armadura {
     override fun proteger(): String = " El traje te permite respirar bajo el agua"
 }
 
-
+// Roles
 class Tank : Rol {
     override fun accion(): String = "Soy tank y atraigo el agro de los enemigos para que me peguen a mi."
 }
@@ -111,15 +111,15 @@ class MundoSubmarinoFactory : MundoFactory(){
 }
 
 class ExploradorTankFactory : ExploradorFactory() {
-    override fun rol(): Rol = Tank()
+    override fun crearRol(): Rol = Tank()
 }
 
 class ExploradorHealerFactory : ExploradorFactory() {
-    override fun rol(): Rol = Healer()
+    override fun crearRol(): Rol = Healer()
 }
 
 class ExploradorDpsFactory : ExploradorFactory() {
-    override fun rol(): Rol = Dps()
+    override fun crearRol(): Rol = Dps()
 }
 
 
@@ -129,11 +129,13 @@ class ExploradorDpsFactory : ExploradorFactory() {
 abstract class Explorador(
     protected val arma: Arma,
     protected val vehiculo: Vehiculo,
-    protected val armadura: Armadura
+    protected val armadura: Armadura,
+    protected val rol: Rol
 ) {
     // Comportamiento común que usa la familia de productos.
     fun explorar(): String = buildString {
         appendLine("🧭  El explorador se prepara para la misión...")
+        appendLine(rol.accion())
         appendLine(armadura.proteger())
         appendLine(vehiculo.mover())
         appendLine(arma.atacar())
@@ -145,18 +147,20 @@ abstract class Explorador(
 class ExploradorCurioso(
     arma: Arma,
     vehiculo: Vehiculo,
-    armadura: Armadura
-) : Explorador(arma, vehiculo, armadura)
+    armadura: Armadura,
+    rol: Rol
+) : Explorador(arma, vehiculo, armadura, rol)
 
 // 8) Cliente:
 //    Solo conoce la fábrica abstracta y los productos abstractos.
-class Juego(private val factory: MundoFactory, factoryEx: ExploradorFactory) {
+class Juego(private val factory: MundoFactory, private val factoryEx: ExploradorFactory) {
 
     // Crear al personaje con el equipamiento adecuado.
     private val explorador: Explorador = ExploradorCurioso(
         arma = factory.crearArma(),
         vehiculo = factory.crearVehiculo(),
         armadura = factory.crearArmadura()
+        rol = factoryEx.crearRol()
     )
 
     fun iniciarMision(): String = explorador.explorar()
@@ -209,4 +213,5 @@ fun main() {
     // Idea para los alumnos:
     // Intenten crear un tercer mundo (por ejemplo "Submarino")
     // y vean que el cliente (Juego) no necesita modificarse.
+
 }
