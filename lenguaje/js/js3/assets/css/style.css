@@ -1,0 +1,38 @@
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    height: 100px;           
+}
+
+.seccion {
+    width: 100%;
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #8f4141;
+    color: #000000;
+    text-align: center;
+}
+
+/* Artículos */
+.articulo__subscripcion {
+    background-color: #eed3d3;
+    margin: 10px auto;
+    padding: 15px;
+    max-width: 600px;
+    border-radius: 5px;
+}
+
+/* Enlace */
+.subscripcion__enlace {
+    display: inline-block;
+    margin-top: 15px;
+    color: #00bfff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.subscripcion__enlace:hover {
+    text-decoration: underline;
+}
