@@ -2,7 +2,6 @@ import ipaddress
 import socket
 import time
 import uuid
-import os
 from hundirflota import *
 from pprint import pprint
 tocado_agua = ("TOCADO", "AGUA", "HUNDIDO", "YA DISPARADO", "DERROTA")
@@ -98,101 +97,104 @@ def socket_cliente_para_jugar(rival, puerto):
     return s
 
 
-def servidor(conn, mi_turno : bool, tablero_jugador1 : list[list[str]],tablero_jugador2 : list[list[str]], contador_barcos_hundidos : int, contador_nuestros_barcos_hundidos : int ,posiciones_barco_actual: list[tuple[int, int]]):
+def servidor(conn, mi_turno: bool, tablero_jugador1: list[list[str]], tablero_jugador2: list[list[str]],
+             contador_barcos_hundidos: int, contador_nuestros_barcos_hundidos: int,
+             posiciones_barco_actual: list[tuple[int, int]]):
     """
-    Servidor cuando es MI TURNO: disparamos al enemigo
-    Servidor cuando NO es MI TURNO: recibimos disparo del enemigo
+    Servidor corregido: Comprueba si ha perdido antes de enviar la respuesta.
     """
     resultado = None
     nuevo_contador = contador_barcos_hundidos
     nuevo_contador_nuestros = contador_nuestros_barcos_hundidos
+
     if mi_turno:
-        if len(posiciones_barco_actual) == 0: # Si aún no hemos tocado -> paridad
+        if len(posiciones_barco_actual) == 0:
             disparo, fila, columna = paridad(tablero_jugador2)
-        else: # Si ya hemos tocado -> target
+        else:
             resultado_target = target(tablero_jugador2, posiciones_barco_actual)
             if resultado_target is not None:
                 disparo, fila, columna = resultado_target
             else:
                 disparo, fila, columna = paridad(tablero_jugador2)
-        fila = int(disparo[1]) - 1
+
+        fila = int(disparo[1:]) - 1
         columna = desparsear_letra(disparo[0])
 
-        conn.sendall(disparo.encode()) # Envío de coordenadas
+        conn.sendall(disparo.encode())
 
-        respuesta = conn.recv(1024).decode().strip() # Respuesta que recibimos
+        respuesta = conn.recv(1024).decode().strip()
 
         match respuesta:
             case "AGUA":
                 tablero_jugador2[fila][columna] = "O"
-                mi_turno = False  # Se pierde el turno
-
+                mi_turno = False
             case "YA DISPARADO":
-                mi_turno = False # Se pierde el turno
-
+                mi_turno = False
             case "TOCADO":
                 tablero_jugador2[fila][columna] = "X"
                 posiciones_barco_actual.append((fila, columna))
                 mi_turno = True
-
             case "HUNDIDO":
                 tablero_jugador2[fila][columna] = "X"
-                posiciones_barco_actual.append((fila, columna))  # Última posición
+                posiciones_barco_actual.append((fila, columna))
                 marcar_zona_muerta(tablero_jugador2, posiciones_barco_actual)
-                posiciones_barco_actual.clear()  # Reiniciar para el próximo barco
+                posiciones_barco_actual.clear()
                 nuevo_contador += 1
                 mi_turno = True
+            case "DERROTA":
+                # Si recibimos DERROTA, es que hemos ganado
+                nuevo_contador = NUM_BARCOS
+                mi_turno = True  # O False, da igual, el main cortará
 
         resultado = respuesta
     else:
-        # El disparo que recibo
         disparo_recibido = conn.recv(1024).decode().strip()
         print(f"Disparo enemigo: {disparo_recibido}")
 
-        # El mensaje que voy a devolver
-        resultado = recibir_disparo(tablero_jugador1, disparo_recibido)
-        conn.sendall(resultado.encode())
+        # 1. Obtenemos si es AGUA, TOCADO o HUNDIDO
+        resultado_local = recibir_disparo(tablero_jugador1, disparo_recibido)
 
-        nuevo_contador = contador_barcos_hundidos # Barcos enemigos hundidos
-        nuevo_contador_nuestros = contador_nuestros_barcos_hundidos
-        if resultado == "HUNDIDO":
+        # 2. Actualizamos contadores y verificamos FIN DE JUEGO *ANTES* DE ENVIAR
+        if resultado_local == "HUNDIDO":
             nuevo_contador_nuestros += 1
+            # Si hemos perdido todos los barcos, enviamos "DERROTA" para que el otro sepa que ganó
             if nuevo_contador_nuestros == NUM_BARCOS:
-                resultado = "VICTORIA"
+                resultado_local = "DERROTA"
 
-        if nuevo_contador == NUM_BARCOS:
-            resultado = "DERROTA"
+        # 3. AHORA enviamos el resultado definitivo
+        conn.sendall(resultado_local.encode())
+        resultado = resultado_local
 
-        # Mirar si me sigue tocando o no
-        if resultado == "TOCADO" or resultado == "HUNDIDO":
-            mi_turno = False
+        # 4. Gestión de turno
+        if resultado == "TOCADO" or resultado == "HUNDIDO" or resultado == "DERROTA":
+            mi_turno = False  # Me han dado, siguen tirando ellos
         else:
-            mi_turno = True
+            mi_turno = True  # Han fallado, me toca
 
     return mi_turno, resultado, nuevo_contador, nuevo_contador_nuestros
 
 
 def cliente(s, mi_turno: bool, tablero_jugador1: list[list[str]], tablero_jugador2: list[list[str]],
-            contador_barcos_hundidos: int, contador_nuestros_barcos_hundidos : int ,posiciones_barco_actual: list[tuple[int, int]]) -> tuple[bool, str, int]:
+            contador_barcos_hundidos: int, contador_nuestros_barcos_hundidos: int,
+            posiciones_barco_actual: list[tuple[int, int]]) -> tuple[bool, str, int]:
     """
-    Cliente cuando es MI TURNO: disparamos al enemigo
-    Cliente cuando NO es MI TURNO: recibimos disparo del enemigo
+    Cliente corregido: Comprueba si ha perdido antes de enviar la respuesta.
     """
     resultado = None
     nuevo_contador = contador_barcos_hundidos
     nuevo_contador_nuestros = contador_nuestros_barcos_hundidos
 
     if mi_turno:
-        if len(posiciones_barco_actual) == 0:  # Si aún no hemos tocado -> paridad
+        if len(posiciones_barco_actual) == 0:
             disparo, fila, columna = paridad(tablero_jugador2)
-        else:  # Si ya hemos tocado -> target
+        else:
             resultado_target = target(tablero_jugador2, posiciones_barco_actual)
             if resultado_target is not None:
                 disparo, fila, columna = resultado_target
             else:
                 disparo, fila, columna = paridad(tablero_jugador2)
 
-        fila = int(disparo[1]) - 1
+        fila = int(disparo[1:]) - 1
         columna = desparsear_letra(disparo[0])
 
         s.sendall(disparo.encode())
@@ -202,23 +204,22 @@ def cliente(s, mi_turno: bool, tablero_jugador1: list[list[str]], tablero_jugado
         match respuesta:
             case "AGUA":
                 tablero_jugador2[fila][columna] = "O"
-                mi_turno = False  # Se pierde el turno
-
+                mi_turno = False
             case "YA DISPARADO":
-                mi_turno = False  # Se pierde el turno
-
+                mi_turno = False
             case "TOCADO":
                 tablero_jugador2[fila][columna] = "X"
-                posiciones_barco_actual.append((fila, columna))  # Añadir posición
+                posiciones_barco_actual.append((fila, columna))
                 mi_turno = True
-
             case "HUNDIDO":
                 tablero_jugador2[fila][columna] = "X"
-                posiciones_barco_actual.append((fila, columna))  # Última posición
+                posiciones_barco_actual.append((fila, columna))
                 marcar_zona_muerta(tablero_jugador2, posiciones_barco_actual)
-                posiciones_barco_actual.clear()  # Reiniciar
+                posiciones_barco_actual.clear()
                 nuevo_contador += 1
                 mi_turno = True
+            case "DERROTA":
+                nuevo_contador = NUM_BARCOS
 
         resultado = respuesta
 
@@ -226,20 +227,21 @@ def cliente(s, mi_turno: bool, tablero_jugador1: list[list[str]], tablero_jugado
         disparo_recibido = s.recv(1024).decode().strip()
         print(f"Disparo enemigo: {disparo_recibido}")
 
-        resultado = recibir_disparo(tablero_jugador1, disparo_recibido)
-        s.sendall(resultado.encode())
+        # 1. Calcular impacto
+        resultado_local = recibir_disparo(tablero_jugador1, disparo_recibido)
 
-        nuevo_contador = contador_barcos_hundidos  # Barcos enemigos hundidos
-        nuevo_contador_nuestros = contador_nuestros_barcos_hundidos
-        if resultado == "HUNDIDO":
+        # 2. Verificar derrota *ANTES* de enviar
+        if resultado_local == "HUNDIDO":
             nuevo_contador_nuestros += 1
             if nuevo_contador_nuestros == NUM_BARCOS:
-                resultado = "VICTORIA"
+                resultado_local = "DERROTA"  # Notificamos al rival que ha ganado
 
-        if nuevo_contador == NUM_BARCOS:
-            resultado = "DERROTA"
+        # 3. Enviar
+        s.sendall(resultado_local.encode())
+        resultado = resultado_local
 
-        if resultado == "TOCADO" or resultado == "HUNDIDO":
+        # 4. Gestionar turno
+        if resultado == "TOCADO" or resultado == "HUNDIDO" or resultado == "DERROTA":
             mi_turno = False
         else:
             mi_turno = True
