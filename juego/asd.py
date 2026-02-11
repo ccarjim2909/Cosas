@@ -148,7 +148,7 @@ def paridad(tablero_jugador2 : list[list[str]]):
             if preferente and tablero_jugador2[i][j] == AGUA:
                 disparo = parsear_letra(j) + str(i + 1) # Coordenada a mandar (y,x)
                 return disparo,i,j
-
+    return None, None, None
 
 
 
