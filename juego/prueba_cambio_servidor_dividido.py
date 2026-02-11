@@ -316,7 +316,7 @@ def main():
         time.sleep(1)
         socket_aceptado = socket_cliente_para_jugar((nombre_rival, ip_rival), puerto)
         mi_turno = False
-        while contador_barcos_hundidos < NUM_BARCOS:
+        while contador_barcos_hundidos < NUM_BARCOS and contador_nuestros_barcos_hundidos < NUM_BARCOS:
             mi_turno, mensaje, contador_barcos_hundidos, contador_nuestros_barcos_hundidos = cliente(socket_aceptado, mi_turno, tablero_jugador1, tablero_jugador2, contador_barcos_hundidos, contador_nuestros_barcos_hundidos,posiciones_barco_actual)
 
             print (mi_turno, mensaje)
