@@ -7,6 +7,10 @@ from pprint import pprint
 
 posiciones_barco_actual = []
 
+# -------------------------------
+# UTILIDADES DE RED
+# -------------------------------
+
 def obtener_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -36,6 +40,8 @@ def buscar_oponente(nombre: str, puerto: int = 4000):
     estado = "ESPERANDO"
     soy_host = False
 
+    print(f"Buscando partida... Mi IP: {obtener_ip()}")
+
     while estado == "ESPERANDO":
         msg = f"DESCUBRIR;{mi_id};{nombre}"
         sock.sendto(msg.encode(), (dir_broadcast, puerto))
@@ -47,12 +53,17 @@ def buscar_oponente(nombre: str, puerto: int = 4000):
 
             if modo == "DESCUBRIR":
                 if otro_id != mi_id and mi_id < otro_id:
+                    print(f"ACEPTADO: {otro_nombre}")
                     sock.sendto(f"ACEPTADO;{mi_id};{nombre}".encode(), addr)
                     oponente = (otro_nombre, ip)
                     estado = "JUGANDO"
                     soy_host = True
+                    print(f"Aceptando a {otro_nombre}...")
+                else:
+                    print(f"Esperando respuesta de otros jugadores...")
 
             elif modo == "ACEPTADO":
+                print(f"{otro_nombre} me ha aceptado")
                 oponente = (otro_nombre, ip)
                 estado = "JUGANDO"
                 soy_host = False
@@ -64,6 +75,7 @@ def buscar_oponente(nombre: str, puerto: int = 4000):
             time.sleep(1)
 
     sock.close()
+    print(f"Partida encontrada contra {oponente[0]} ({oponente[1]})")
     return oponente, soy_host
 
 # -------------------------------
@@ -75,12 +87,16 @@ def abrir_socket_servidor_para_jugar(puerto):
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((obtener_ip(), puerto))
     s.listen(1)
+    print("Esperando jugador...")
     conn, addr = s.accept()
+    print("Conectado con:", addr)
     return conn
 
 def socket_cliente_para_jugar(rival, puerto):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print(f"Conectando a {rival[1]}...")
     s.connect((rival[1], puerto))
+    print("Conectado al servidor")
     return s
 
 # -------------------------------
@@ -102,8 +118,10 @@ def procesar_turno_envio(sock, tablero_enemigo, posiciones_barco_actual,
     fila = int(disparo[1:]) - 1
     columna = desparsear_letra(disparo[0])
 
+    print(f"Disparo enviado: {disparo}")
     sock.sendall(disparo.encode())
     respuesta = sock.recv(1024).decode().strip()
+    print(f"Respuesta del rival: {respuesta}")
 
     if respuesta == "AGUA":
         tablero_enemigo[fila][columna] = "O"
@@ -128,12 +146,14 @@ def procesar_turno_envio(sock, tablero_enemigo, posiciones_barco_actual,
 
     return False, contador_barcos_hundidos, respuesta
 
-
 def procesar_turno_recepcion(sock, tablero_propio,
                              contador_nuestros_barcos_hundidos):
 
     disparo = sock.recv(1024).decode().strip()
+    print(f"Disparo enemigo: {disparo}")
+
     resultado = recibir_disparo(tablero_propio, disparo)
+    print(f"Resultado del disparo: {resultado}")
 
     if resultado == "HUNDIDO":
         contador_nuestros_barcos_hundidos += 1
@@ -165,16 +185,25 @@ def main():
     for id_barco, tamaño in barcos.items():
         colocar_un_barco(tablero_jugador1, tamaño, id_barco)
 
+    print("\n--- TABLERO PROPIO INICIAL ---")
+    pprint(tablero_jugador1)
+
     puerto = 4000
     nombre = "Equipo pescadilla"
 
     (nombre_rival, ip_rival), soy_host = buscar_oponente(nombre, puerto)
 
+    print(f"\nPARTIDA ENCONTRADA: {nombre} vs {nombre_rival}")
+
     if soy_host:
-        conexion = abrir_socket_servidor_para_jugar(puerto)
-        sock = conexion
+        print(f"[HOST] {nombre} ({obtener_ip()})")
+        print(f"[CLIENTE] {nombre_rival} ({ip_rival})")
+        sock = abrir_socket_servidor_para_jugar(puerto)
         mi_turno = True
     else:
+        print(f"[HOST] {nombre_rival} ({ip_rival})")
+        print(f"[CLIENTE] {nombre} ({obtener_ip()})")
+        time.sleep(1)
         sock = socket_cliente_para_jugar((nombre_rival, ip_rival), puerto)
         mi_turno = False
 
@@ -194,6 +223,10 @@ def main():
 
     sock.close()
 
+    print("\n--- TABLERO FINAL PROPIO ---")
+    pprint(tablero_jugador1)
+    print("\n--- TABLERO FINAL ENEMIGO ---")
+    pprint(tablero_jugador2)
 
 if __name__ == "__main__":
     main()
