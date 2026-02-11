@@ -167,7 +167,7 @@ def target(tablero_jugador2 : list[list[str]],posiciones_barco_actual : list[tup
         return None
 
     if len(posiciones_barco_actual) == 1:
-        col_base, fila_base = posiciones_barco_actual[0]
+        fila_base, col_base = posiciones_barco_actual[0]
         for direccion in DIRECCIONES_ADYACENTES:
             fila_disparo = fila_base + direccion[0]
             col_disparo = col_base + direccion[1]
