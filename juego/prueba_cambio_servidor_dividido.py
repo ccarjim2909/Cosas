@@ -2,13 +2,12 @@ import ipaddress
 import socket
 import time
 import uuid
+import os
 from hundirflota import *
-from random import randint, choice
 from pprint import pprint
-# Esto para probar Cristian (gilipollas el que toque)
 tocado_agua = ("TOCADO", "AGUA", "HUNDIDO", "YA DISPARADO", "DERROTA")
 
-
+posiciones_barco_actual = []
 
 def obtener_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -82,6 +81,7 @@ def buscar_oponente(nombre: str, puerto: int = 4000):
 
 def abrir_socket_servidor_para_jugar(puerto):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((obtener_ip(), puerto))
     s.listen(1)
     print("Esperando jugador...")
@@ -98,38 +98,50 @@ def socket_cliente_para_jugar(rival, puerto):
     return s
 
 
-def servidor(conn, mi_turno, tablero_jugador1,tablero_jugador2, contador_barcos_hundidos : int):
-
+def servidor(conn, mi_turno : bool, tablero_jugador1 : list[list[str]],tablero_jugador2 : list[list[str]], contador_barcos_hundidos : int, posiciones_barco_actual: list[tuple[int, int]]):
+    """
+    Servidor cuando es MI TURNO: disparamos al enemigo
+    Servidor cuando NO es MI TURNO: recibimos disparo del enemigo
+    """
     resultado = None
     nuevo_contador = contador_barcos_hundidos
-    disparo_prev = None
     if mi_turno:
-        if resultado == "TOCADO":
-            disparo = target(tablero_jugador2, )
-        # Mi mensaje que envio
-        disparo = paridad(tablero_jugador2)
+        if len(posiciones_barco_actual) == 0: # Si aún no hemos tocado -> paridad
+            disparo, fila, columna = paridad(tablero_jugador2)
+        else: # Si ya hemos tocado -> target
+            resultado_target = target(tablero_jugador2, posiciones_barco_actual)
+            if resultado_target is not None:
+                disparo, fila, columna = resultado_target
+            else:
+                disparo, fila, columna = paridad(tablero_jugador2)
+        fila = int(disparo[1]) - 1
+        columna = desparsear_letra(disparo[0])
 
-        conn.sendall(disparo.encode())
+        conn.sendall(disparo.encode()) # Envío de coordenadas
 
-        # Lo que recibo de respuesta
-        respuesta = conn.recv(1024).decode().strip()
+        respuesta = conn.recv(1024).decode().strip() # Respuesta que recibimos
+
         match respuesta:
             case "AGUA":
-                tablero_jugador2[int(disparo[1]) - 1][desparsear_letra(disparo[0])] = "O"
+                tablero_jugador2[fila][columna] = "O"
+                mi_turno = False  # Se pierde el turno
+
             case "YA DISPARADO":
-                pass
+                mi_turno = False # Se pierde el turno
+
             case "TOCADO":
-                tablero_jugador2[int(disparo[1]) - 1][desparsear_letra(disparo[0])] = "X"
-                target(tablero_jugador2, int(disparo[1]) - 1, desparsear_letra(disparo[0]))
-        print("Resultado:", respuesta)
+                tablero_jugador2[fila][columna] = "X"
+                posiciones_barco_actual.append((fila, columna))
+                mi_turno = True
+
+            case "HUNDIDO":
+                tablero_jugador2[fila][columna] = "X"
+                posiciones_barco_actual.append((fila, columna))  # Última posición
+                marcar_zona_muerta(tablero_jugador2, posiciones_barco_actual)
+                posiciones_barco_actual.clear()  # Reiniciar para el próximo barco
+                mi_turno = True
 
         resultado = respuesta
-        nuevo_contador = contador_barcos_hundidos
-        # Mirar si me sigue tocando o no
-        if respuesta == "TOCADO" or respuesta == "HUNDIDO":
-            mi_turno = True
-        else:
-            mi_turno = False
     else:
         # El disparo que recibo
         disparo_recibido = conn.recv(1024).decode().strip()
@@ -142,7 +154,7 @@ def servidor(conn, mi_turno, tablero_jugador1,tablero_jugador2, contador_barcos_
         nuevo_contador = contador_barcos_hundidos
         if resultado == "HUNDIDO":
             nuevo_contador += 1
-            if nuevo_contador   == NUM_BARCOS:
+            if nuevo_contador == NUM_BARCOS:
                 resultado = "DERROTA"
 
         # Mirar si me sigue tocando o no
@@ -153,41 +165,59 @@ def servidor(conn, mi_turno, tablero_jugador1,tablero_jugador2, contador_barcos_
 
     return mi_turno, resultado, nuevo_contador
 
-def cliente(s, mi_turno, tablero_jugador1,tablero_jugador2, contador_barcos_hundidos):
 
+def cliente(s, mi_turno: bool, tablero_jugador1: list[list[str]], tablero_jugador2: list[list[str]],
+            contador_barcos_hundidos: int, posiciones_barco_actual: list[tuple[int, int]]) -> tuple[bool, str, int]:
+    """
+    Cliente cuando es MI TURNO: disparamos al enemigo
+    Cliente cuando NO es MI TURNO: recibimos disparo del enemigo
+    """
     resultado = None
     nuevo_contador = contador_barcos_hundidos
 
     if mi_turno:
-        # Mi mensaje que envio
-        disparo = paridad(tablero_jugador2)
+        if len(posiciones_barco_actual) == 0:  # Si aún no hemos tocado -> paridad
+            disparo, fila, columna = paridad(tablero_jugador2)
+        else:  # Si ya hemos tocado -> target
+            resultado_target = target(tablero_jugador2, posiciones_barco_actual)
+            if resultado_target is not None:
+                disparo, fila, columna = resultado_target
+            else:
+                disparo, fila, columna = paridad(tablero_jugador2)
+
+        fila = int(disparo[1]) - 1
+        columna = desparsear_letra(disparo[0])
+
         s.sendall(disparo.encode())
 
-        # Lo que recibo de respuesta
         respuesta = s.recv(1024).decode().strip()
+
         match respuesta:
             case "AGUA":
-                tablero_jugador2[int(disparo[1]) - 1][desparsear_letra(disparo[0])] = "O"
-            case "YA DISPARADO":
-                pass
-            case "TOCADO":
-                tablero_jugador2[int(disparo[1]) - 1][desparsear_letra(disparo[0])] = "X"
-                target(tablero_jugador2, int(disparo[1]) - 1, desparsear_letra(disparo[0]))
-        print("Resultado:", respuesta)
+                tablero_jugador2[fila][columna] = "O"
+                mi_turno = False  # Se pierde el turno
 
-        # Mirar si me sigue tocando o no
-        respuesta = resultado
-        nuevo_contador = contador_barcos_hundidos
-        if respuesta == "TOCADO" or respuesta == "HUNDIDO":
-            mi_turno = True
-        else:
-            mi_turno = False
+            case "YA DISPARADO":
+                mi_turno = False  # Se pierde el turno
+
+            case "TOCADO":
+                tablero_jugador2[fila][columna] = "X"
+                posiciones_barco_actual.append((fila, columna))  # Añadir posición
+                mi_turno = True
+
+            case "HUNDIDO":
+                tablero_jugador2[fila][columna] = "X"
+                posiciones_barco_actual.append((fila, columna))  # Última posición
+                marcar_zona_muerta(tablero_jugador2, posiciones_barco_actual)
+                posiciones_barco_actual.clear()  # Reiniciar
+                mi_turno = True
+
+        resultado = respuesta
+
     else:
-        # El disparo que recibo
         disparo_recibido = s.recv(1024).decode().strip()
         print(f"Disparo enemigo: {disparo_recibido}")
 
-        # El mensaje que voy a devolver
         resultado = recibir_disparo(tablero_jugador1, disparo_recibido)
         s.sendall(resultado.encode())
 
@@ -196,8 +226,6 @@ def cliente(s, mi_turno, tablero_jugador1,tablero_jugador2, contador_barcos_hund
             nuevo_contador += 1
             if nuevo_contador == NUM_BARCOS:
                 resultado = "DERROTA"
-
-        # Mirar si me sigue tocando o no
 
         if resultado == "TOCADO" or resultado == "HUNDIDO":
             mi_turno = False
@@ -244,22 +272,6 @@ def main():
         colocar_un_barco(tablero_jugador1, tamaño_barco, id_barco)
     pprint(tablero_jugador1)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     puerto = 4000
     nombre = "Equipo pescadilla"
 
@@ -274,7 +286,7 @@ def main():
         conexion = abrir_socket_servidor_para_jugar(puerto)
         mi_turno = True
         while contador_barcos_hundidos < NUM_BARCOS:
-            mi_turno, mensaje, contador_barcos_hundidos = servidor(conexion, mi_turno, tablero_jugador1,tablero_jugador2, contador_barcos_hundidos)
+            mi_turno, mensaje, contador_barcos_hundidos = servidor(conexion, mi_turno, tablero_jugador1, tablero_jugador2, contador_barcos_hundidos, posiciones_barco_actual)
 
             print(mi_turno, mensaje)
 
@@ -290,7 +302,7 @@ def main():
         socket_aceptado = socket_cliente_para_jugar((nombre_rival, ip_rival), puerto)
         mi_turno = False
         while contador_barcos_hundidos < NUM_BARCOS:
-            mi_turno, mensaje, contador_barcos_hundidos = cliente(socket_aceptado, mi_turno, tablero_jugador1,tablero_jugador2, contador_barcos_hundidos)
+            mi_turno, mensaje, contador_barcos_hundidos = cliente(socket_aceptado, mi_turno, tablero_jugador1, tablero_jugador2, contador_barcos_hundidos, posiciones_barco_actual)
 
             print (mi_turno, mensaje)
 
