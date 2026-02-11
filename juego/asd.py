@@ -22,7 +22,13 @@ DIRECCIONES = [
     (1, -1), (1, 0), (1, 1),
 ]
 
-TAMAÑO_TABLERO = 8 # TODO Ñ
+DIRECCIONES_ADYACENTES = [
+    (-1, 0),
+    (0, -1), (0, 1),
+    (1, 0),
+]
+
+TAMAÑO_TABLERO = 8
 NUM_BARCOS = 5
 
 AGUA = "~"
@@ -121,18 +127,19 @@ def comprobar_hundimiento(tablero_jugador1 : list[list[str]], id_barco : str) ->
 def recibir_disparo(tablero_jugador1: list[list[str]], coord: str) -> str:
     fila = int(coord[1]) - 1
     columna = desparsear_letra(coord[0])
+    casilla = tablero_jugador1[fila][columna]
 
-    if tablero_jugador1[fila][columna] == AGUA:
+    if casilla == FALLO or casilla == TOCADO:
+        return "YA DISPARADO"
+    elif casilla == AGUA:
         tablero_jugador1[fila][columna] = FALLO
         return "AGUA"
-    elif tablero_jugador1[fila][columna] == FALLO or tablero_jugador1[fila][columna] == TOCADO:
-        return "YA DISPARADO"
-
-    id_barco = tablero_jugador1[fila][columna]
-    tablero_jugador1[fila][columna] = TOCADO
-    if comprobar_hundimiento(tablero_jugador1,id_barco):
-        return "HUNDIDO"
-    return "TOCADO"
+    else:
+        id_barco = casilla
+        tablero_jugador1[fila][columna] = TOCADO
+        if comprobar_hundimiento(tablero_jugador1, id_barco):
+            return "HUNDIDO"
+        return "TOCADO"
 
 def paridad(tablero_jugador2 : list[list[str]]):
     for i in range(TAMAÑO_TABLERO):
@@ -140,39 +147,78 @@ def paridad(tablero_jugador2 : list[list[str]]):
             preferente = (i + j) % 2 == 0
             if preferente and tablero_jugador2[i][j] == AGUA:
                 disparo = parsear_letra(j) + str(i + 1) # Coordenada a mandar (y,x)
-    return disparo
+                return disparo,i,j
 
 
 
-def target(tablero_jugador2 : list[list[str]],fila_inicial : int,col_inicial : int):
+
+def target(tablero_jugador2 : list[list[str]],posiciones_barco_actual : list[tuple[int,int]]) -> tuple[str,int,int] | None:
     """
-    Estrategia de 'target':
-    - Empieza desde una casilla tocada (fila_inicial, col_inicial)
-    - Va añadiendo a posiciones_barco_actual todas las 'X' que consiga de este barco
-    - Cuando reciba 'HUNDIDO', llama a marcar_zona_muerta
-    """
+    posiciones_barco_actual : list[tuple[int,int]])
+    Estrategia inteligente de disparo:
+    1. Si solo hay 1 posición tocada -> probar las 4 direcciones adyacentes
+    2. Si hay 2+ posiciones -> detectar el eje y disparar en ese eje en ambos sentidos
+
+    Retorna: (coordenada_disparo, fila, columna) o None si no hay casillas válidas
     """
     hundido = False
-    posiciones_barco_actual = [(fila_inicial, col_inicial)]
-    while not hundido:
-        fila_disparo, col_disparo = # TODO: LÓGICA DE LA ESTRATEGIA TARGET
 
-        disparo = parsear_letra(col_disparo) + str(fila_disparo + 1)
+    if len(posiciones_barco_actual) == 0:
+        return None
 
-        match mensaje:
-            case "AGUA":
-                tablero_jugador2[fila_disparo][col_disparo] = FALLO
-            case "YA DISPARADO":
-                pass
-            case "TOCADO":
-                tablero_jugador2[fila_disparo][col_disparo] = TOCADO
-                posiciones_barco_actual.append((fila_disparo, col_disparo))
-            case "HUNDIDO":
-                tablero_jugador2[fila_disparo][col_disparo] = TOCADO
-                posiciones_barco_actual.append((fila_disparo, col_disparo))
-                marcar_zona_muerta(tablero_jugador2, posiciones_barco_actual)
-                hundido = True
-    """
+    if len(posiciones_barco_actual) == 1:
+        col_base, fila_base = posiciones_barco_actual[0]
+        for direccion in DIRECCIONES_ADYACENTES:
+            fila_disparo = fila_base + direccion[0]
+            col_disparo = col_base + direccion[1]
+            if 0 <= fila_disparo < TAMAÑO_TABLERO and 0 <= col_disparo < TAMAÑO_TABLERO:
+                if tablero_jugador2[fila_disparo][col_disparo] == AGUA:
+                    disparo = parsear_letra(col_disparo) + str(fila_disparo + 1)
+                    return disparo,fila_disparo,col_disparo
+        return None
+
+    posiciones_ordenadas = sorted(posiciones_barco_actual)
+
+    filas = [pos[0] for pos in posiciones_ordenadas]
+    columnas = [pos[1] for pos in posiciones_ordenadas]
+
+    es_horizontal = len(set(filas)) == 1  # Todas las filas son iguales -> Horizontal
+    es_vertical = len(set(columnas)) == 1  # Todas las columnas son iguales -> Vertical
+
+    if es_horizontal:
+        # Barco horizontal -> disparar a izquierda y derecha
+        fila = filas[0]
+        col_min = min(columnas)
+        col_max = max(columnas)
+        # Intentar disparar a la izquierda (col_min - 1)
+        if col_min - 1 >= 0:
+            if tablero_jugador2[fila][col_min - 1] == AGUA:
+                disparo = parsear_letra(col_min - 1) + str(fila + 1)
+                return disparo, fila, col_min - 1
+
+        # Intentar disparar a la derecha (col_max + 1)
+        if col_max + 1 < TAMAÑO_TABLERO:
+            if tablero_jugador2[fila][col_max + 1] == AGUA:
+                disparo = parsear_letra(col_max + 1) + str(fila + 1)
+                return disparo, fila, col_max + 1
+    elif es_vertical:
+        # Barco vertical → disparar arriba y abajo
+        columna = columnas[0]
+        fila_min = min(filas)
+        fila_max = max(filas)
+        # Intentar disparar arriba (fila_min - 1)
+        if fila_min - 1 >= 0:
+            if tablero_jugador2[fila_min - 1][columna] == AGUA:
+                disparo = parsear_letra(columna) + str(fila_min)  # fila_min (no +1 porque es index 0)
+                return disparo, fila_min - 1, columna
+        # Intentar disparar abajo (fila_max + 1)
+        if fila_max + 1 < TAMAÑO_TABLERO:
+            if tablero_jugador2[fila_max + 1][columna] == AGUA:
+                disparo = parsear_letra(columna) + str(fila_max + 2)  # +2 porque es index y display
+                return disparo, fila_max + 1, columna
+
+    return None
+
 def marcar_zona_muerta(tablero_jugador2: list[list[str]],posiciones_barco_actual: list[tuple[int, int]]):
     """
     Marca como 'O' todas las casillas de agua (~) adyacentes
@@ -185,4 +231,3 @@ def marcar_zona_muerta(tablero_jugador2: list[list[str]],posiciones_barco_actual
             if 0 <= nueva_fila < TAMAÑO_TABLERO and 0 <= nueva_columna < TAMAÑO_TABLERO:
                 if tablero_jugador2[nueva_fila][nueva_columna] == AGUA:
                     tablero_jugador2[nueva_fila][nueva_columna] = FALLO
-#
