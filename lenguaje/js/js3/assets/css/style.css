@@ -6,6 +6,7 @@
     height: 100px;           
 }
 
+/* Seccion */
 .seccion {
     width: 100%;
     padding: 20px;
@@ -13,26 +14,30 @@
     background-color: #8f4141;
     color: #000000;
     text-align: center;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
 }
 
 /* Artículos */
-.articulo__subscripcion {
+.articulo__suscripcion {
     background-color: #eed3d3;
-    margin: 10px auto;
-    padding: 15px;
-    max-width: 600px;
-    border-radius: 5px;
+    padding: 1rem;
+    border-radius: 1rem;
 }
 
+
 /* Enlace */
-.subscripcion__enlace {
-    display: inline-block;
-    margin-top: 15px;
+.suscripcion__enlace {
+    grid-column: 1 / -1;
+    justify-self: center;
     color: #00bfff;
     text-decoration: none;
     font-weight: bold;
 }
 
-.subscripcion__enlace:hover {
+
+.suscripcion__enlace:hover {
     text-decoration: underline;
 }
