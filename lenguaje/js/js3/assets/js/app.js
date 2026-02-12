@@ -6,7 +6,8 @@ const catalogo = [
     { id: 5, nombre: "Gorra deportiva", precio: 12.50, categoria: "accesorios" },
     { id: 6, nombre: "Mochila urbana", precio: 35.00, categoria: "accesorios" },
     { id: 7, nombre: "Calcetines pack 3", precio: 9.99, categoria: "ropa" },
-    { id: 8, nombre: "Chanclas playa", precio: 14.99, categoria: "calzado" }
+    { id: 8, nombre: "Chanclas playa", precio: 14.99, categoria: "calzado" },
+    { id: 9, nombre: "Tenis nike", precio: 44.99, categoria: "calzado" }
 ];
 
 
@@ -21,7 +22,7 @@ for (const producto of catalogo) {
 
 
     const articulo = document.createElement("article");
-    articulo.classList.add("articulo__subscripcion");
+    articulo.classList.add("articulo__suscripcion");
 
 
     const h2 = document.createElement("h3");
@@ -47,7 +48,7 @@ for (const producto of catalogo) {
 const enlace = document.createElement("a");
 enlace.textContent = "Ver más";
 enlace.href = "";
-enlace.classList.add("subscripcion__enlace");
+enlace.classList.add("suscripcion__enlace");
 
 seccion.appendChild(enlace);
 
