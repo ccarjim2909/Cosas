@@ -137,7 +137,8 @@ def servidor(conn, mi_turno, tablero_propio, tablero_enemigo, contador_barcos_hu
                 mi_turno = True
             case "DERROTA":
                 nuevo_contador = NUM_BARCOS
-                mi_turno = True
+                tablero_enemigo[fila][columna] = "X"
+
 
         resultado = respuesta
     else:
@@ -158,6 +159,9 @@ def servidor(conn, mi_turno, tablero_propio, tablero_enemigo, contador_barcos_hu
         else:
             mi_turno = True
 
+    time.sleep(1)
+    print("\n--- TABLERO Enemigo ---")
+    pprint(tablero_enemigo)
     return mi_turno, resultado, nuevo_contador, nuevo_contador_nuestros
 
 def cliente(s, mi_turno, tablero_propio, tablero_enemigo, contador_barcos_hundidos, contador_nuestros_barcos_hundidos):
@@ -199,6 +203,7 @@ def cliente(s, mi_turno, tablero_propio, tablero_enemigo, contador_barcos_hundid
                 mi_turno = True
             case "DERROTA":
                 nuevo_contador = NUM_BARCOS
+                tablero_enemigo[fila][columna] = "X"
 
         resultado = respuesta
     else:
@@ -219,6 +224,9 @@ def cliente(s, mi_turno, tablero_propio, tablero_enemigo, contador_barcos_hundid
         else:
             mi_turno = True
 
+    time.sleep(1)
+    print("\n--- TABLERO Enemigo ---")
+    pprint(tablero_enemigo)
     return mi_turno, resultado, nuevo_contador, nuevo_contador_nuestros
 
 # -------------------------------
@@ -274,6 +282,8 @@ def main():
                 contador_barcos_hundidos, contador_nuestros_barcos_hundidos
             )
             print(mi_turno, mensaje)
+
+
             if mensaje == "DERROTA":
                 print("🎉 Ganamos")
                 conexion.close()
@@ -290,6 +300,7 @@ def main():
                 contador_barcos_hundidos, contador_nuestros_barcos_hundidos
             )
             print(mi_turno, mensaje)
+
             if mensaje == "DERROTA":
                 print("🎉 Ganamos")
                 s.close()
