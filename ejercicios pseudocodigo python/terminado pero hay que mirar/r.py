@@ -284,8 +284,12 @@ def main():
             print(mi_turno, mensaje)
 
 
-            if mensaje == "DERROTA":
+            if mensaje == "DERROTA" and mi_turno:
                 print("🎉 Ganamos")
+                conexion.close()
+                break
+            if mensaje == "DERROTA" and not mi_turno:
+                print("Perdimos")
                 conexion.close()
                 break
     else:
@@ -301,10 +305,15 @@ def main():
             )
             print(mi_turno, mensaje)
 
-            if mensaje == "DERROTA":
+            if mensaje == "DERROTA" and mi_turno:
                 print("🎉 Ganamos")
                 s.close()
                 break
+            if mensaje == "DERROTA" and not mi_turno:
+                print("Perdimos")
+                s.close()
+                break
+
 
     print("\n--- TABLERO FINAL PROPIO ---")
     pprint(tablero_jugador1)
