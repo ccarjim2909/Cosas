@@ -1,20 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+
 
 .header {
     display: flex;
     justify-content: center;
-    align-items: center;    
-    height: 100px;           
+    align-items: center;
+    height: 5rem;
 }
 
 /* Seccion */
 .seccion {
     width: 100%;
-    padding: 20px;
-    margin: 20px 0;
+    padding: 1rem;
     background-color: #8f4141;
-    color: #000000;
+    color: black;
     text-align: center;
-
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
