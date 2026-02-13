@@ -54,3 +54,7 @@ seccion.appendChild(enlace);
 
 
 footer.before(seccion);
+
+
+/* Añadir asside en el cual sean las categorias de los productos,
+para que cuando la selecciones solo se vean productos de esa categoria */
