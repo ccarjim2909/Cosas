@@ -1,0 +1,49 @@
+package org.example
+import java.util.*
+
+
+
+fun <T, V : MutableCollection<in T>> Collection<T>.filterTo(destino: V, predicate: (T) -> Boolean): V {
+    for (elemento in this) {
+        if (predicate(elemento)) {
+            destino.add(elemento)
+        }
+    }
+    return destino
+}
+
+
+fun filtrarNumerosPares() {
+    val destino = ArrayList<Int>()
+    val resultado = listOf(1, 2, 3, 4, 5, 6)
+        .filterTo(destino) { n -> n % 2 == 0 }
+
+    check(destino === resultado)
+    check(resultado == listOf(2, 4, 6))
+
+    println("filtrarNumerosPares -> $resultado")
+}
+
+
+fun filtrarSoloLetras() {
+    val destino = HashSet<Char>()
+    val resultado = listOf('a', '%', 'B', '7', 'z')
+        .filterTo(destino) { c ->
+            c in 'a'..'z' || c in 'A'..'Z'
+        }
+
+    check(destino === resultado)
+    check(resultado == setOf('a', 'B', 'z'))
+
+    println("filtrarSoloLetras -> $resultado")
+}
+
+
+fun main() {
+    filtrarNumerosPares()
+    filtrarSoloLetras()
+
+
+}
+
+
