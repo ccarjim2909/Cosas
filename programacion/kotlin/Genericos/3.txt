@@ -1,0 +1,46 @@
+package org.example
+import java.util.*
+
+
+data class Alumno(val id: Int, val nombre: String)
+
+fun <T, V, X : MutableMap<V, T>> Iterable<T>.associateByTo(mapaDestino: X, clave: (T) -> V): X {
+    for (elemento in this) {
+        mapaDestino[clave(elemento)] = elemento
+    }
+    return mapaDestino
+}
+
+fun asociarAlumnosPorId() {
+    val mapaDestino = HashMap<Int, Alumno>()
+
+    val resultado = listOf(
+        Alumno(1, "Ana"),
+        Alumno(2, "Luis"),
+        Alumno(3, "Marta")
+    ).associateByTo(mapaDestino) { alumno -> alumno.id }
+
+    check(mapaDestino === resultado)
+    check(resultado[2] == Alumno(2, "Luis"))
+    check(resultado.keys == setOf(1, 2, 3))
+
+    println("Alumnos por id: $resultado")
+}
+
+fun asociarPalabrasPorLongitud() {
+    val mapaDestino = TreeMap<Int, String>()
+
+    val resultado = listOf("hola", "adiós", "si", "programación")
+        .associateByTo(mapaDestino) { palabra -> palabra.length }
+
+    check(mapaDestino === resultado)
+    check(resultado[2] == "si")
+    check(resultado[4] == "hola" || resultado[4] == "adiós")
+
+    println("Palabras por longitud: $resultado")
+}
+
+fun main() {
+    asociarAlumnosPorId()
+    asociarPalabrasPorLongitud()
+}

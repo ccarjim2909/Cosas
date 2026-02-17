@@ -1,0 +1,33 @@
+package org.example
+import java.util.*
+
+
+
+fun <T, R> Collection<T>.mapTo(destino: MutableCollection<R>, transformacion: (T) -> R): MutableCollection<R> {
+    for (elemento in this) {
+        destino.add(transformacion(elemento))
+    }
+    return destino
+}
+
+fun mapearNumerosAStrings() {
+    val coleccionDestino = ArrayList<String>()
+    val resultado = listOf(1, 2, 3, 4).mapTo(coleccionDestino) { numero -> "N=$numero" }
+
+    check(coleccionDestino === resultado)
+    check(resultado == listOf("N=1", "N=2", "N=3", "N=4"))
+}
+
+fun mapearCaracteresACodigos() {
+    val coleccionDestino = LinkedList<Int>()
+    val resultado = setOf('a', 'Z', '!').mapTo(coleccionDestino) { caracter -> caracter.code }
+
+    check(coleccionDestino === resultado)
+    check(resultado.containsAll(listOf(97, 90, 33)))
+    check(resultado.size == 3)
+}
+
+fun main() {
+    mapearNumerosAStrings()
+    mapearCaracteresACodigos()
+}
