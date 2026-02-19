@@ -1,0 +1,61 @@
+package org.example
+
+import java.util.*
+
+fun <T, K, > groupByTo(origen: Iterable<T>, destino: MutableMap<K, MutableList<T>>, agrupador: (T) -> K)
+: MutableMap<K, MutableList<T>>{
+
+
+    // Forma mas clasica
+//    for (elemento in origen) {
+//        val lista = destino[agrupador(elemento)]
+//
+//        lista?.add(elemento)
+//    }
+//    return destino
+
+    // mejor forma
+    origen.forEach { elemento ->
+        val grupo = destino.getOrPut(agrupador(elemento)) { mutableListOf() }
+        grupo.add(elemento)
+    }
+    return destino
+
+}
+
+fun agruparPalabrasPorLongitud() {
+    val destino = HashMap<Int, MutableList<String>>()
+
+    val resultado = groupByTo(
+        listOf("uno", "dos", "tres", "cuatro", "cinco"),
+        destino
+    ) { palabra -> palabra.length }
+
+    check(destino === resultado)
+    check(resultado[3]!!.containsAll(listOf("uno", "dos")))
+    check(resultado[5]!!.containsAll(listOf("cinco")))
+}
+
+fun agruparNumerosPorParidad() {
+    val destino = TreeMap<String, MutableList<Int>>()
+
+    val resultado = groupByTo(
+        listOf(1, 2, 3, 4, 5, 6),
+        destino
+    ) { n -> if (n % 2 == 0) "par" else "impar" }
+
+    check(destino === resultado)
+    check(resultado["par"] == listOf(2, 4, 6))
+    check(resultado["impar"] == listOf(1, 3, 5))
+}
+
+
+fun main() {
+
+agruparPalabrasPorLongitud()
+agruparNumerosPorParidad()
+
+
+
+
+}
