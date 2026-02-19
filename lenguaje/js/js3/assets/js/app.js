@@ -13,37 +13,15 @@ const catalogo = [
 
 const footer = document.querySelector("footer");
 
+const main = document.querySelector("main");
+
+
+
 
 const seccion = document.createElement("section");
 seccion.classList.add("seccion");
 
 
-for (const producto of catalogo) {
-
-
-    const articulo = document.createElement("article");
-    articulo.classList.add("articulo__suscripcion");
-
-
-    const h2 = document.createElement("h3");
-    h2.textContent = producto.nombre;
-
-
-    const precio = document.createElement("p");
-    precio.textContent = `Precio: ${producto.precio} €`;
-
-
-    const categoria = document.createElement("p");
-    categoria.textContent = `Categoría: ${producto.categoria}`;
-
-
-    articulo.appendChild(h2);
-    articulo.appendChild(precio);
-    articulo.appendChild(categoria);
-
-
-    seccion.appendChild(articulo);
-}
 
 const enlace = document.createElement("a");
 enlace.textContent = "Ver más";
@@ -53,8 +31,59 @@ enlace.classList.add("suscripcion__enlace");
 seccion.appendChild(enlace);
 
 
-footer.before(seccion);
+
+const aside = document.querySelector("aside");
+const asideLista = document.querySelector(".aside__lista");
 
 
-/* Añadir asside en el cual sean las categorias de los productos,
-para que cuando la selecciones solo se vean productos de esa categoria */
+aside.after(seccion);
+
+
+
+// parte nueva del aside
+const categoriasUnicas = [];
+
+for (const producto of catalogo) {
+    if (!categoriasUnicas.includes(producto.categoria)) {
+        categoriasUnicas.push(producto.categoria);
+    }
+}
+
+// todas
+const liTodas = document.createElement("li");
+liTodas.textContent = "todas";
+asideLista.appendChild(liTodas);
+
+// las otras categorias con li
+for (const i of categoriasUnicas) {
+    const li = document.createElement("li");
+    li.textContent = i;
+    asideLista.appendChild(li);
+}
+
+// he metido ya todo el catalogo en una funcion para ir mostrando lo que quiera cuando haga el evento
+function mostrarProductos(productos) {
+    seccion.innerHTML = "";
+
+    for (const producto of productos) {
+        const articulo = document.createElement("article");
+        articulo.classList.add("articulo__suscripcion");
+
+        const h3 = document.createElement("h3");
+        h3.textContent = producto.nombre;
+
+        const precio = document.createElement("p");
+        precio.textContent = `Precio: ${producto.precio} €`;
+
+        const categoria = document.createElement("p");
+        categoria.textContent = `Categoría: ${producto.categoria}`;
+
+        articulo.append(h3, precio, categoria);
+        seccion.appendChild(articulo);
+    }
+
+    seccion.appendChild(enlace);
+}
+
+// muestro el catalogo
+mostrarProductos(catalogo);
