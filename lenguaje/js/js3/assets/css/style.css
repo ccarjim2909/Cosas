@@ -10,6 +10,11 @@
     height: 5rem;
 }
 
+.main {
+    display: flex;
+}
+
+
 /* Seccion */
 .seccion {
     width: 100%;
@@ -34,12 +39,39 @@
 .suscripcion__enlace {
     grid-column: 1 / -1;
     justify-self: center;
-    color: #00bfff;
+    color: white;
     text-decoration: none;
     font-weight: bold;
 }
 
 
 .suscripcion__enlace:hover {
-    text-decoration: underline;
+    color: #00bfff;
+    cursor: pointer;
+}
+
+
+
+
+
+/* Aside */
+.aside {
+    width: 200px;
+    padding: 1rem;
+    background-color: #d6b1b1;
+}
+
+.aside__lista {
+    list-style: none;
+    padding: 0;
+}
+
+.aside__lista li {
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.aside__lista li:hover {
+    color: #00bfff;
 }
