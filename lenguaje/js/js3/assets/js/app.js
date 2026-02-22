@@ -87,3 +87,21 @@ function mostrarProductos(productos) {
 
 // muestro el catalogo
 mostrarProductos(catalogo);
+
+
+
+
+asideLista.addEventListener("click", (elemento) => {
+    if (elemento.target.tagName === "LI") {
+        const categoria = elemento.target.textContent;
+
+        if (categoria === "todas") {
+            mostrarProductos(catalogo);
+        } else {
+            const filtrados = catalogo.filter(
+                producto => producto.categoria === categoria
+            );
+            mostrarProductos(filtrados);
+        }
+    }
+});
