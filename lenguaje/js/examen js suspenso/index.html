@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Películas</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script src="./assets/js/peliculas.js" defer></script>
+</head>
+<body>
+
+<header>
+    <h1>🎬 Mis Películas</h1>
+    <button class="btn-dark" id="btnDark">Modo oscuro</button>
+</header>
+
+<!-- Formulario para añadir película -->
+<form id="formPelicula">
+    <input type="text" id="titulo" placeholder="Título">
+    <select id="genero">
+        <option value="">-- Género --</option>
+        <option value="Acción">Acción</option>
+        <option value="Comedia">Comedia</option>
+        <option value="Drama">Drama</option>
+        <option value="Terror">Terror</option>
+        <option value="Ciencia ficción">Ciencia ficción</option>
+    </select>
+    <input type="number" id="nota" placeholder="Nota 1-10" min="1" max="10">
+    <button type="submit" class="btn-add">Añadir</button>
+</form>
+
+<!-- Filtro por género -->
+<div class="filtro-wrap">
+    <label for="filtro"><strong>Filtrar por género:</strong></label>
+    <select id="filtro">
+        <option value="">Todos</option>
+        <option value="Acción">Acción</option>
+        <option value="Comedia">Comedia</option>
+        <option value="Drama">Drama</option>
+        <option value="Terror">Terror</option>
+        <option value="Ciencia ficción">Ciencia ficción</option>
+    </select>
+</div>
+
+<!-- Contenedor de tarjetas -->
+<div id="lista"></div>
+
+</body>
+</html>
