@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* header */
+.cabecera {
+    background-color: #333;
+    color: white;
+    padding: 0.6rem;
+    position: relative;
+}
+
+.cabecera__titulo {
+    display: inline;
+}
+
+.cabecera__boton-login {
+    float: right;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+}
+
+
+/* login */
+.login {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background: white;
+    color: black;
+    padding: 1.2rem;
+    border-radius: 0.5rem;
+
+    width: 18rem;
+    box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.3);
+
+    z-index: 1000;
+}
+
+.login--oculto {
+    display: none;
+}
+
+.login__formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.login__input {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.login__boton {
+    padding: 0.5rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.login__boton:hover {
+    background-color: #555;
+}
+
+.login__mensaje {
+    margin-top: 0.3rem;
+}
+
+
+/* contenido */
+.principal {
+    padding: 1.25rem;
+}
