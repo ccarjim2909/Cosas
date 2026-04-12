@@ -1,31 +1,54 @@
 const USUARIO = "jose";
-const CONTRASEÑA = "jose";
+const CONTRASENA = "jose";
 
-const botonLogin = document.querySelector(".cabecera__boton-login");
+const botonesLogin = document.querySelectorAll(".cabecera__boton-login");
 const menuLogin = document.querySelector(".login");
+const panelLogin = document.querySelector(".login__panel"); 
 const botonEnviarLogin = document.querySelector(".login__boton");
 const mensajeLogin = document.querySelector(".login__mensaje");
+const inputUsuario = document.querySelector(".login__input--usuario");
+const inputContrasena = document.querySelector(".login__input--contrasena");
 
-botonLogin.addEventListener("click", () => {
-    menuLogin.classList.toggle("login--oculto");
-});
 
-botonEnviarLogin.addEventListener("click", () => {
-    const usuario = document.querySelector(".login__input--usuario").value;
-    const contraseña = document.querySelector(".login__input--contraseña").value;
+if (botonesLogin.length > 0 && menuLogin) {
+    botonesLogin.forEach((boton) => {
+        boton.addEventListener("click", () => {
+            menuLogin.classList.toggle("login--oculto");
+        });
+    });
+}
 
-    if (usuario === USUARIO && contraseña === CONTRASEÑA) {
-        mensajeLogin.style.color = "green";
-        mensajeLogin.textContent = "Inicio de sesión correcto";
 
-        setTimeout(() => {
-            location.href = "logeado.html";
-        }, 1000);
-    } else {
-        mensajeLogin.style.color = "red";
-        mensajeLogin.textContent = "Usuario o contraseña incorrectos";
+if (menuLogin && panelLogin) {
+    menuLogin.addEventListener("click", () => {
+        menuLogin.classList.add("login--oculto");
+    });
 
-        document.querySelector(".login__input--usuario").value = "";
-        document.querySelector(".login__input--contraseña").value = "";
-    }
-});
+
+    panelLogin.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
+}
+
+
+if (botonEnviarLogin && mensajeLogin && inputUsuario && inputContrasena) {
+    botonEnviarLogin.addEventListener("click", () => {
+        const usuario = inputUsuario.value;
+        const contrasena = inputContrasena.value;
+
+        if (usuario === USUARIO && contrasena === CONTRASENA) {
+            mensajeLogin.style.color = "#86efac";
+            mensajeLogin.textContent = "Inicio de sesion correcto";
+
+            setTimeout(() => {
+                location.href = "logeado.html";
+            }, 1000);
+        } else {
+            mensajeLogin.style.color = "#fda4af";
+            mensajeLogin.textContent = "Usuario o contrasena incorrectos";
+
+            inputUsuario.value = "";
+            inputContrasena.value = "";
+        }
+    });
+}
