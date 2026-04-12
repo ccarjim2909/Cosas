@@ -2,33 +2,91 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Principal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus IA Hardware</title>
   <link rel="stylesheet" href="./assets/css/style.css">
   <script src="./assets/js/script.js" defer></script>
 </head>
-
-<body>
+<body class="pagina pagina--inicio">
+  <div class="fondo fondo--tecnologia"></div>
 
   <header class="cabecera">
-    <h1 class="cabecera__titulo">Mi Pagina Web</h1>
-    <button class="cabecera__boton-login">Iniciar sesion</button>
+    <p class="cabecera__marca">Nexus IA Hardware</p>
+    <button class="cabecera__boton-login" type="button">Iniciar sesion</button>
+  </header>
 
-    <section class="login login--oculto">
+
+  <section class="login login--oculto">
+    <div class="login__panel">
       <form class="login__formulario">
+        <p class="login__eyebrow">Acceso privado</p>
+        <h2 class="login__titulo">Panel de control inteligente</h2>
+        <p class="login__descripcion">Usa tu usuario y tu clave para entrar en la zona de gestion del sistema.</p>
         <input type="text" class="login__input login__input--usuario" placeholder="Usuario">
-        <input type="password" class="login__input login__input--contraseña" placeholder="Contraseña">
+        <input type="password" class="login__input login__input--contrasena" placeholder="Contrasena">
         <button type="button" class="login__boton">Entrar</button>
         <p class="login__mensaje"></p>
       </form>
-    </section>
-  </header>
+    </div>
+  </section>
 
-  <main class="principal">
-    <section class="principal__seccion">
-      <h2 class="principal__titulo">titulo de algo</h2>
-      <p class="principal__texto">ese algo</p>
+
+
+  <main class="hero">
+    <section class="hero__contenido">
+      <p class="hero__eyebrow">IA + Hardware</p>
+      <h1 class="hero__titulo">Un acceso con estetica de laboratorio digital, chips, memoria y potencia grafica.</h1>
+      <p class="hero__texto">
+        La portada ahora mezcla el estilo de la inteligencia artificial moderna con hardware de alto rendimiento:
+        aceleradores, VRAM, nucleos y paneles de monitorizacion con un look mas actual.
+      </p>
+
+      <div class="hero__acciones">
+        <button class="hero__boton hero__boton--primario cabecera__boton-login" type="button">Abrir acceso</button>
+        <a class="hero__boton hero__boton--secundario" href="#destacados">Ver detalles</a>
+      </div>
+    </section>
+
+    <section class="hero__panel">
+      <div class="tarjeta-destacada">
+        <p class="tarjeta-destacada__estado">Nodo central</p>
+        <h2 class="tarjeta-destacada__titulo">Control de inferencia</h2>
+        <p class="tarjeta-destacada__texto">
+          Un panel visual pensado como si fuese la consola de una estacion de IA con metricas de calculo,
+          memoria y respuesta del sistema.
+        </p>
+        <div class="tarjeta-destacada__metricas">
+          <article>
+            <span class="tarjeta-destacada__numero">24 GB</span>
+            <p>VRAM virtual</p>
+          </article>
+          <article>
+            <span class="tarjeta-destacada__numero">128 GB/s</span>
+            <p>Ancho de banda</p>
+          </article>
+        </div>
+      </div>
     </section>
   </main>
 
+  <section class="destacados" id="destacados">
+    <article class="destacados__card">
+      <p class="destacados__etiqueta">GPU</p>
+      <h2>Potencia grafica</h2>
+      <p>Bloques visuales inspirados en tarjetas graficas, refrigeracion, trazas luminosas y paneles de telemetria.</p>
+    </article>
+
+    <article class="destacados__card">
+      <p class="destacados__etiqueta">RAM</p>
+      <h2>Memoria y flujo</h2>
+      <p>La distribucion se adapta a cada pantalla para que el contenido respire bien tanto en movil como en PC.</p>
+    </article>
+
+    <article class="destacados__card">
+      <p class="destacados__etiqueta">IA</p>
+      <h2>Interfaz del presente</h2>
+      <p>La experiencia recuerda a dashboards de modelos actuales, centros de datos y consolas de entrenamiento.</p>
+    </article>
+  </section>
 </body>
 </html>
