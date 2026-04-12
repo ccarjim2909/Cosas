@@ -1,16 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Pagina personal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso concedido</title>
   <link rel="stylesheet" href="./assets/css/style.css">
   <script src="./assets/js/script.js" defer></script>
 </head>
+<body class="pagina pagina--logeado">
+  <div class="fondo fondo--interior"></div>
 
-<body>
+  <main class="panel-bienvenida">
+    <section class="panel-bienvenida__contenido">
+      <p class="panel-bienvenida__eyebrow">Acceso verificado</p>
+      <h1>Bienvenido al nucleo del sistema</h1>
+      <p>
+        Has accedido al panel principal de Nexus, una zona privada pensada para visualizar recursos
+        del sistema, estado de modulos de IA y datos de rendimiento del hardware.
+      </p>
 
-<h2 class="principal__titulo">titulo de algo</h2>
-<p class="principal__texto">ese algo</p>
+      <div class="panel-bienvenida__grid">
+        <article class="panel-bienvenida__card">
+          <span class="panel-bienvenida__icono">01</span>
+          <h2>Estado de sesion</h2>
+          <p>Usuario autenticado correctamente. La sesion se ha iniciado con acceso al panel de supervison y monitorizacion.</p>
+        </article>
 
+        <article class="panel-bienvenida__card">
+          <span class="panel-bienvenida__icono">02</span>
+          <h2>Motor de IA</h2>
+          <p>Los modulos de inferencia estan operativos y preparados para procesar tareas de analisis, clasificacion y respuesta.</p>
+        </article>
+
+        <article class="panel-bienvenida__card">
+          <span class="panel-bienvenida__icono">03</span>
+          <h2>GPU y memoria</h2>
+          <p>El sistema muestra una arquitectura orientada a alto rendimiento, con referencia a VRAM, ancho de banda y memoria rapida.</p>
+        </article>
+
+        <article class="panel-bienvenida__card">
+          <span class="panel-bienvenida__icono">04</span>
+          <h2>Centro de control</h2>
+          <p>Desde aqui podrias consultar procesos activos, carga de trabajo, latencia del sistema y estado general de la plataforma.</p>
+        </article>
+      </div>
+
+      <p>
+        Esta pantalla ya no actua solo como confirmacion de acceso: ahora funciona como una pequena portada interna
+        con informacion creible y mas acorde a una zona privada de tecnologia actual.
+      </p>
+
+      <a class="hero__boton hero__boton--primario" href="./index.html">Volver al inicio</a>
+    </section>
+  </main>
 </body>
 </html>
