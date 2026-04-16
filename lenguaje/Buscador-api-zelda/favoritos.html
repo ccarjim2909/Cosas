@@ -4,68 +4,79 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Favoritos de Hyrule | Buscador Zelda</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="./assets/css/styles.css">
   <script src="./assets/js/common.js" defer></script>
   <script src="./assets/js/favoritos.js" defer></script>
 </head>
+
 <body class="pagina">
-  <span class="pagina__fondo" aria-hidden="true"></span>
+  <span class="pagina__fondo"></span>
 
   <header class="cabecera cabecera--pequena">
-    <nav class="navegacion" aria-label="Navegacion principal">
+
+    <nav class="navegacion">
       <a class="navegacion__marca" href="index.html">Hyrule Search</a>
+
       <ul class="navegacion__lista">
-        <li class="navegacion__item">
+        <li>
           <a class="navegacion__enlace" href="index.html">Buscador</a>
         </li>
-        <li class="navegacion__item">
-          <a class="navegacion__enlace navegacion__enlace--activo" href="favoritos.html" aria-current="page">Favoritos</a>
+        <li>
+          <a class="navegacion__enlace navegacion__enlace--activo" href="favoritos.html">Favoritos</a>
         </li>
       </ul>
     </nav>
 
     <section class="cabecera__contenido">
       <p class="cabecera__kicker">Coleccion personal</p>
+
       <h1 class="cabecera__titulo">Tus favoritos de Zelda</h1>
+
       <p class="cabecera__texto">
-        Aquí se reúnen todos los juegos, personajes y criaturas que has marcado con estrella desde el buscador principal.
+        Aquí se reúnen todos los juegos, personajes y criaturas que has marcado con estrella.
       </p>
     </section>
   </header>
 
   <main class="pagina__contenido">
-    <section class="resumen" aria-label="Resumen de favoritos">
+
+    <!-- SOLO CONTADOR -->
+    <section class="resumen">
       <ul class="resumen__lista">
         <li class="resumen__item">
           <span class="resumen__etiqueta">Total guardado</span>
           <output class="resumen__valor js-favoritos-total">0</output>
         </li>
-        <li class="resumen__item">
-          <span class="resumen__etiqueta">Estado</span>
-          <output class="resumen__valor js-favoritos-estado">Sincronizado</output>
-        </li>
-        <li class="resumen__item">
-          <span class="resumen__etiqueta">Acceso</span>
-          <a class="resumen__enlace" href="index.html">Volver al buscador</a>
-        </li>
       </ul>
     </section>
 
-    <section class="panel panel--resultados" aria-label="Galeria de favoritos">
+    <!-- GALERÍA -->
+    <section class="panel panel--resultados">
+
       <header class="panel__franja">
-        <section class="panel__intro">
+        <div>
           <p class="panel__kicker">Favoritos</p>
           <h2 class="panel__titulo">Galería guardada</h2>
-        </section>
-        <button class="boton boton--secundario js-favoritos-vaciar" type="button">Vaciar favoritos</button>
+        </div>
+
+        <button class="boton boton--secundario js-favoritos-vaciar">
+          Vaciar favoritos
+        </button>
       </header>
 
-      <p class="panel__mensaje js-favoritos-mensaje" aria-live="polite">Tus favoritos aparecerán aquí.</p>
-      <ul class="galeria js-favoritos-lista" aria-live="polite"></ul>
+      <p class="panel__mensaje js-favoritos-mensaje">
+        Tus favoritos aparecerán aquí.
+      </p>
+
+      <ul class="galeria js-favoritos-lista"></ul>
+
     </section>
+
   </main>
 </body>
 </html>

@@ -119,8 +119,11 @@ output {
 
 .cabecera__titulo {
   margin: 0;
-  font-size: clamp(2.20rem, 5vw, 4.50rem);
-  line-height: 1.05;
+  font-size: clamp(1.8rem, 3.5vw, 3.2rem); /* 🔥 más controlado */
+  line-height: 1.25; /* más aire entre líneas */
+  letter-spacing: 0.015em;
+  max-width: 55rem; /* 🔥 limita ancho del texto */
+  margin-inline: auto;
 }
 
 .cabecera__texto {
@@ -244,7 +247,7 @@ output {
 
 .formulario-busqueda {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(10.00rem, 0.9fr) auto;
+  grid-template-columns: 1fr auto;
   gap: 0.88rem;
   align-items: end;
 }
@@ -583,7 +586,7 @@ output {
   }
 
   .cabecera__contenido {
-    margin-top: 1.88rem;
+    width: min(65rem, 100%); /* más ancho */
   }
 
   .panel--busqueda {
