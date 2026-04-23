@@ -6,5 +6,6 @@ data class Student(
     val apellido: String,
     val emailGenerado: String,
     val emailOriginal: String,
+    val grupoSolicitado: String,
     val grupoAsignado: String
 )
