@@ -1,7 +1,18 @@
 package org.iesra.procesaalumnos.application
-
 import org.iesra.procesaalumnos.cli.CliOptions
-
+import org.iesra.procesaalumnos.domain.model.FileIssue
+import org.iesra.procesaalumnos.domain.model.ProcessingSummary
+import org.iesra.procesaalumnos.domain.model.Student
+import org.iesra.procesaalumnos.domain.port.GroupAssigner
+import org.iesra.procesaalumnos.domain.port.InstitutionalEmailGenerator
+import org.iesra.procesaalumnos.domain.port.OutputWriter
+import org.iesra.procesaalumnos.domain.port.StudentFileRepository
+import org.iesra.procesaalumnos.domain.port.StudentParser
+import org.iesra.procesaalumnos.domain.service.AsignadorGrupos
+import org.iesra.procesaalumnos.domain.service.EscritorSalidas
+import org.iesra.procesaalumnos.domain.service.GeneradorCorreoInstitucional
+import org.iesra.procesaalumnos.domain.service.ParserAlumnos
+import org.iesra.procesaalumnos.domain.service.RepositorioFicherosAlumnos
 /**
  * Coordina el caso de uso principal del programa.
  *
@@ -22,70 +33,107 @@ class StudentProcessingApplication {
     fun run(options: CliOptions) {
         println("Grupo recibido: ${options.group}")
         println("Directorio de trabajo: ${options.path}")
+        println()
 
-        // A partir de aquí, una solución OO razonable podría seguir este flujo.
-        // En esta rama base no se implementa todavía: solo se deja la guía.
-
-        // ####################### Entrada: Lectura de datos, conversión a estructuras
-
-        // 1. Pedir a una clase repositorio que localice los `.txt` de entrada.
-        // val inputFiles = studentFileRepository.findInputFiles(options.path)
-
-        // 2. Crear colecciones donde guardar alumnado válido e incidencias.
-        // val students = mutableListOf<Student>()
-        // val issues = mutableListOf<FileIssue>()
-
-        // 3. Recorrer cada fichero y delegar el parseo en un objeto parser.
-        // for (file in inputFiles) {
-        //     val student = studentParser.parse(file)
-        //     ...
-               // 4. Si el parser detecta errores, guardar incidencias.
-               // issues.add(FileIssue(...))
-
-               // 5. Si el parser obtiene un alumno correcto, guardarlo como objeto `Student`.
-               // students.add(student)
-
-               // 6. Delegar el movimiento a `procesados` a un repositorio o gestor de ficheros.
-               // studentFileRepository.moveToProcessed(file)
+        val repositorio: StudentFileRepository = RepositorioFicherosAlumnos()
+        val parseador: StudentParser = ParserAlumnos()
+        val generadorCorreo: InstitutionalEmailGenerator = GeneradorCorreoInstitucional()
+        val asignadorGrupos: GroupAssigner = AsignadorGrupos()
+        val escritorSalidas: OutputWriter = EscritorSalidas(options.group)
 
 
-        // }
+        println("Buscando ficheros de entrada...")
 
-        // ####################### Procesamiento: de datos de entrada, y generación de datos de salida
+        val ficherosEntrada = repositorio.localizarFicherosEntrada(options.path)
+        println("Ficheros encontrados: ${ficherosEntrada.size}")
+        println()
 
-        // 7. Para cada Student, delegar la generación del correo del instituto a otra clase.
-        // val institutionalEmail = emailGenerator.generate(student)
-
-        // 8. Para cada Student, delegar la asignación de grupos a una clase especializada.
-        // val assignment = groupAssigner.assign(student, currentGroups)
-
-        // ####################### Salida: ficheros de salida y resumen
-
-        // 9. Delegar la escritura de ficheros de salida a un escritor.
-        // outputWriter.writeEmails(...)
-        // outputWriter.writeGroups(...)
+        val alumnos = mutableListOf<Student>()
+        val problemas = mutableListOf<FileIssue>()
 
 
-        // 10. Finalmente, construir un resumen y mostrarlo por consola.
-        // val summary = ProcessingSummary(...)
-        // summaryPrinter.print(summary)
+        println("Procesando ficheros...")
 
-        printSuggestedDesign()
+        for (fichero in ficherosEntrada) {
+            val resultadoParseo = parseador.parsear(fichero)
+            val alumnoParseado = resultadoParseo.first  // Primer elemento del Pair
+            val problemaDetectado = resultadoParseo.second  // Segundo elemento del Pair
+
+            if (problemaDetectado != null) {
+                problemas.add(problemaDetectado)
+            } else if (alumnoParseado != null) {
+                val correoInstitucional = generadorCorreo.generar(alumnoParseado)
+                val grupoAsignado = asignadorGrupos.asignar(alumnoParseado)
+                val alumnoCompleto = alumnoParseado.copy(
+                    emailGenerado = correoInstitucional,
+                    grupoAsignado = grupoAsignado
+                )
+
+                alumnos.add(alumnoCompleto)
+            }
+
+            repositorio.moverAProcesados(fichero)
+        }
+
+        println("Ficheros procesados: ${alumnos.size}")
+        println()
+
+
+        println("Generando ficheros de salida...")
+
+        if (alumnos.isNotEmpty()) {
+            escritorSalidas.escribirCorreos(alumnos, options.path)
+
+            escritorSalidas.escribirGrupos(alumnos, options.path)
+        }
+        println()
+
+
+        val resumen = ProcessingSummary(
+            detectedFiles = ficherosEntrada.size,
+            validStudents = alumnos.size,
+            issues = problemas
+        )
+
+        mostrarResumen(resumen, asignadorGrupos, problemas)
     }
 
-    /**
-     * Muestra por consola una posible descomposición del problema en objetos.
-     *
-     * Esta salida sirve como orientación y no forma parte de la solución final.
-     */
-    private fun printSuggestedDesign() {
+
+
+    private fun mostrarResumen(resumen: ProcessingSummary, asignador: GroupAssigner, problemas: List<FileIssue>) {
+        println("RESUMEN DEL PROCESAMIENTO")
         println()
-        println("Sugerencia de diseño orientado a objetos:")
-        println("- StudentFileRepository: localiza, lee y mueve ficheros.")
-        println("- StudentParser: convierte un fichero en un objeto Student.")
-        println("- InstitutionalEmailGenerator: genera el correo del instituto.")
-        println("- GroupAssigner: decide a qué grupo va cada alumno.")
-        println("- OutputWriter: escribe los ficheros CSV y TXT.")
-        println("- SummaryPrinter: muestra el resumen final.")
+
+        println("Ficheros procesados: ${resumen.detectedFiles}")
+        println("Ficheros con errores: ${problemas.size}")
+        println("Correos creados correctamente: ${resumen.validStudents}")
+        println()
+
+        println("Resumen de grupos:")
+        val resumenGrupos = asignador.obtenerResumenGrupos()
+        val gruposOrdenados = resumenGrupos.toSortedMap()
+
+        for ((nombreGrupo, numeroAlumnos) in gruposOrdenados) {
+            println("- Grupo-$nombreGrupo: $numeroAlumnos alumnos")
+        }
+        println()
+
+        if (problemas.isNotEmpty()) {
+            println("Errores detectados:")
+            for (problema in problemas) {
+                println("- ${problema.fileName}: ${problema.message}")
+            }
+            println()
+        }
+
+        val incidencias = asignador.obtenerIncidencias()
+        if (incidencias.isNotEmpty()) {
+            println("Incidencias:")
+            for (incidencia in incidencias) {
+                println("- $incidencia")
+            }
+            println()
+        }
+
     }
 }
