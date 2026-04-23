@@ -1,4 +1,5 @@
 package org.iesra.procesaalumnos.domain.port
+import org.iesra.procesaalumnos.domain.model.Student
 
 /**
  * Ejemplo de interfaz para asignar grupos.
@@ -7,4 +8,10 @@ package org.iesra.procesaalumnos.domain.port
  * podría haber distintas estrategias de asignación y todas implementar
  * la misma interfaz.
  */
-interface GroupAssigner
+interface GroupAssigner {
+    fun asignar(alumno: Student): String
+
+    fun obtenerResumenGrupos(): Map<String, Int>
+
+    fun obtenerIncidencias(): List<String>
+}
