@@ -24,7 +24,7 @@ class AsignadorGrupos : GroupAssigner {
         val grupoEstaLleno = (contadoresGrupos[grupoSolicitado] ?: 0) >= 5
 
         if (grupoSolicitado.isNotEmpty() && grupoEstaLleno) {
-            val mensaje = "${alumno.nombre} ${alumno.apellido}: grupo $grupoSolicitado solicitado pero lleno, asignado a otro"
+            val mensaje = "${alumno.nombre} ${alumno.apellido}: grupo $grupoSolicitado solicitado lleno, asignado a otro"
             incidencias.add(mensaje)
         }
 
