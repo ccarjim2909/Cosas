@@ -1,0 +1,98 @@
+package org.example
+
+import java.io.File
+
+class LectorArchivos {
+
+    fun leerCarpeta(ruta: String): List<Alumno> {
+
+        val listaAlumnos = mutableListOf<Alumno>()
+
+        val carpeta = File(ruta)
+
+        carpeta.listFiles()?.forEach { fichero ->
+
+            if (fichero.extension == "txt") {
+
+                val alumno = leerAlumno(fichero)
+                listaAlumnos.add(alumno)
+            }
+        }
+
+        return listaAlumnos
+    }
+
+    private fun leerAlumno(fichero: File): Alumno {
+
+        var nombre = ""
+        var apellidos = ""
+        var email = ""
+        var grupo = ""
+
+        fichero.forEachLine { linea ->
+
+            when {
+                linea.startsWith("Nombre:") ->
+                    nombre = linea.substringAfter(":").trim()
+
+                linea.startsWith("Apellidos:") ->
+                    apellidos = linea.substringAfter(":").trim()
+
+                linea.startsWith("email:") ->
+                    email = linea.substringAfter(":").trim()
+
+                linea.startsWith("Grupo") ->
+                    grupo = linea.substringAfter("=").trim()
+            }
+        }
+
+        return Alumno(nombre, apellidos, email, grupo)
+    }
+}
+
+
+
+-------------------------
+
+
+package org.example
+
+import java.io.File
+
+class GeneradorCSV {
+
+    fun generar(alumnos: List<Alumno>, rutaSalida: String) {
+
+        val fichero = File(rutaSalida)
+
+        val contenido = StringBuilder()
+
+        contenido.append("Nombre|Apellidos|Email|Grupo\n")
+
+        for (alumno in alumnos) {
+            contenido.append(
+                "${alumno.nombre}|${alumno.apellidos}|${alumno.email}|${alumno.grupo}\n"
+            )
+        }
+
+        fichero.writeText(contenido.toString())
+    }
+}
+
+
+
+--------------------------------------------------
+
+
+package org.example
+
+fun main() {
+
+    val lector = LectorArchivos()
+    val alumnos = lector.leerCarpeta("src/test/resources/txtAlumnos")
+
+    val generador = GeneradorCSV()
+    generador.generar(alumnos, "src/test/resources/salida.csv")
+
+    println("Archivo CSV generado correctamente.")
+}
