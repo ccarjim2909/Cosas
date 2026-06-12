@@ -1,0 +1,150 @@
+/* ── Reset y base ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  background-color: #f0f4f8;
+  color: #1a1a2e;
+  min-height: 100vh;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────── */
+header {
+  background-color: #1a1a2e;
+  color: #ffffff;
+  padding: 1.25rem 2rem;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ── Main ───────────────────────────────────────────────────────────────── */
+main {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Controles ──────────────────────────────────────────────────────────── */
+.controles {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#buscador {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background: #fff;
+}
+
+#buscador:focus {
+  outline: none;
+  border-color: #2980b9;
+  box-shadow: 0 0 0 2px rgba(41,128,185,0.2);
+}
+
+#btn-alerta {
+  padding: 0.6rem 1.2rem;
+  background-color: #2980b9;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#btn-alerta:hover {
+  background-color: #1f6391;
+}
+
+/* ── Panel (dos columnas) ───────────────────────────────────────────────── */
+.panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.columna-lista,
+.columna-detalle {
+  background: #ffffff;
+  border: 1px solid #dde3ea;
+  border-radius: 6px;
+  padding: 1.25rem;
+}
+
+.columna-lista h2,
+.columna-detalle h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #555;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+/* ── Estado de carga ────────────────────────────────────────────────────── */
+#estado-carga {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Lista de ciudades ──────────────────────────────────────────────────── */
+#lista-ciudades {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+#lista-ciudades li {
+  padding: 0.6rem 0.9rem;
+  background-color: #f7f9fb;
+  border: 1px solid #e0e7ef;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+#lista-ciudades li:hover {
+  background-color: #dbeafe;
+  border-color: #93c5fd;
+}
+
+/* ── Detalle ────────────────────────────────────────────────────────────── */
+#detalle {
+  min-height: 120px;
+}
+
+#detalle .placeholder {
+  color: #aaa;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+}

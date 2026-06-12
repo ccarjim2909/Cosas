@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Meteorológico</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Panel Meteorológico</h1>
+  </header>
+
+  <main>
+    <section class="controles">
+      <input type="text" id="buscador" placeholder="Buscar ciudad...">
+      <button id="btn-alerta">Comprobar temperaturas extremas</button>
+    </section>
+
+    <section class="panel">
+      <div class="columna-lista">
+        <h2>Ciudades</h2>
+        <p id="estado-carga"></p>
+        <ul id="lista-ciudades"></ul>
+      </div>
+
+      <div class="columna-detalle">
+        <h2>Detalle</h2>
+        <div id="detalle">
+          <p class="placeholder">Selecciona una ciudad para ver su información.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="datos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
