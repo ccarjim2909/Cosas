@@ -1,0 +1,194 @@
+=== Opción elegida ===
+B. Nombres	http://saludo.local	http://repetidor.local	Sitios virtuales mediante la cabecera Host.
+=== saludo-app: http://saludo.local/ ===
+HTTP/1.1 200 OK
+Server: nginx/1.28.3 (Ubuntu)
+Date: Mon, 23 Nov 2026 17:22:25 GMT
+Content-Type: text/html
+Content-Length: 960
+Last-Modified: Mon, 23 Nov 2026 17:10:31 GMT
+Connection: keep-alive
+ETag: "6b047387-3c0"
+Accept-Ranges: bytes
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saludo en Nginx</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 50px; }
+    input, button { padding: 8px; font-size: 16px; }
+    #resultado { margin-top: 20px; font-size: 20px; font-weight: bold; color: #2c3e50; }
+  </style>
+</head>
+<body>
+  <h2>Introduce tu nombre</h2>
+  <input type="text" id="nombreInput" placeholder="Ej. Pedro">
+  <button onclick="saludar()">Aceptar</button>
+  <div id="resultado"></div>
+
+  <script>
+    function saludar() {
+      const nombre = document.getElementById('nombreInput').value.trim();
+      const contenedor = document.getElementById('resultado');
+      if (nombre !== "") {
+        contenedor.textContent = "Hola " + nombre + "!!";
+      } else {
+        contenedor.textContent = "Por favor, escribe un nombre.";
+      }
+    }
+  </script>
+</body>
+</html>
+=== repetidor-app: http://repetidor.local/ ===
+HTTP/1.1 200 OK
+Server: nginx/1.28.3 (Ubuntu)
+Date: Mon, 23 Nov 2026 17:22:25 GMT
+Content-Type: text/html
+Content-Length: 1169
+Last-Modified: Mon, 23 Nov 2026 17:13:25 GMT
+Connection: keep-alive
+ETag: "6b047435-491"
+Accept-Ranges: bytes
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repetidor Hola Mundo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 50px; }
+    input, button { padding: 8px; font-size: 16px; }
+    #salida { margin-top: 20px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <h2>Repetidor de Hola Mundo</h2>
+  <input type="number" id="cantidadInput" min="1" max="100" placeholder="Ej. 5">
+  <button onclick="repetir()">Generar</button>
+  <div id="salida"></div>
+
+  <script>
+    function repetir() {
+      const cantidad = parseInt(document.getElementById('cantidadInput').value);
+      const contenedor = document.getElementById('salida');
+      contenedor.innerHTML = "";
+      if (isNaN(cantidad) || cantidad <= 0) {
+        contenedor.textContent = "Por favor, introduce un número válido mayor que 0.";
+        return;
+      }
+      for (let i = 0; i < cantidad; i++) {
+        const linea = document.createElement('div');
+        linea.textContent = (i + 1) + ". ¡Hola mundo!";
+        contenedor.appendChild(linea);
+      }
+    }
+  </script>
+</body>
+</html>
+=== Selección mediante Host desde el servidor ===
+HTTP/1.1 200 OK
+Server: nginx/1.28.3 (Ubuntu)
+Date: Mon, 23 Nov 2026 17:22:25 GMT
+Content-Type: text/html
+Content-Length: 960
+Last-Modified: Mon, 23 Nov 2026 17:10:31 GMT
+Connection: keep-alive
+ETag: "6b047387-3c0"
+Accept-Ranges: bytes
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saludo en Nginx</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 50px; }
+    input, button { padding: 8px; font-size: 16px; }
+    #resultado { margin-top: 20px; font-size: 20px; font-weight: bold; color: #2c3e50; }
+  </style>
+</head>
+<body>
+  <h2>Introduce tu nombre</h2>
+  <input type="text" id="nombreInput" placeholder="Ej. Pedro">
+  <button onclick="saludar()">Aceptar</button>
+  <div id="resultado"></div>
+
+  <script>
+    function saludar() {
+      const nombre = document.getElementById('nombreInput').value.trim();
+      const contenedor = document.getElementById('resultado');
+      if (nombre !== "") {
+        contenedor.textContent = "Hola " + nombre + "!!";
+      } else {
+        contenedor.textContent = "Por favor, escribe un nombre.";
+      }
+    }
+  </script>
+</body>
+</html>
+HTTP/1.1 200 OK
+Server: nginx/1.28.3 (Ubuntu)
+Date: Mon, 23 Nov 2026 17:22:25 GMT
+Content-Type: text/html
+Content-Length: 1169
+Last-Modified: Mon, 23 Nov 2026 17:13:25 GMT
+Connection: keep-alive
+ETag: "6b047435-491"
+Accept-Ranges: bytes
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repetidor Hola Mundo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 50px; }
+    input, button { padding: 8px; font-size: 16px; }
+    #salida { margin-top: 20px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <h2>Repetidor de Hola Mundo</h2>
+  <input type="number" id="cantidadInput" min="1" max="100" placeholder="Ej. 5">
+  <button onclick="repetir()">Generar</button>
+  <div id="salida"></div>
+
+  <script>
+    function repetir() {
+      const cantidad = parseInt(document.getElementById('cantidadInput').value);
+      const contenedor = document.getElementById('salida');
+      contenedor.innerHTML = "";
+      if (isNaN(cantidad) || cantidad <= 0) {
+        contenedor.textContent = "Por favor, introduce un número válido mayor que 0.";
+        return;
+      }
+      for (let i = 0; i < cantidad; i++) {
+        const linea = document.createElement('div');
+        linea.textContent = (i + 1) + ". ¡Hola mundo!";
+        contenedor.appendChild(linea);
+      }
+    }
+  </script>
+</body>
+</html>
+=== Prueba negativa (ruta inexistente - 404) ===
+HTTP/1.1 404 Not Found
+Server: nginx/1.28.3 (Ubuntu)
+Date: Mon, 23 Nov 2026 17:22:25 GMT
+Content-Type: text/html
+Content-Length: 162
+Connection: keep-alive
+
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx/1.28.3 (Ubuntu)</center>
+</body>
+</html>

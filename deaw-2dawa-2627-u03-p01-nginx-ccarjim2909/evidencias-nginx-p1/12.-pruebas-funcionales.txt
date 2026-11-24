@@ -1,0 +1,19 @@
+## saludo-app - entrada Pedro
+Resultado esperado: Hola Pedro!!
+Resultado observado: Hola Pedro!!
+Estado: PASS
+
+## saludo-app - campo vacío
+Resultado esperado: Por favor, escribe un nombre.
+Resultado observado: Por favor, escribe un nombre.
+Estado: PASS
+
+## repetidor-app - entrada 4
+Resultado esperado: cuatro líneas numeradas de ¡Hola mundo!.
+Resultado observado: 1. ¡Hola mundo! 2. ¡Hola mundo! 3. ¡Hola mundo! 4. ¡Hola mundo!
+Estado: PASS
+
+## repetidor-app - entrada 0 o vacía
+Resultado esperado: mensaje de validación y ninguna línea.
+Resultado observado: Por favor, introduce un número válido mayor que 0.
+Estado: PASS

@@ -1,0 +1,43 @@
+=== Archivo ===
+  Archivo: /var/www/saludo-app/index.html
+  tamaño: 960       	Bloques: 8          ES Bloque: 4096   regular file
+Dispositivo: 8,2	Inodo: 1102588     Enlaces: 1
+Acceso: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Acceso: 2026-11-23 18:10:31.234173978 +0100
+Modificar: 2026-11-23 18:10:31.239174008 +0100
+Cambiar: 2026-11-23 18:10:31.239174008 +0100
+ Nacimiento: 2026-11-23 18:10:31.234173978 +0100
+=== SHA-256 ===
+1aa8eb64cb142bd4b7451685578109aedce2171a0e6042256cc66b3b23cdf80f  /var/www/saludo-app/index.html
+=== Contenido ===
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saludo en Nginx</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 50px; }
+    input, button { padding: 8px; font-size: 16px; }
+    #resultado { margin-top: 20px; font-size: 20px; font-weight: bold; color: #2c3e50; }
+  </style>
+</head>
+<body>
+  <h2>Introduce tu nombre</h2>
+  <input type="text" id="nombreInput" placeholder="Ej. Pedro">
+  <button onclick="saludar()">Aceptar</button>
+  <div id="resultado"></div>
+
+  <script>
+    function saludar() {
+      const nombre = document.getElementById('nombreInput').value.trim();
+      const contenedor = document.getElementById('resultado');
+      if (nombre !== "") {
+        contenedor.textContent = "Hola " + nombre + "!!";
+      } else {
+        contenedor.textContent = "Por favor, escribe un nombre.";
+      }
+    }
+  </script>
+</body>
+</html>

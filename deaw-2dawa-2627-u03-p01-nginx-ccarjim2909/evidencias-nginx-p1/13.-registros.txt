@@ -1,0 +1,21 @@
+=== Fecha de consulta ===
+2026-11-23T18:27:45+01:00
+=== Access log ===
+127.0.0.1 - - [23/Nov/2026:18:22:25 +0100] "GET / HTTP/1.1" 200 960 "-" "curl/8.18.0"
+127.0.0.1 - - [23/Nov/2026:18:22:25 +0100] "GET / HTTP/1.1" 200 1169 "-" "curl/8.18.0"
+127.0.0.1 - - [23/Nov/2026:18:22:25 +0100] "GET / HTTP/1.1" 200 960 "-" "curl/8.18.0"
+127.0.0.1 - - [23/Nov/2026:18:22:25 +0100] "GET / HTTP/1.1" 200 1169 "-" "curl/8.18.0"
+127.0.0.1 - - [23/Nov/2026:18:22:25 +0100] "GET /ruta-que-no-existe HTTP/1.1" 404 162 "-" "curl/8.18.0"
+127.0.0.1 - - [23/Nov/2026:18:24:13 +0100] "GET / HTTP/1.1" 200 566 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:154.0) Gecko/20100101 Firefox/154.0"
+127.0.0.1 - - [23/Nov/2026:18:24:13 +0100] "GET /favicon.ico HTTP/1.1" 404 134 "http://saludo.local/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:154.0) Gecko/20100101 Firefox/154.0"
+127.0.0.1 - - [23/Nov/2026:18:24:52 +0100] "GET / HTTP/1.1" 200 682 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:154.0) Gecko/20100101 Firefox/154.0"
+127.0.0.1 - - [23/Nov/2026:18:24:52 +0100] "GET /favicon.ico HTTP/1.1" 404 134 "http://repetidor.local/" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:154.0) Gecko/20100101 Firefox/154.0"
+127.0.0.1 - - [23/Nov/2026:18:27:37 +0100] "GET / HTTP/1.1" 304 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:154.0) Gecko/20100101 Firefox/154.0"
+127.0.0.1 - - [23/Nov/2026:18:27:38 +0100] "GET / HTTP/1.1" 304 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:154.0) Gecko/20100101 Firefox/154.0"
+127.0.0.1 - - [23/Nov/2026:18:27:40 +0100] "GET / HTTP/1.1" 304 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:154.0) Gecko/20100101 Firefox/154.0"
+=== Error log ===
+2026/11/23 18:02:56 [notice] 8353#8353: using inherited sockets from "5;6;"
+=== Journal de Nginx ===
+nov 23 18:18:20 cris-VirtualBox systemd[1]: Reloading nginx.service - A high performance web server and a reverse proxy server...
+nov 23 18:18:20 cris-VirtualBox nginx[9545]: 2026/11/23 18:18:20 [notice] 9545#9545: signal process started
+nov 23 18:18:20 cris-VirtualBox systemd[1]: Reloaded nginx.service - A high performance web server and a reverse proxy server.

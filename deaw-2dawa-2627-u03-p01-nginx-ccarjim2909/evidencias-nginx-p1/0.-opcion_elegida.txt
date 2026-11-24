@@ -1,0 +1,1 @@
+B. Nombres	http://saludo.local	http://repetidor.local	Sitios virtuales mediante la cabecera Host.

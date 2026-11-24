@@ -1,0 +1,12 @@
+=== Enlaces habilitados ===
+total 8
+drwxr-xr-x 2 root root 4096 Nov 23 18:17 .
+drwxr-xr-x 8 root root 4096 Nov 23 18:02 ..
+lrwxrwxrwx 1 root root   40 Nov 23 18:17 repetidor-app -> /etc/nginx/sites-available/repetidor-app
+lrwxrwxrwx 1 root root   37 Nov 23 18:17 saludo-app -> /etc/nginx/sites-available/saludo-app
+=== Destinos de los enlaces ===
+/etc/nginx/sites-available/saludo-app
+/etc/nginx/sites-available/repetidor-app
+=== Validación de sintaxis ===
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful

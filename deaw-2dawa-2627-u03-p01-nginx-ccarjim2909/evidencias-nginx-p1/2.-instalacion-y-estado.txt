@@ -1,0 +1,28 @@
+=== Versión de Nginx ===
+nginx version: nginx/1.28.3 (Ubuntu)
+=== Servicio habilitado ===
+enabled
+=== Servicio activo ===
+active
+=== Estado resumido ===
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-11-23 18:02:56 CET; 1min 45s ago
+ Invocation: 6bc7f576337c4e9e92c622de712a1977
+       Docs: man:nginx(8)
+   Main PID: 8353 (nginx)
+      Tasks: 3 (limit: 1826)
+     Memory: 4M (peak: 8.4M)
+        CPU: 23ms
+     CGroup: /system.slice/nginx.service
+             ├─8353 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             ├─8354 "nginx: worker process"
+             └─8355 "nginx: worker process"
+
+nov 23 18:02:56 cris-VirtualBox systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy server...
+nov 23 18:02:56 cris-VirtualBox systemd[1]: Started nginx.service - A high performance web server and a reverse proxy server.
+=== Puertos ===
+LISTEN 0      511          0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=8355,fd=5),("nginx",pid=8354,fd=5),("nginx",pid=8353,fd=5))
+LISTEN 0      511             [::]:80           [::]:*    users:(("nginx",pid=8355,fd=6),("nginx",pid=8354,fd=6),("nginx",pid=8353,fd=6))
+=== Firewall ===
+Estado: inactivo

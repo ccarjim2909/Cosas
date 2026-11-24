@@ -1,0 +1,48 @@
+=== Archivo ===
+  Archivo: /var/www/repetidor-app/index.html
+  tamaño: 1169      	Bloques: 8          ES Bloque: 4096   regular file
+Dispositivo: 8,2	Inodo: 1102626     Enlaces: 1
+Acceso: (0644/-rw-r--r--)  Uid: ( 1000/    cris)   Gid: ( 1000/    cris)
+Acceso: 2026-11-23 18:13:25.083546061 +0100
+Modificar: 2026-11-23 18:13:25.090546047 +0100
+Cambiar: 2026-11-23 18:13:59.652474227 +0100
+ Nacimiento: 2026-11-23 18:13:25.083546061 +0100
+=== SHA-256 ===
+e051735f5306a9dd0e7f98931937eaef36a6546fb17cddd08a79636c43f38a3d  /var/www/repetidor-app/index.html
+=== Contenido ===
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repetidor Hola Mundo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 50px; }
+    input, button { padding: 8px; font-size: 16px; }
+    #salida { margin-top: 20px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <h2>Repetidor de Hola Mundo</h2>
+  <input type="number" id="cantidadInput" min="1" max="100" placeholder="Ej. 5">
+  <button onclick="repetir()">Generar</button>
+  <div id="salida"></div>
+
+  <script>
+    function repetir() {
+      const cantidad = parseInt(document.getElementById('cantidadInput').value);
+      const contenedor = document.getElementById('salida');
+      contenedor.innerHTML = "";
+      if (isNaN(cantidad) || cantidad <= 0) {
+        contenedor.textContent = "Por favor, introduce un número válido mayor que 0.";
+        return;
+      }
+      for (let i = 0; i < cantidad; i++) {
+        const linea = document.createElement('div');
+        linea.textContent = (i + 1) + ". ¡Hola mundo!";
+        contenedor.appendChild(linea);
+      }
+    }
+  </script>
+</body>
+</html>

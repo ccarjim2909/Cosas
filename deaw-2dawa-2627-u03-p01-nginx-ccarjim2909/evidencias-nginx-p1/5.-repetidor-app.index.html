@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repetidor Hola Mundo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 50px; }
+    input, button { padding: 8px; font-size: 16px; }
+    #salida { margin-top: 20px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <h2>Repetidor de Hola Mundo</h2>
+  <input type="number" id="cantidadInput" min="1" max="100" placeholder="Ej. 5">
+  <button onclick="repetir()">Generar</button>
+  <div id="salida"></div>
+
+  <script>
+    function repetir() {
+      const cantidad = parseInt(document.getElementById('cantidadInput').value);
+      const contenedor = document.getElementById('salida');
+      contenedor.innerHTML = "";
+      if (isNaN(cantidad) || cantidad <= 0) {
+        contenedor.textContent = "Por favor, introduce un número válido mayor que 0.";
+        return;
+      }
+      for (let i = 0; i < cantidad; i++) {
+        const linea = document.createElement('div');
+        linea.textContent = (i + 1) + ". ¡Hola mundo!";
+        contenedor.appendChild(linea);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+=== Inventario ===
+0.-opcion_elegida.txt
+1.-entorno.txt
+2.-instalacion-y-estado.txt
+3.-arquitectura-ficheros.txt
+4.-saludo-app.index.html
+4.-saludo-app.txt
+5.-repetidor-app.index.html
+5.-repetidor-app.txt
+6.-saludo-app.conf
+7.-repetidor-app.conf
+8.-activacion-y-validacion.txt
+9.-recarga-y-estado.txt
+10.-nginx-configuracion-efectiva.txt
+11.-pruebas-http.txt
+12.-pruebas-funcionales.txt
+13.-registros.txt
+README.md
+=== Archivos requeridos ===
+OK: 0.-opcion_elegida.txt
+OK: 1.-entorno.txt
+OK: 2.-instalacion-y-estado.txt
+OK: 3.-arquitectura-ficheros.txt
+OK: 4.-saludo-app.txt
+OK: 4.-saludo-app.index.html
+OK: 5.-repetidor-app.txt
+OK: 5.-repetidor-app.index.html
+OK: 6.-saludo-app.conf
+OK: 7.-repetidor-app.conf
+OK: 8.-activacion-y-validacion.txt
+OK: 9.-recarga-y-estado.txt
+OK: 10.-nginx-configuracion-efectiva.txt
+OK: 11.-pruebas-http.txt
+OK: 12.-pruebas-funcionales.txt
+OK: 13.-registros.txt
+OK: README.md
+=== Enlaces del README ===
+0.-opcion_elegida.txt
+10.-nginx-configuracion-efectiva.txt
+11.-pruebas-http.txt
+12.-pruebas-funcionales.txt
+13.-registros.txt
+14.-inventario-y-validacion.txt
+1.-entorno.txt
+2.-instalacion-y-estado.txt
+3.-arquitectura-ficheros.txt
+4.-saludo-app.index.html
+4.-saludo-app.txt
+5.-repetidor-app.index.html
+5.-repetidor-app.txt
+6.-saludo-app.conf
+7.-repetidor-app.conf
+8.-activacion-y-validacion.txt
+9.-recarga-y-estado.txt
