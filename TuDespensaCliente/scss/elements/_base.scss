@@ -1,0 +1,30 @@
+body {
+  background-color: var(--color-superficie);
+  color: var(--color-acento);
+  font-family: var(--fuente-interfaz);
+  font-size: var(--tamano-cuerpo);
+  line-height: var(--interlineado-cuerpo);
+}
+
+h1 {
+  font-family: var(--fuente-destacado);
+  font-size: var(--tamano-destacado);
+  font-weight: var(--peso-negrita);
+  line-height: var(--interlineado-destacado);
+}
+
+h2 {
+  font-size: var(--tamano-encabezado-1);
+  font-weight: var(--peso-medio);
+  line-height: var(--interlineado-encabezado-1);
+}
+
+h3 {
+  font-size: var(--tamano-encabezado-2);
+  font-weight: var(--peso-medio);
+  line-height: var(--interlineado-encabezado-2);
+}
+
+a {
+  text-decoration: none;
+}

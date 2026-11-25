@@ -1,0 +1,44 @@
+:root {
+  // Primitivos
+  --verde-primario: #1C5E3A;
+  --verde-tinte-hover: #E4F1E8;
+  --neutro-superficie: #F1F8F3;
+  --neutro-acento: #161E19;
+  --neutro-borde-campo: #7D897F;
+
+  --estado-exito: #1E6636;
+  --estado-aviso: #8A4F08;
+  --estado-error: #A42C28;
+  --estado-error-hover: #8C221E;
+  --estado-informacion: #245AA5;
+
+  // Semánticos
+  --color-primario: var(--verde-primario);
+  --color-primario-tinte-hover: var(--verde-tinte-hover);
+  --color-acento: var(--neutro-acento);
+  --color-superficie: var(--neutro-superficie);
+  --color-borde-campo: var(--neutro-borde-campo);
+
+  --color-estado-exito: var(--estado-exito);
+  --color-estado-aviso: var(--estado-aviso);
+  --color-estado-error: var(--estado-error);
+  --color-estado-error-hover: var(--estado-error-hover);
+  --color-estado-informacion: var(--estado-informacion);
+}
+
+// Primitivos en Modo Oscuro
+@media (prefers-color-scheme: dark) {
+  :root {
+    --verde-primario: #86C99F;
+    --verde-tinte-hover: #293E31;
+    --neutro-superficie: #161E19;
+    --neutro-acento: #FFFFFF;
+    --neutro-borde-campo: #6F7D73;
+
+    --estado-exito: #82D39A;
+    --estado-aviso: #F5C466;
+    --estado-error: #F0A29E;
+    --estado-error-hover: #F9B8B1;
+    --estado-informacion: #91B9F0;
+  }
+}

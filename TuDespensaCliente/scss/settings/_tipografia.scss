@@ -1,0 +1,22 @@
+:root {
+  // Familias
+  --fuente-destacado: 'IBM Plex Serif', Georgia, serif;
+  --fuente-interfaz: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+
+  // Pesos
+  --peso-regular: 400;
+  --peso-medio: 500;
+  --peso-negrita: 700;
+
+  // Tamaños
+  --tamano-cuerpo: 0.75rem;         // 12px
+  --tamano-encabezado-2: 1rem;      // 16px
+  --tamano-encabezado-1: 1.25rem;   // 20px
+  --tamano-destacado: 1.5rem;       // 24px
+
+  // Interlineados
+  --interlineado-cuerpo: 1rem;          // 16px
+  --interlineado-encabezado-2: 1.5rem;  // 24px
+  --interlineado-encabezado-1: 1.75rem; // 28px
+  --interlineado-destacado: 2rem;       // 32px
+}
