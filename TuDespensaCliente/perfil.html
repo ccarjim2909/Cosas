@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuDespensa — Mi Perfil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <header class="cabecera o-contenedor">
+    <a href="index.html" class="cabecera__marca">TuDespensa</a>
+    <nav class="cabecera__nav">
+      <ul class="cabecera__lista">
+        <li class="cabecera__item">
+          <a href="index.html" class="cabecera__enlace">Inicio</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="inventario.html" class="cabecera__enlace">Mi Inventario</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="recetas.html" class="cabecera__enlace">Recetas Sugeridas</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="contacto.html" class="cabecera__enlace">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="acceso.html" class="cabecera__accion boton boton--secundario boton--mediano">Iniciar sesión</a>
+  </header>
+
+  <main class="o-contenedor">
+    <section class="autenticacion">
+      <header class="autenticacion__cabecera">
+        <a href="inventario.html" class="autenticacion__volver" aria-label="Volver al inventario">←</a>
+        <h1 class="autenticacion__titulo">Mi Perfil</h1>
+      </header>
+
+      <article class="tarjeta-auth">
+        <form id="formulario-perfil" class="formulario-auth" action="#" method="post" novalidate>
+          <p class="campo">
+            <label for="perfil-usuario" class="campo__etiqueta">Nombre de usuario</label>
+            <input type="text" id="perfil-usuario" name="usuario" class="campo__entrada" minlength="3" maxlength="20" required aria-describedby="error-perfil-usuario">
+            <span id="error-perfil-usuario" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="campo">
+            <label for="perfil-email" class="campo__etiqueta">Correo electrónico</label>
+            <input type="email" id="perfil-email" name="email" class="campo__entrada" required aria-describedby="error-perfil-email">
+            <span id="error-perfil-email" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="campo">
+            <label for="perfil-fecha" class="campo__etiqueta">Fecha de nacimiento</label>
+            <input type="date" id="perfil-fecha" name="fechaNacimiento" class="campo__entrada" min="1920-01-01" max="2010-11-24" required aria-describedby="error-perfil-fecha">
+            <span id="error-perfil-fecha" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="campo">
+            <label for="perfil-password-actual" class="campo__etiqueta">Contraseña actual (obligatoria para guardar cambios)</label>
+            <input type="password" id="perfil-password-actual" name="passwordActual" class="campo__entrada" placeholder="••••••••" required aria-describedby="error-perfil-password-actual">
+            <span id="error-perfil-password-actual" class="campo__error" role="alert"></span>
+          </p>
+
+          <p id="mensaje-perfil-exito" class="campo__contador" role="status"></p>
+
+          <footer class="formulario-auth__acciones">
+            <button type="submit" class="formulario-auth__boton boton boton--oscuro boton--grande">Guardar cambios</button>
+            <button type="button" id="btn-cerrar-sesion" class="boton boton--secundario boton--grande">Cerrar sesión</button>
+            <button type="button" id="btn-borrar-cuenta" class="boton boton--peligro boton--grande">Eliminar mi cuenta</button>
+          </footer>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <dialog id="dialogo-confirmacion" class="dialogo-confirmacion">
+    <form method="dialog" class="dialogo-confirmacion__contenido">
+      <h2 class="dialogo-confirmacion__titulo">Confirmar eliminación</h2>
+      <p id="dialogo-confirmacion-texto" class="dialogo-confirmacion__texto">¿Seguro que deseas eliminar tu cuenta?</p>
+      <footer class="dialogo-confirmacion__acciones">
+        <button type="button" id="btn-dialogo-cancelar" class="boton boton--secundario boton--mediano">Cancelar</button>
+        <button type="button" id="btn-dialogo-aceptar" class="boton boton--oscuro boton--mediano">Eliminar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script src="./js/almacen.js"></script>
+  <script src="./js/validacion.js"></script>
+  <script src="./js/ui.js"></script>
+  <script src="./js/main.js"></script>
+
+</body>
+</html>

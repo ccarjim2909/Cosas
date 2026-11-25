@@ -1,4 +1,5 @@
 const PREFIJO_ALMACEN = "tudespensa_";
+const CLAVE_SESION = PREFIJO_ALMACEN + "sesion";
 
 function obtenerTodos(coleccion) {
   const clave = PREFIJO_ALMACEN + coleccion;
@@ -85,4 +86,20 @@ function borrar(coleccion, id) {
   }
 
   return eliminado;
+}
+
+function iniciarSesionUsuario(idUsuario) {
+  localStorage.setItem(CLAVE_SESION, String(idUsuario));
+}
+
+function obtenerUsuarioActivo() {
+  const idSesion = localStorage.getItem(CLAVE_SESION);
+  if (!idSesion) {
+    return null;
+  }
+  return obtenerPorId("usuarios", idSesion);
+}
+
+function cerrarSesionUsuario() {
+  localStorage.removeItem(CLAVE_SESION);
 }

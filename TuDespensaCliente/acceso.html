@@ -46,7 +46,7 @@
           <a href="registro.html" class="pestanas__enlace">Registrarse</a>
         </nav>
 
-        <form id="formulario-acceso" class="formulario-auth" action="inventario.html" method="post" novalidate>
+        <form id="formulario-acceso" class="formulario-auth" action="#" method="post" novalidate>
           <p class="campo">
             <label for="acceso-email" class="campo__etiqueta">Correo electrónico</label>
             <input type="email" id="acceso-email" name="email" class="campo__entrada" placeholder="ejemplo@correo.com" required aria-describedby="error-acceso-email">
@@ -63,6 +63,8 @@
             <a href="#" class="formulario-auth__enlace">¿Olvidaste tu contraseña?</a>
           </p>
 
+          <span id="error-acceso-general" class="campo__error" role="alert"></span>
+
           <footer class="formulario-auth__acciones">
             <button type="submit" class="formulario-auth__boton boton boton--oscuro boton--grande">Entrar</button>
           </footer>
@@ -70,6 +72,11 @@
       </article>
     </section>
   </main>
+
+  <script src="./js/almacen.js"></script>
+  <script src="./js/validacion.js"></script>
+  <script src="./js/ui.js"></script>
+  <script src="./js/main.js"></script>
 
 </body>
 </html>

@@ -1,19 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const listaStock = document.querySelector(".o-cuadricula");
-  const contadorStock = document.querySelector(".inventario-stock__contador");
-  const panelDetalle = document.querySelector("#detalle-alimento");
-
-  if (listaStock && panelDetalle) {
-    if (contadorStock) {
-      contadorStock.textContent = `${alimentos.length} alimentos`;
-    }
-
-    renderizarListadoAlimentos(listaStock, alimentos, categorias, panelDetalle);
-  }
-});
-
-
-
 function guardarCookie(nombre, valor, diasCaducidad) {
   const fecha = new Date();
   fecha.setTime(fecha.getTime() + diasCaducidad * 24 * 60 * 60 * 1000);
@@ -98,24 +82,39 @@ function pedirConfirmacion(mensaje, callbackAceptar) {
   dialogo.showModal();
 }
 
+function actualizarCabeceraSesion() {
+  const botonCabecera = document.querySelector(".cabecera__accion");
+  if (!botonCabecera) {
+    return;
+  }
+
+  const usuarioActivo = obtenerUsuarioActivo();
+  if (usuarioActivo !== null) {
+    botonCabecera.textContent = "@" + usuarioActivo.usuario;
+    botonCabecera.href = "perfil.html";
+  } else {
+    botonCabecera.textContent = "Iniciar sesión";
+    botonCabecera.href = "acceso.html";
+  }
+}
+
 function inicializarRegistro() {
   const form = document.getElementById("formulario-registro");
   if (!form) {
     return;
   }
 
-  const inputId = document.getElementById("registro-id");
+  if (obtenerUsuarioActivo() !== null) {
+    window.location.href = "perfil.html";
+    return;
+  }
+
   const inputUsuario = document.getElementById("registro-usuario");
   const inputEmail = document.getElementById("registro-email");
   const inputFecha = document.getElementById("registro-fecha");
   const inputPassword = document.getElementById("registro-password");
   const inputConfirmar = document.getElementById("registro-confirmar");
   const inputCondiciones = document.getElementById("registro-condiciones");
-
-  const btnSubmit = document.getElementById("btn-submit-registro");
-  const btnCancelarEdicion = document.getElementById("btn-cancelar-edicion");
-  const listaUsuarios = document.getElementById("lista-usuarios");
-  const contadorUsuarios = document.getElementById("contador-usuarios");
 
   const camposValidables = [
     inputUsuario,
@@ -169,18 +168,6 @@ function inicializarRegistro() {
     });
   }
 
-  function salirModoEdicion() {
-    form.reset();
-    inputId.value = "";
-    btnSubmit.textContent = "Crear cuenta";
-    btnCancelarEdicion.hidden = true;
-    limpiarEstadoFormulario(form);
-  }
-
-  btnCancelarEdicion.addEventListener("click", () => {
-    salirModoEdicion();
-  });
-
   form.addEventListener("submit", (evento) => {
     evento.preventDefault();
     let primerInvalido = null;
@@ -200,63 +187,162 @@ function inicializarRegistro() {
       return;
     }
 
-    const fechaISO = new Date(inputFecha.value + "T00:00:00").toISOString().split("T")[0];
-
-    const datosUsuario = {
-      usuario: inputUsuario.value.trim(),
-      email: inputEmail.value.trim(),
-      fechaNacimiento: fechaISO,
-      condiciones: Boolean(inputCondiciones.checked)
-    };
-
-    if (inputId.value !== "") {
-      actualizar("usuarios", inputId.value, datosUsuario);
-    } else {
-      crear("usuarios", datosUsuario);
+    const usuarios = obtenerTodos("usuarios");
+    let emailExiste = false;
+    let i = 0;
+    while (i < usuarios.length && !emailExiste) {
+      if (usuarios[i].email.toLowerCase() === inputEmail.value.trim().toLowerCase()) {
+        emailExiste = true;
+      }
+      i = i + 1;
     }
 
-    salirModoEdicion();
-    renderizarUsuarios(listaUsuarios, obtenerTodos("usuarios"), contadorUsuarios);
-  });
-
-  listaUsuarios.addEventListener("click", (evento) => {
-    const boton = evento.target.closest("button[data-accion]");
-    if (!boton) {
+    if (emailExiste) {
+      mostrarEstadoCampo(inputEmail, "Este correo electrónico ya está registrado.");
+      inputEmail.focus();
       return;
     }
 
-    const accion = boton.dataset.accion;
-    const id = boton.dataset.id;
+    const fechaISO = new Date(inputFecha.value + "T00:00:00").toISOString().split("T")[0];
 
-    if (accion === "editar") {
-      const usuario = obtenerPorId("usuarios", id);
-      if (usuario !== null) {
-        limpiarEstadoFormulario(form);
-        inputId.value = usuario.id;
-        inputUsuario.value = usuario.usuario;
-        inputEmail.value = usuario.email;
-        inputFecha.value = usuario.fechaNacimiento;
-        inputCondiciones.checked = Boolean(usuario.condiciones);
-        inputPassword.value = "";
-        inputConfirmar.value = "";
+    const nuevoUsuario = crear("usuarios", {
+      usuario: inputUsuario.value.trim(),
+      email: inputEmail.value.trim(),
+      fechaNacimiento: fechaISO,
+      password: btoa(inputPassword.value),
+      condiciones: Boolean(inputCondiciones.checked)
+    });
 
-        btnSubmit.textContent = "Guardar cambios";
-        btnCancelarEdicion.hidden = false;
-        form.scrollIntoView({ behavior: "smooth" });
-        inputUsuario.focus();
-      }
-    } else if (accion === "borrar") {
-      pedirConfirmacion("¿Seguro que quieres eliminar este usuario?", () => {
-        borrar("usuarios", id);
-        if (String(inputId.value) === String(id)) {
-          salirModoEdicion();
-        }
-        renderizarUsuarios(listaUsuarios, obtenerTodos("usuarios"), contadorUsuarios);
-      });
+    iniciarSesionUsuario(nuevoUsuario.id);
+    window.location.href = "inventario.html";
+  });
+}
+
+function inicializarAcceso() {
+  const form = document.getElementById("formulario-acceso");
+  if (!form) {
+    return;
+  }
+
+  if (obtenerUsuarioActivo() !== null) {
+    window.location.href = "perfil.html";
+    return;
+  }
+
+  const inputEmail = document.getElementById("acceso-email");
+  const inputPassword = document.getElementById("acceso-password");
+  const errorGeneral = document.getElementById("error-acceso-general");
+
+  form.addEventListener("submit", (evento) => {
+    evento.preventDefault();
+    if (errorGeneral) {
+      errorGeneral.textContent = "";
     }
+
+    const errorEmail = validarEmail(inputEmail.value, inputEmail);
+    const errorPass = validarCampoObligatorio(inputPassword.value, inputPassword);
+
+    mostrarEstadoCampo(inputEmail, errorEmail);
+    mostrarEstadoCampo(inputPassword, errorPass);
+
+    if (errorEmail !== null || errorPass !== null) {
+      return;
+    }
+
+    const usuarios = obtenerTodos("usuarios");
+    let usuarioEncontrado = null;
+    let i = 0;
+
+    while (i < usuarios.length && usuarioEncontrado === null) {
+      const coincideEmail = usuarios[i].email.toLowerCase() === inputEmail.value.trim().toLowerCase();
+      const coincidePass = usuarios[i].password === btoa(inputPassword.value);
+      if (coincideEmail && coincidePass) {
+        usuarioEncontrado = usuarios[i];
+      }
+      i = i + 1;
+    }
+
+    if (usuarioEncontrado === null) {
+      if (errorGeneral) {
+        errorGeneral.textContent = "Correo electrónico o contraseña incorrectos.";
+      }
+      return;
+    }
+
+    iniciarSesionUsuario(usuarioEncontrado.id);
+    window.location.href = "inventario.html";
+  });
+}
+
+function inicializarPerfil() {
+  const form = document.getElementById("formulario-perfil");
+  if (!form) {
+    return;
+  }
+
+  const usuarioActivo = obtenerUsuarioActivo();
+  if (usuarioActivo === null) {
+    window.location.href = "acceso.html";
+    return;
+  }
+
+  const inputUsuario = document.getElementById("perfil-usuario");
+  const inputEmail = document.getElementById("perfil-email");
+  const inputFecha = document.getElementById("perfil-fecha");
+  const inputPassActual = document.getElementById("perfil-password-actual");
+  const mensajeExito = document.getElementById("mensaje-perfil-exito");
+  const btnCerrarSesion = document.getElementById("btn-cerrar-sesion");
+  const btnBorrarCuenta = document.getElementById("btn-borrar-cuenta");
+
+  inputUsuario.value = usuarioActivo.usuario;
+  inputEmail.value = usuarioActivo.email;
+  inputFecha.value = usuarioActivo.fechaNacimiento;
+
+  form.addEventListener("submit", (evento) => {
+    evento.preventDefault();
+    mensajeExito.textContent = "";
+
+    const errorUsuario = validarUsuario(inputUsuario.value, inputUsuario);
+    const errorEmail = validarEmail(inputEmail.value, inputEmail);
+    const errorFecha = validarFechaNacimiento(inputFecha.value, inputFecha);
+    let errorPass = validarCampoObligatorio(inputPassActual.value, inputPassActual);
+
+    if (errorPass === null && btoa(inputPassActual.value) !== usuarioActivo.password) {
+      errorPass = "La contraseña actual no es correcta.";
+    }
+
+    mostrarEstadoCampo(inputUsuario, errorUsuario);
+    mostrarEstadoCampo(inputEmail, errorEmail);
+    mostrarEstadoCampo(inputFecha, errorFecha);
+    mostrarEstadoCampo(inputPassActual, errorPass);
+
+    if (errorUsuario !== null || errorEmail !== null || errorFecha !== null || errorPass !== null) {
+      return;
+    }
+
+    actualizar("usuarios", usuarioActivo.id, {
+      usuario: inputUsuario.value.trim(),
+      email: inputEmail.value.trim(),
+      fechaNacimiento: inputFecha.value
+    });
+
+    inputPassActual.value = "";
+    actualizarCabeceraSesion();
+    mensajeExito.textContent = "Datos actualizados correctamente.";
   });
 
-  renderizarUsuarios(listaUsuarios, obtenerTodos("usuarios"), contadorUsuarios);
+  btnCerrarSesion.addEventListener("click", () => {
+    cerrarSesionUsuario();
+    window.location.href = "index.html";
+  });
+
+  btnBorrarCuenta.addEventListener("click", () => {
+    pedirConfirmacion("¿Seguro que quieres eliminar tu cuenta? Esta acción no se puede deshacer.", () => {
+      borrar("usuarios", usuarioActivo.id);
+      cerrarSesionUsuario();
+      window.location.href = "index.html";
+    });
+  });
 }
 
 function inicializarContacto() {
@@ -414,6 +500,8 @@ function inicializarContacto() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  actualizarCabeceraSesion();
+
   const listaStock = document.querySelector(".o-cuadricula");
   const contadorStock = document.querySelector(".inventario-stock__contador");
   const panelDetalle = document.querySelector("#detalle-alimento");
@@ -426,5 +514,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   inicializarRegistro();
+  inicializarAcceso();
+  inicializarPerfil();
   inicializarContacto();
 });

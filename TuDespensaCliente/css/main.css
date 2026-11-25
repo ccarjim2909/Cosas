@@ -201,6 +201,12 @@ h3 {
   color: var(--color-primario);
 }
 
+.boton--peligro {
+  background-color: transparent;
+  border-color: var(--color-estado-error);
+  color: var(--color-estado-error);
+}
+
 .formulario-ingrediente {
   margin-bottom: 32px;
 }

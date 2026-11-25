@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TuDespensa — Registro y Usuarios</title>
+  <title>TuDespensa — Registro de cuenta</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@700&display=swap" rel="stylesheet">
@@ -47,8 +47,6 @@
         </nav>
 
         <form id="formulario-registro" class="formulario-auth" action="#" method="post" novalidate>
-          <input type="hidden" id="registro-id" name="id" value="">
-
           <p class="campo">
             <label for="registro-usuario" class="campo__etiqueta">Nombre de usuario</label>
             <input type="text" id="registro-usuario" name="usuario" class="campo__entrada" placeholder="maria_cocina" minlength="3" maxlength="20" required aria-describedby="error-registro-usuario">
@@ -89,32 +87,11 @@
 
           <footer class="formulario-auth__acciones">
             <button type="submit" id="btn-submit-registro" class="formulario-auth__boton boton boton--oscuro boton--grande">Crear cuenta</button>
-            <button type="button" id="btn-cancelar-edicion" class="boton boton--secundario boton--grande" hidden>Cancelar edición</button>
           </footer>
         </form>
       </article>
     </section>
-
-    <section class="seccion-listado">
-      <header class="seccion-listado__cabecera">
-        <h2 class="seccion-listado__titulo">Usuarios</h2>
-        <p id="contador-usuarios" class="seccion-listado__contador">0 usuarios</p>
-      </header>
-
-      <ul id="lista-usuarios" class="o-cuadricula"></ul>
-    </section>
   </main>
-
-  <dialog id="dialogo-confirmacion" class="dialogo-confirmacion">
-    <form method="dialog" class="dialogo-confirmacion__contenido">
-      <h2 class="dialogo-confirmacion__titulo">Confirmar eliminación</h2>
-      <p id="dialogo-confirmacion-texto" class="dialogo-confirmacion__texto">¿Seguro que deseas eliminar este registro?</p>
-      <footer class="dialogo-confirmacion__acciones">
-        <button type="button" id="btn-dialogo-cancelar" class="boton boton--secundario boton--mediano">Cancelar</button>
-        <button type="button" id="btn-dialogo-aceptar" class="boton boton--oscuro boton--mediano">Eliminar</button>
-      </footer>
-    </form>
-  </dialog>
 
   <script src="./js/almacen.js"></script>
   <script src="./js/validacion.js"></script>
