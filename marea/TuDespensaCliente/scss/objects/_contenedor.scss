@@ -1,0 +1,11 @@
+.o-contenedor {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--espaciado-pantalla-seccion);
+  padding-block: var(--espaciado-pantalla-seccion);
+
+  @media (min-width: 768px) {
+    padding-inline: var(--espaciado-pantalla-margen-escritorio);
+  }
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuDespensa — Recetas Sugeridas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <header class="cabecera o-contenedor">
+    <button class="cabecera__menu-btn" type="button">
+      <span>X</span>
+    </button>
+    <p class="cabecera__titulo-movil">Recetas Sugeridas</p>
+
+    <a href="index.html" class="cabecera__marca">TuDespensa</a>
+    <nav class="cabecera__nav">
+      <ul class="cabecera__lista">
+        <li class="cabecera__item">
+          <a href="index.html" class="cabecera__enlace">Inicio</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="inventario.html" class="cabecera__enlace">Mi Inventario</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="recetas.html" class="cabecera__enlace cabecera__enlace--activo">Recetas Sugeridas</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="contacto.html" class="cabecera__enlace">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+
+    <a href="acceso.html" class="cabecera__accion boton boton--secundario boton--mediano">Iniciar sesión</a>
+  </header>
+
+  <main class="o-contenedor">
+
+    <section class="recetas-cabecera">
+      <h1 class="recetas-cabecera__titulo">Recetas Sugeridas</h1>
+
+      <aside class="aviso-stock">
+        <figure class="aviso-stock__icono">
+          <img src="" alt="">
+        </figure>
+        <p class="aviso-stock__texto">Basado en tus ingredientes en stock</p>
+      </aside>
+    </section>
+
+    <section class="recetas-propuestas">
+      <header class="recetas-propuestas__cabecera">
+        <h2 class="recetas-propuestas__titulo">Propuestas</h2>
+        <p class="recetas-propuestas__contador">2 recetas</p>
+      </header>
+
+      <ul class="lista-recetas">
+        <li class="lista-recetas__item">
+          <article class="tarjeta-receta">
+            <figure class="tarjeta-receta__ilustracion">
+              <img src="" alt="Tortilla de patatas con tomate">
+            </figure>
+            <section class="tarjeta-receta__contenido">
+              <h3 class="tarjeta-receta__titulo">Tortilla de patatas con tomate</h3>
+              <p class="tarjeta-receta__meta">15 min · Fácil</p>
+              <p class="tarjeta-receta__ingredientes">Usa: Huevos, Patatas, Tomate y Orégano</p>
+            </section>
+          </article>
+        </li>
+
+        <li class="lista-recetas__item">
+          <article class="tarjeta-receta">
+            <figure class="tarjeta-receta__ilustracion">
+              <img src="" alt="Huevos salteados con patatas">
+            </figure>
+            <section class="tarjeta-receta__contenido">
+              <h3 class="tarjeta-receta__titulo">Huevos salteados con patatas</h3>
+              <p class="tarjeta-receta__meta">10 min · Fácil</p>
+              <p class="tarjeta-receta__ingredientes">Usa: Patatas y Huevos</p>
+            </section>
+          </article>
+        </li>
+      </ul>
+    </section>
+
+    <footer class="recetas-acciones">
+      <button type="button" class="recetas-acciones__boton boton boton--oscuro boton--grande">Generar otras recetas</button>
+    </footer>
+
+  </main>
+
+  <nav class="nav-inferior">
+    <ul class="nav-inferior__lista">
+      <li class="nav-inferior__item">
+        <a href="recetas.html" class="nav-inferior__enlace nav-inferior__enlace--activo">Recetas</a>
+      </li>
+      <li class="nav-inferior__item">
+        <a href="inventario.html" class="nav-inferior__enlace">Inventario</a>
+      </li>
+    </ul>
+  </nav>
+
+</body>
+</html>

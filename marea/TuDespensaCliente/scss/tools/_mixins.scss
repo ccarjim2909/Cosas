@@ -1,0 +1,14 @@
+// Para pasar de móvil a escritorio
+@mixin escritorio {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+// Flex centrado rápido
+@mixin flex-centro($gap: 0) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $gap;
+}

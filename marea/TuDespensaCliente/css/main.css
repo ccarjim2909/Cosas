@@ -1,0 +1,562 @@
+/* ==========================================================================
+   1. VARIABLES Y RESET BASE
+   ========================================================================== */
+:root {
+  --color-primario: #1C5E3A;
+  --color-primario-tinte-hover: #E4F1E8;
+  --color-acento: #161E19;
+  --color-superficie: #F1F8F3;
+  --color-tarjeta: #FFFFFF;
+  --color-borde-campo: #7D897F;
+
+  --fuente-destacado: 'IBM Plex Serif', Georgia, serif;
+  --fuente-interfaz: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+
+  --radio-boton: 8px;
+  --radio-campo: 8px;
+  --radio-tarjeta: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primario: #86C99F;
+    --color-primario-tinte-hover: #293E31;
+    --color-acento: #FFFFFF;
+    --color-superficie: #161E19;
+    --color-tarjeta: #1F2A23;
+    --color-borde-campo: #6F7D73;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-superficie);
+  color: var(--color-acento);
+  font-family: var(--fuente-interfaz);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding-bottom: 80px;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1 {
+  font-family: var(--fuente-destacado);
+  font-size: 1.75rem;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   2. OBJETOS DE LAYOUT
+   ========================================================================== */
+.o-contenedor {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  padding-block: 20px;
+}
+
+@media (min-width: 768px) {
+  .o-contenedor {
+    padding-inline: 64px;
+  }
+}
+
+.o-cuadricula {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .o-cuadricula {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
+}
+
+/* ==========================================================================
+   3. NAVEGACIÓN PRINCIPAL (CABECERA)
+   ========================================================================== */
+.cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-borde-campo);
+  margin-bottom: 24px;
+}
+
+.cabecera__marca {
+  font-family: var(--fuente-destacado);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primario);
+}
+
+.cabecera__nav {
+  display: none;
+}
+
+.cabecera__lista {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.cabecera__enlace {
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: var(--radio-boton);
+  transition: background-color 0.2s;
+}
+
+.cabecera__enlace:hover {
+  background-color: var(--color-primario-tinte-hover);
+}
+
+.cabecera__enlace--activo {
+  color: var(--color-primario);
+  background-color: var(--color-primario-tinte-hover);
+}
+
+@media (min-width: 768px) {
+  .cabecera__menu-btn,
+  .cabecera__titulo-movil,
+  .nav-inferior {
+    display: none;
+  }
+
+  .cabecera__nav {
+    display: block;
+  }
+}
+
+/* ==========================================================================
+   4. BOTONES Y FORMULARIOS
+   ========================================================================== */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fuente-interfaz);
+  font-weight: 500;
+  border-radius: var(--radio-boton);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity 0.2s;
+}
+
+.boton:hover {
+  opacity: 0.9;
+}
+
+.boton--pequeno {
+  height: 32px;
+  padding-inline: 12px;
+  font-size: 0.8125rem;
+}
+
+.boton--mediano {
+  height: 40px;
+  padding-inline: 16px;
+}
+
+.boton--grande {
+  height: 48px;
+  padding-inline: 24px;
+  width: 100%;
+}
+
+.boton--oscuro {
+  background-color: var(--color-primario);
+  color: var(--color-superficie);
+}
+
+.boton--secundario {
+  background-color: transparent;
+  border-color: var(--color-primario);
+  color: var(--color-primario);
+}
+
+.formulario-ingrediente {
+  margin-bottom: 32px;
+}
+
+.formulario-ingrediente__etiqueta {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.formulario-ingrediente__grupo {
+  border: none;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.campo__entrada {
+  flex: 1;
+  min-width: 220px;
+  height: 40px;
+  padding-inline: 14px;
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-campo);
+  background-color: var(--color-tarjeta);
+  color: var(--color-acento);
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   5. CAJAS DE CONTENIDO (TARJETAS, INVENTARIO Y DETALLE)
+   ========================================================================== */
+.inventario-stock__cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+/* Caja de cada alimento en el listado */
+.tarjeta-alimento {
+  background-color: var(--color-tarjeta);
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-tarjeta);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.tarjeta-alimento:hover {
+  border-color: var(--color-primario);
+  transform: translateY(-2px);
+}
+
+.tarjeta-alimento__imagen {
+  height: 90px;
+  background-color: var(--color-primario-tinte-hover);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tarjeta-alimento__categoria {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+/* Caja de la ficha de detalle al pulsar un alimento */
+.inventario-detalle {
+  margin-top: 24px;
+}
+
+.ficha-detalle {
+  background-color: var(--color-tarjeta);
+  border: 2px solid var(--color-primario);
+  border-radius: var(--radio-tarjeta);
+  padding: 20px;
+}
+
+.ficha-detalle__cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-borde-campo);
+}
+
+.ficha-detalle__etiqueta {
+  background-color: var(--color-primario-tinte-hover);
+  color: var(--color-primario);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.ficha-detalle__datos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 16px;
+}
+
+.ficha-detalle__datos dt {
+  font-weight: 500;
+}
+
+.inventario-acciones {
+  margin-top: 32px;
+}
+
+/* Cajas genéricas para index.html y recetas.html */
+.tarjeta-destacada,
+.tarjeta-seccion,
+.tarjeta-receta,
+.tarjeta-auth {
+  background-color: var(--color-tarjeta);
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-tarjeta);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.o-cuadricula-secciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+
+/* Barra inferior móvil */
+.nav-inferior {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--color-tarjeta);
+  border-top: 1px solid var(--color-borde-campo);
+  padding-block: 12px;
+}
+
+.nav-inferior__lista {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+/* ==========================================================================
+   6. FORMULARIOS EXTENDIDOS, VALIDACIÓN Y LISTADOS (HITO 2)
+   ========================================================================== */
+:root {
+  --color-estado-error: #A42C28;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-estado-error: #F0A29E;
+  }
+}
+
+.autenticacion {
+  max-width: 560px;
+  margin-inline: auto;
+  margin-bottom: 40px;
+}
+
+.autenticacion__cabecera {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.autenticacion__cabecera h1 {
+  margin-bottom: 0;
+}
+
+.autenticacion__volver {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radio-boton);
+  border: 1px solid var(--color-borde-campo);
+  font-weight: 700;
+}
+
+.pestanas {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-borde-campo);
+  padding-bottom: 12px;
+}
+
+.pestanas__enlace {
+  padding: 6px 12px;
+  border-radius: var(--radio-boton);
+  font-weight: 500;
+}
+
+.pestanas__enlace--activo {
+  background-color: var(--color-primario-tinte-hover);
+  color: var(--color-primario);
+}
+
+.formulario-auth {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo__etiqueta {
+  font-weight: 500;
+}
+
+.campo__area {
+  height: auto;
+  min-height: 100px;
+  padding-block: 10px;
+  resize: vertical;
+}
+
+.campo__entrada[aria-invalid="true"] {
+  border-color: var(--color-estado-error);
+  border-width: 2px;
+}
+
+.campo__error {
+  color: var(--color-estado-error);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  min-height: 1.2em;
+}
+
+.campo__contador {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  text-align: right;
+}
+
+.campo--casilla {
+  gap: 4px;
+}
+
+.campo__etiqueta-casilla {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.campo__casilla {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primario);
+}
+
+.formulario-auth__acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seccion-listado {
+  margin-top: 32px;
+}
+
+.seccion-listado__cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.tarjeta-registro {
+  background-color: var(--color-tarjeta);
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-tarjeta);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tarjeta-registro__titulo {
+  color: var(--color-primario);
+  font-weight: 700;
+}
+
+.tarjeta-registro__dato {
+  font-size: 0.8125rem;
+  word-break: break-word;
+}
+
+.tarjeta-registro__acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.dialogo-confirmacion {
+  margin: auto;
+  border: 1px solid var(--color-borde-campo);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-tarjeta);
+  color: var(--color-acento);
+  padding: 24px;
+  max-width: 400px;
+  width: calc(100% - 32px);
+}
+
+.dialogo-confirmacion::backdrop {
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.dialogo-confirmacion__contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dialogo-confirmacion__acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.formulario-auth__recuperar {
+  text-align: right;
+  margin-top: -6px;
+}
+
+.formulario-auth__enlace {
+  color: var(--color-primario);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.formulario-auth__enlace:hover {
+  text-decoration: underline;
+}

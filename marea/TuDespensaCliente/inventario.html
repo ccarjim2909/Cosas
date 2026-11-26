@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuDespensa — Mi Inventario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <header class="cabecera o-contenedor">
+    <button class="cabecera__menu-btn" type="button">
+      <span>X</span>
+    </button>
+    <p class="cabecera__titulo-movil">Mi Inventario</p>
+
+    <a href="index.html" class="cabecera__marca">TuDespensa</a>
+    <nav class="cabecera__nav">
+      <ul class="cabecera__lista">
+        <li class="cabecera__item">
+          <a href="index.html" class="cabecera__enlace">Inicio</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="inventario.html" class="cabecera__enlace cabecera__enlace--activo">Mi Inventario</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="recetas.html" class="cabecera__enlace">Recetas Sugeridas</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="contacto.html" class="cabecera__enlace">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+
+    <a href="acceso.html" class="cabecera__accion boton boton--secundario boton--mediano">Iniciar sesión</a>
+  </header>
+
+  <main class="o-contenedor">
+
+    <section class="inventario-cabecera">
+      <h1 class="inventario-cabecera__titulo">Mi Inventario</h1>
+
+      <form class="formulario-ingrediente" action="#" method="post">
+        <label for="nuevo-ingrediente" class="formulario-ingrediente__etiqueta">Añadir alimento</label>
+        <fieldset class="formulario-ingrediente__grupo">
+          <input type="text" id="nuevo-ingrediente" name="ingrediente" class="formulario-ingrediente__entrada campo__entrada" placeholder="Ingrediente..." required>
+          <button type="submit" class="formulario-ingrediente__boton boton boton--oscuro boton--mediano">Añadir alimento</button>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="inventario-stock">
+      <header class="inventario-stock__cabecera">
+        <h2 class="inventario-stock__titulo">En Stock</h2>
+        <p class="inventario-stock__contador">0 alimentos</p>
+      </header>
+
+      <ul class="o-cuadricula"></ul>
+    </section>
+
+
+    <section id="detalle-alimento" class="inventario-detalle" hidden></section>
+
+    <footer class="inventario-acciones">
+      <a href="recetas.html" class="inventario-acciones__boton boton boton--oscuro boton--grande">Generar recetas con este stock</a>
+    </footer>
+
+  </main>
+
+  <nav class="nav-inferior">
+    <ul class="nav-inferior__lista">
+      <li class="nav-inferior__item">
+        <a href="recetas.html" class="nav-inferior__enlace">Recetas</a>
+      </li>
+      <li class="nav-inferior__item">
+        <a href="inventario.html" class="nav-inferior__enlace nav-inferior__enlace--activo">Inventario</a>
+      </li>
+    </ul>
+  </nav>
+
+    <script src="./js/datos.js"></script>
+    <script src="./js/ui.js"></script>
+    <script src="./js/main.js"></script>
+
+</body>
+</html>

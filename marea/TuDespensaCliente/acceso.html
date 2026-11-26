@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuDespensa — Iniciar sesión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <header class="cabecera o-contenedor">
+    <a href="index.html" class="cabecera__marca">TuDespensa</a>
+    <nav class="cabecera__nav">
+      <ul class="cabecera__lista">
+        <li class="cabecera__item">
+          <a href="index.html" class="cabecera__enlace">Inicio</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="inventario.html" class="cabecera__enlace">Mi Inventario</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="recetas.html" class="cabecera__enlace">Recetas Sugeridas</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="contacto.html" class="cabecera__enlace">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="acceso.html" class="cabecera__accion boton boton--secundario boton--mediano" aria-current="page">Iniciar sesión</a>
+  </header>
+
+  <main class="o-contenedor">
+    <section class="autenticacion">
+      <header class="autenticacion__cabecera">
+        <a href="index.html" class="autenticacion__volver" aria-label="Volver al inicio">←</a>
+        <h1 class="autenticacion__titulo">Iniciar sesión</h1>
+      </header>
+
+      <article class="tarjeta-auth">
+        <nav class="pestanas" aria-label="Modo de autenticación">
+          <a href="acceso.html" class="pestanas__enlace pestanas__enlace--activo" aria-current="page">Iniciar sesión</a>
+          <a href="registro.html" class="pestanas__enlace">Registrarse</a>
+        </nav>
+
+        <form id="formulario-acceso" class="formulario-auth" action="inventario.html" method="post" novalidate>
+          <p class="campo">
+            <label for="acceso-email" class="campo__etiqueta">Correo electrónico</label>
+            <input type="email" id="acceso-email" name="email" class="campo__entrada" placeholder="ejemplo@correo.com" required aria-describedby="error-acceso-email">
+            <span id="error-acceso-email" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="campo">
+            <label for="acceso-password" class="campo__etiqueta">Contraseña</label>
+            <input type="password" id="acceso-password" name="password" class="campo__entrada" placeholder="••••••••" minlength="8" required aria-describedby="error-acceso-password">
+            <span id="error-acceso-password" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="formulario-auth__recuperar">
+            <a href="#" class="formulario-auth__enlace">¿Olvidaste tu contraseña?</a>
+          </p>
+
+          <footer class="formulario-auth__acciones">
+            <button type="submit" class="formulario-auth__boton boton boton--oscuro boton--grande">Entrar</button>
+          </footer>
+        </form>
+      </article>
+    </section>
+  </main>
+
+</body>
+</html>

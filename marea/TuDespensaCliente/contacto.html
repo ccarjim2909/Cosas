@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuDespensa — Contacto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <header class="cabecera o-contenedor">
+    <a href="index.html" class="cabecera__marca">TuDespensa</a>
+    <nav class="cabecera__nav">
+      <ul class="cabecera__lista">
+        <li class="cabecera__item">
+          <a href="index.html" class="cabecera__enlace">Inicio</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="inventario.html" class="cabecera__enlace">Mi Inventario</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="recetas.html" class="cabecera__enlace">Recetas Sugeridas</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="contacto.html" class="cabecera__enlace cabecera__enlace--activo" aria-current="page">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="acceso.html" class="cabecera__accion boton boton--secundario boton--mediano">Iniciar sesión</a>
+  </header>
+
+  <main class="o-contenedor">
+    <section class="autenticacion">
+      <header class="autenticacion__cabecera">
+        <a href="index.html" class="autenticacion__volver" aria-label="Volver al inicio">←</a>
+        <h1 class="autenticacion__titulo">Soporte y Sugerencias</h1>
+      </header>
+
+      <article class="tarjeta-auth">
+        <form id="formulario-contacto" class="formulario-auth" action="#" method="post" novalidate>
+          <p class="campo">
+            <label for="contacto-nombre" class="campo__etiqueta">Nombre</label>
+            <input type="text" id="contacto-nombre" name="nombre" class="campo__entrada" placeholder="Tu nombre" minlength="2" maxlength="50" required aria-describedby="error-contacto-nombre">
+            <span id="error-contacto-nombre" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="campo">
+            <label for="contacto-email" class="campo__etiqueta">Correo electrónico</label>
+            <input type="email" id="contacto-email" name="email" class="campo__entrada" placeholder="ejemplo@correo.com" required aria-describedby="error-contacto-email">
+            <span id="error-contacto-email" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="campo campo--casilla">
+            <label for="contacto-llamar" class="campo__etiqueta-casilla">
+              <input type="checkbox" id="contacto-llamar" name="prefieroLlamada" class="campo__casilla">
+              Prefiero que me llaméis
+            </label>
+          </p>
+
+          <p class="campo">
+            <label for="contacto-telefono" class="campo__etiqueta">Teléfono <span id="etiqueta-telefono-opcional">(opcional)</span></label>
+            <input type="tel" id="contacto-telefono" name="telefono" class="campo__entrada" placeholder="612 345 678" aria-describedby="error-contacto-telefono">
+            <span id="error-contacto-telefono" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="campo">
+            <label for="contacto-motivo" class="campo__etiqueta">Motivo de consulta</label>
+            <select id="contacto-motivo" name="motivo" class="campo__entrada" required aria-describedby="error-contacto-motivo">
+              <option value="">Selecciona una opción...</option>
+              <option value="Proponer una receta">Proponer una receta</option>
+              <option value="Reportar ingrediente faltante">Reportar ingrediente faltante</option>
+              <option value="Error con el escáner de alimentos">Error con el escáner de alimentos</option>
+              <option value="Sugerencia de mejora">Sugerencia de mejora</option>
+            </select>
+            <span id="error-contacto-motivo" class="campo__error" role="alert"></span>
+          </p>
+
+          <p class="campo">
+            <label for="contacto-mensaje" class="campo__etiqueta">Mensaje</label>
+            <textarea id="contacto-mensaje" name="mensaje" class="campo__entrada campo__area" rows="4" placeholder="Cuéntanos los detalles..." minlength="15" maxlength="300" required aria-describedby="error-contacto-mensaje contador-caracteres-mensaje"></textarea>
+            <small id="contador-caracteres-mensaje" class="campo__contador">0 / 300 caracteres (mínimo 15)</small>
+            <span id="error-contacto-mensaje" class="campo__error" role="alert"></span>
+          </p>
+
+          <button type="submit" class="formulario-auth__boton boton boton--oscuro boton--grande">Enviar mensaje</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="seccion-listado">
+      <header class="seccion-listado__cabecera">
+        <h2 class="seccion-listado__titulo">Mensajes enviados</h2>
+        <p id="contador-mensajes" class="seccion-listado__contador">0 mensajes</p>
+      </header>
+
+      <ul id="lista-mensajes" class="o-cuadricula"></ul>
+    </section>
+  </main>
+
+  <dialog id="dialogo-confirmacion" class="dialogo-confirmacion">
+    <form method="dialog" class="dialogo-confirmacion__contenido">
+      <h2 class="dialogo-confirmacion__titulo">Confirmar eliminación</h2>
+      <p id="dialogo-confirmacion-texto" class="dialogo-confirmacion__texto">¿Seguro que deseas eliminar este mensaje?</p>
+      <footer class="dialogo-confirmacion__acciones">
+        <button type="button" id="btn-dialogo-cancelar" class="boton boton--secundario boton--mediano">Cancelar</button>
+        <button type="button" id="btn-dialogo-aceptar" class="boton boton--oscuro boton--mediano">Eliminar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script src="./js/almacen.js"></script>
+  <script src="./js/validacion.js"></script>
+  <script src="./js/ui.js"></script>
+  <script src="./js/main.js"></script>
+
+</body>
+</html>

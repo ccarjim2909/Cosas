@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuDespensa — Inicio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <header class="cabecera o-contenedor">
+    
+    <!-- boton hamburguesa y titulo de movil qie ya ocultare mas adelante -->
+    <button class="cabecera__menu-btn" type="button">
+      <span>X</span>
+    </button>
+    <p class="cabecera__titulo-movil">Inicio</p>
+
+
+
+    <a href="index.html" class="cabecera__marca">TuDespensa</a>
+    <nav class="cabecera__nav">
+      <ul class="cabecera__lista">
+        <li class="cabecera__item">
+          <a href="index.html" class="cabecera__enlace cabecera__enlace--activo">Inicio</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="inventario.html" class="cabecera__enlace">Mi Inventario</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="recetas.html" class="cabecera__enlace">Recetas Sugeridas</a>
+        </li>
+        <li class="cabecera__item">
+          <a href="contacto.html" class="cabecera__enlace">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+
+    <a href="acceso.html" class="cabecera__accion boton boton--secundario boton--mediano">Iniciar sesión</a>
+
+  </header>
+
+
+  <main class="o-contenedor">
+
+    <section class="tarjeta-destacada">
+      <h1 class="tarjeta-destacada__titulo">Cocina con tu stock</h1>
+      <p class="tarjeta-destacada__descripcion">Genera recetas con los alimentos que tienes.</p>
+      <a href="recetas.html" class="tarjeta-destacada__boton boton boton--oscuro boton--pequeno">Ver recetas</a>
+
+      <figure class="tarjeta-destacada__icono">
+        <img src="" alt="">
+      </figure>
+    </section>
+
+
+    <section class="seccion-inicio">
+      <h2 class="seccion-inicio__titulo">Secciones</h2>
+
+      <ul class="o-cuadricula-secciones">
+        
+        <li class="o-cuadricula-secciones__item">
+          <article class="tarjeta-seccion">
+            <a href="inventario.html" class="tarjeta-seccion__enlace">
+              <figure class="tarjeta-seccion__icono">
+                <img src="" alt="">
+              </figure>
+              <h3 class="tarjeta-seccion__titulo">Mi Inventario / Despensa</h3>
+              <p class="tarjeta-seccion__subtitulo">Ver y añadir alimentos</p>
+            </a>
+          </article>
+        </li>
+
+        <li class="o-cuadricula-secciones__item">
+          <article class="tarjeta-seccion">
+            <a href="recetas.html" class="tarjeta-seccion__enlace">
+              <figure class="tarjeta-seccion__icono">
+                <img src="" alt="">
+              </figure>
+              <h3 class="tarjeta-seccion__titulo">Recetas</h3>
+              <p class="tarjeta-seccion__subtitulo">Propuestas automáticas</p>
+            </a>
+          </article>
+        </li>
+
+      </ul>
+    </section>
+
+  </main>
+
+
+  <!-- este es el nav inferior del movil, que mas adelante ocultare -->
+  <nav class="nav-inferior">
+    <ul class="nav-inferior__lista">
+      <li class="nav-inferior__item">
+        <a href="recetas.html" class="nav-inferior__enlace">Recetas</a>
+      </li>
+      <li class="nav-inferior__item">
+        <a href="inventario.html" class="nav-inferior__enlace">Inventario</a>
+      </li>
+    </ul>
+  </nav>
+
+</body>
+</html>

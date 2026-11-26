@@ -1,0 +1,46 @@
+:root {
+  // Bordes y Radios
+  --borde-secundario: 1px;
+  --borde-foco: 2px;
+  --borde-deshabilitado: 1px;
+
+  --radio-checkbox: 4px;
+  --radio-boton: 8px;
+  --radio-campo: 8px;
+  --radio-radio-control: 10px;
+  --radio-switch: 12px;
+  --radio-producto-imagen: 12px;
+  --radio-tarjeta: 16px;
+  --radio-escaner-captura: 36px;
+
+  // Botones
+  --espaciado-boton-separacion: 8px;
+  --espaciado-boton-pequeno: 12px;
+  --espaciado-boton-mediano: 16px;
+  --espaciado-boton-grande: 24px;
+  --medida-alto-boton-pequeno: 32px;
+  --medida-alto-boton-mediano: 40px;
+  --medida-alto-boton-grande: 48px;
+
+  // Campos de formulario
+  --medida-alto-campo: 48px;
+  --espaciado-campo-padding: 16px;
+  --espaciado-campo-separacion: 8px;
+
+  // Navegacion
+  --espaciado-pantalla-seccion: 24px;
+  --espaciado-pantalla-margen-escritorio: 64px;
+  --medida-navegacion-cabecera-movil: 72px;
+  --medida-navegacion-cabecera-escritorio: 80px;
+  --medida-navegacion-inferior: 72px;
+
+  // Tarjetas
+  --medida-producto-imagen: 120px;
+  --espaciado-producto-cuadricula: 16px;
+  --medida-receta-ilustracion: 88px;
+  --espaciado-receta-tarjetas: 16px;
+
+  // Escaner
+  --medida-escaner-marco: 280px;
+  --medida-escaner-captura: 72px;
+}
